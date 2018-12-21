@@ -1,0 +1,26 @@
+---
+layout: minimal
+title: "Posts"
+permalink: /posts/index.html
+image: '/assets/img/series.png'
+description: "Take a look at my series..."
+---
+
+<h2>Blog Posts on OPENFOAM</h2>
+  <ul class="post-list">
+    {% for post in site.posts reversed %}
+      {% if post.title != null %}
+      {% if post.list != false %}
+      {% if group == null or group == post.group %}
+      <li>
+          <a title="Post's my title" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}
+              <span class="entry-date">
+              <time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">{{ post.date | date: "%B %d, %Y" }}</time>
+          </a>
+      </li>
+      {% endif %}
+      {% endif %}
+      {% endif %}
+    {% endfor %}
+    {% assign group = nil %}
+  </ul>

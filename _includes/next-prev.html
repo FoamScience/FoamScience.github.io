@@ -1,0 +1,26 @@
+<section class="post-content" class="share">
+    {% if page.previous %}
+        {% assign previous = page.previous %}
+    {% else %}
+        {% assign previous = site.posts[0] %}
+    {% endif %}
+    <span style="padding:20px;">
+        <a
+            style="display:block;margin:auto;width:600px;padding:10px;"href="{{site.baseurl}}{{previous.url}}"
+            title="Previous Post: {{previous.title}}">
+                 ← Previous: {{previous.title}} 
+        </a>
+    </span>
+
+    {% if page.next %}
+        {% assign next = page.next %}
+    {% else %}
+        {% assign last lastPostIndex = site.posts | size | minus: 1 %}
+        {% assign next = site.posts[lastPostIndex] %}
+    {% endif %}
+    <span>
+        <a style="display:block;margin:auto;width:600px;padding:10px;"href="{{site.baseurl}}{{next.url}}" title="Next Post: {{next.title}}">
+             → Next: {{next.title}}
+        </a>
+    </span>
+    </section>

@@ -1,0 +1,81 @@
+# Site settings
+title: FOAM Science
+description: > 
+        A CFD blog aiming to be a place for OpenFOAM users to share
+        and gather knowledge about CFD related subjects.
+baseurl: "" # for test: remove string '/space-jekyll-template' to ''
+url: 'https://foamscience.github.io' # for test: remove string 'http://victorvoid.github.io' to '' but in production: 'https://yourusername.githu.io'
+#url: '' # for test: remove string 'http://victorvoid.github.io' to '' but in production: 'https://yourusername.githu.io'
+
+# User settings
+analytics: UA-111265701-1
+username: Elwardi
+user_title: Petroleum Eng. Student
+email: elwardifadeli@gmail.com
+twitter_username: FadeliElwardi
+github_username:  FoamScience
+gplus_username:  elwardifadeli
+linkedin_public_url: 'elwardi-fadeli'
+disqus_username: foamscience
+profile_picture: '/assets/img/FoamScience/foamscience-logo-400x400.jpg'
+
+# Build settings
+markdown: kramdown
+kramdown:
+   math_engine: mathjax
+highlighter: rouge
+permalink: /:title/
+
+# html minify
+compress_html:
+  clippings: all
+  comments: all
+  endings: []
+  profile: false
+
+# Links to include in menu navigation
+links:
+  section_1:
+    - title: Home
+      url: /
+      key_trigger: 1
+    - title: Blog posts
+      url: /posts/
+      key_trigger: 2
+    - title: Series and Simulations
+      url: /series/
+      key_trigger: 3
+    - title: Tags
+      url: /tags/
+      key_trigger: 4
+    - title: About us
+      url: /about/
+      key_trigger: 5
+  Social:
+    - title: Github
+      url: http://www.github.com/FoamScience
+      new_tab: true
+      key_trigger: g
+    - title: Twitter
+      url: http://www.twitter.com/FadeliElwardi
+      new_tab: true
+      key_trigger: t
+    - title: Facebook
+      url: http://www.facebook.com/foamscience
+      new_tab: true
+      key_trigger: f
+    - title: Search
+      url: ""
+      key_trigger: s #WARNING: search only works with "s"
+
+# projects in header index
+#projects:
+#  - name: fluany
+#    url: https://github.com/fluany/fluany
+#  - name: vim-frontend
+#    url: https://github.com/victorvoid/vim-frontend
+#  - name: generator-capybara
+#    url: https://github.com/victorvoid/generator-capybara 
+
+# exclude my node related stuff
+exclude: ['package.json', 'src', 'node_modules']

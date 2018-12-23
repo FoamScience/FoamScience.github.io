@@ -1,7 +1,7 @@
 <div class="search-wrapper">
 
     <div class="search-form">
-        <input arial-label="Search for a post" type="text" class="search-field" placeholder="Search...">
+        <input arial-label="Search for a post" label="Search for OpenFOAM blog" type="text" class="search-field" placeholder="Search...">
         <svg class="icon-remove-sign"><use xlink:href="#icon-close"></use></svg>
 
         <ul class="search-results search-list"></ul>
@@ -46,7 +46,12 @@
       {% for link in section[1] %}
         {% if link.external %}
             <li>
-                <a href="{{ link.url }}">{{ link.title }}</a>
+                <span class="counter-menu">{{link.key_trigger}}</span>
+                <svg viewBox="0 0 50 50" class="icon-arrow-menu">
+                    <use xlink:href="#icon-right-arrow"></use>
+                </svg>
+                <a key-trigger={{ link.key_trigger }}
+                <a href="{{ link.url }}" rel="noreferrer">{{ link.title }}</a>
             </li>
         {% else %}
             <li>

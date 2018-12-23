@@ -1,7 +1,7 @@
 # Site settings
-title: FOAM Science
+title: FOAM Science; Doing CFD
 description: > 
-        A CFD blog aiming to be a place for OpenFOAM users to share
+        FOAM Science is a Computational Fluid Dynamics blog aiming to be a place for OpenFOAM users to share
         and gather knowledge about CFD related subjects.
 baseurl: "" # for test: remove string '/space-jekyll-template' to ''
 url: 'https://foamscience.github.io' # for test: remove string 'http://victorvoid.github.io' to '' but in production: 'https://yourusername.githu.io'
@@ -9,7 +9,7 @@ url: 'https://foamscience.github.io' # for test: remove string 'http://victorvoi
 
 # User settings
 analytics: UA-111265701-1
-username: Elwardi
+username: "Learning CFD with OpenFOAM"
 user_title: Petroleum Eng. Student
 email: elwardifadeli@gmail.com
 twitter_username: FadeliElwardi
@@ -53,15 +53,18 @@ links:
       key_trigger: 5
   Social:
     - title: Github
-      url: http://www.github.com/FoamScience
+      external: true
+      url: https://www.github.com/FoamScience
       new_tab: true
       key_trigger: g
     - title: Twitter
-      url: http://www.twitter.com/FadeliElwardi
+      url: https://www.twitter.com/FadeliElwardi
+      external: true
       new_tab: true
       key_trigger: t
     - title: Facebook
-      url: http://www.facebook.com/foamscience
+      url: https://www.facebook.com/foamscience
+      external: true
       new_tab: true
       key_trigger: f
     - title: Search
@@ -80,5 +83,13 @@ links:
 # exclude my node related stuff
 exclude: ['package.json', 'src', 'node_modules']
 
-plugins:
-    - jekyll-redirect-from
+#plugins:
+#    - jekyll-compress-images
+#
+#compress_images:
+#  images_path: "assets/img/**/*.{gif,png,jpg,jpeg,svg}"
+#
+#imageoptim:
+#  pngout: false
+#  svgo: false
+#  verbose: false

@@ -46,10 +46,10 @@ they are on your system.
 ## Studying an example VIM compiler
 
 First of all, a VIM compiler plugin is nothing more than a short `VimL` script, configuring two
-main things: `errorformat` (scanf-style strings, separate by commas, showing the
+main things: `errorformat` (scanf-style strings, separated by commas, showing the
 format of error lines) and `makeprg` (make program, the shell executable to run).
 
-As an example, let's treat the *ant-compiler* line by line:
+As an example, let's go through the *ant-compiler* line by line:
 
 {% highlight vim %}
 " Vim Compiler File
@@ -72,7 +72,8 @@ endif
 
 {% endhighlight %}
 
-The first if structure checks if the compiler is already set (so it leaves). If not, it
+The first if structure checks if the compiler is already set (if it's the case, vim will leave the script). 
+If not, it
 declares `current_compiler` as *"ant"* (so, the next time the script executes, it will be finished in
 the first if structure). The second if statement sets compatibility stuff for older VIM
 versions.
@@ -134,19 +135,19 @@ Thus, the example line would be matched with `\Error: %m in %f at line %l`
 
 ## Building a compiler plugin for blockMesh
 
-The goal of this section is to build a blockMesh-compiler for VIM that can be used to
+The goal of this section is to build a blockMesh-compiler for VIM which can be used to
 browse errors when the tool fails. For this, we need to create our custom-compilers directory
-*$HOME/.vim/compiler*.
+`$HOME/.vim/compiler`.
 
 Copy the `ant.vim` compiler to that directory and rename it as `blockMesh.vim`, on Unix
-systems, you can say:
+systems, one can say:
 
 {% highlight bash %}
 cp /usr/share/vim/vim74/compiler/ant.vim ~/.vim/compiler/blockMesh.vim
 {% endhighlight %}
 
-Modify the header so it suits your preferences, and then start editing the file:
-- Hopefully, you are editing it with VIM.
+Modify the header so it suits your preferences, and then start building the custom VIM compiler:
+- Hopefully, you are editing the file with VIM.
 - Change all occurrences of "*ant*" to "*blockMesh*" in the file `:%s/ant/blockMesh/g`
 - Time to set the "errorformat": We know that OpenFOAM displays errors in multiple
 lines (if you write "hxe" instead of "hex" in a *blockMeshDict*):
@@ -160,9 +161,8 @@ file: /home/elwardi/OpenFOAM/elwardi-4.1/run/movingCone/system/blockMeshDict.blo
 Note that this is NOT a general FOAM ERROR; some other IO errors specify a range
 of lines; others suggest solutions before stating the error-line.
 
-The most important line is probably:
-`file: /path/to/case/movingCone/system/blockMeshDict.blocks at line 45`.
-Where we can find the filename, and the exact line to jump to (these will be stored
+The most important line is probably the one stating
+the filename, and the exact line to jump to (these will be stored
 in `%f` and `%l` respectively).However, there are some problems in the filename:
 notice the ending `.blocks` appended to it, in fact, things could be messier:
 `.ddtschemes.default`.
@@ -170,7 +170,7 @@ notice the ending `.blocks` appended to it, in fact, things could be messier:
 {% include ad2.html %}
 
 How many dots are there in the filename? The real problem is that the `path/to/case`
-always contains a dot character (the FOAM version, eg. elwardi-4.1), so matching
+always contains a dot character (frrom the OpenFOAM version, eg. user-4.1), so matching
 from the start of the path to the first dot character won't work!
 
 Instead, we do notice that versions are expressed in digits, and that case names
@@ -198,10 +198,10 @@ CompilerSet errorformat=\file:\ %f\.%[a-z]%*[a-z\ ]\ line\ %l\.
                         \%E-->\ %*[A-Z:\ ],%Z%m
 {% endhighlight %}
 
-– `%E` denotes the start of a multi-line error.
-– Then we find the line saying `Fatal IO Error` (starts with –> then there are some
+- `%E` denotes the start of a multi-line error.
+- Then we find the line saying `Fatal IO Error` (starts with –> then there are some
   uppercase letters,semicolons, and spaces).
-– `%Z` denotes the end of multi-line error (which is only one line here!) then
+- `%Z` denotes the end of multi-line error (which is only one line here!) then
  we capture everything in the second line as a `%m` (an error message).
 
 The compiler plugin is now complete:
@@ -236,7 +236,7 @@ unlet s:cpo_save
 {% endhighlight %}
 
 
-And you should be ready to test it with a sample (erronous) `blockMeshDict`:
+And you should be ready to test it with a sample (erroneous) `blockMeshDict`:
 1. Make something of importance go wrong in a `blockMeshDict` (the last ; in a block is
    not that important).
 2. While editing `blockMeshDict`, run `:compile blockMesh` to set the correct compiler
@@ -257,7 +257,7 @@ of times? Absolutely not.
 The goal of this blog post is to achieve this work-flow:
 1. When I read in a FOAM File, VIM changes its working dir. to case dir.
    (already implemented in `customFoam.vim`, see 
-   [this earlier post](/vim-openfoam-power-part1)
+   [this earlier post](/vim-openfoam-power-part1))
 2. VIM looks for the suitable OpenFOAM solver for the current case (mentioned in `controlDict`).
 3. VIM sets the right solver as the `makeprg` automatically.
 4. When I run `:make` (Or press a shortcut to it), VIM will filter the output to 

@@ -28,7 +28,7 @@ installed through scripting is a bit of "over-kill"; but having it configured pr
 ## VIM Plugins for OpenFOAM
 
 We can easily customize our VIM installation using our own scripts, sourced in the `.vimrc` file. 
-The versatility of VIM allows for sharing these scripts between users, which are then called *Plug-ins*.
+The versatility of VIM allows for sharing these scripts between users, we then call the scripts: *Plug-ins*.
 
 These plugins differ in both their goal and their implementation:
 - General purpose plugins. Eg. for handling text formatting, VIM configuration.
@@ -60,7 +60,7 @@ While programming, I usually use a couple of plugins:
 
 ## Your own VIM scripts
 
-While reading this blog post, we'll write a very small VIM script, called `customFoam.vim`, 
+In this blog post, we'll write a very small VIM script, called `customFoam.vim`, 
 that is capable of doing a couple of things:
 
 - It needs to be aware of the current file's FileType.
@@ -76,7 +76,7 @@ There are two common ways to determine a file type for a file:
 - Use the extension in its same; I call it the `lazy Windows way`: for example ,files that have names
   ending with `.html` are considered HTML files no matter what their content is.
 - Take a look at the file's content then decide; This is the Unix way, which we'll be
-using here, which means we'll search the content of a file for the line that says `FoamFile`.
+using here: It just means we'll search the content of a file for the line that says `FoamFile`.
 
 We are not the first ones who try to detect `foam` file type in VIM; the *vim-OpenFoam-syntax*
 plugin already does that. Actually, it assigns different file types for different `foam` files.
@@ -155,7 +155,7 @@ function! FOAMSetPathToCaseDir()
     " system, 0, and constant, use
     " let caseDir = expand('%:p:h:h')
     " But, I'm a regexp lover, so,
-    " Make Vim remembers everything in the path until case name.
+    " Make Vim remember everything in the path until case name.
     " delete everything else!
     let caseDir = expand('%:p:s?\(\/.*run\/[a-zA-Z1-9\. ]*\)\/.*?\1?')
     " set path to include all subdirs of caseDir.
@@ -185,7 +185,7 @@ denotes the end of function block.
 - The line `let caseDir = expand('%:p:s?\(\/.*run\/[a-zA-Z1-9\. ]*\)\/.*?\1?')` needs
   deeper explanation:
    1. The standard function `let` defines Vim Variables (In this case, variables are local
-      to user-defined function).
+      to the user-defined function).
    2. *caseDir* is the name of our variable (a string). It is local to the function: To use a
       global variable inside a function, name it `g:var`, to make it available only in this
       script, use `s:var`, and, in fact, to use a local variable in a function, it should be
@@ -198,7 +198,7 @@ denotes the end of function block.
            the ex-command `echo expand('%:p')` should display something like
           `/home/path-to-case/system/blockMeshDict`.
 
-        * `:h` removes the header in the path, eg. `echo expand('%:p:h')` would display
+        * `:h` removes the last entry in a path, eg. `echo expand('%:p:h')` would display
           `/home/path-to-case/system`
 
         * `:s?pattern?string?` acts like the substitute command. *pattern* is a regular 

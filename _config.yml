@@ -10,7 +10,8 @@ url: 'https://foamscience.github.io' # for test: remove string 'http://victorvoi
 email: elwardifadeli@gmail.com
 author: M. Elwardi Fadeli
 #avatar: "//www.gravatar.com/avatar/elwardifadeli@gmail.com_md5?d=mm&s=135"
-avatar: "/assets/img/FoamScience/foamscience-logo-400x400-transparent.jpg"
+#avatar: "/assets/img/FoamScience/foamscience-logo-400x400-transparent.jpg"
+avatar: "/me/assets/images/profile-round.png"
 profile: 
 #twitter_username: twitter_username
 github_username:  FoamScience

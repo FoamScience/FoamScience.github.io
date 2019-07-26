@@ -79,7 +79,7 @@ body { background-color: #e0e0e3; }
   .col-main { width: 100%; }
   .col-second { margin-left: -300px; } }
 .col-box-author { text-align: center; }
-.col-box-author .avatar { width: 135px; height: 135px; border-radius: 100%; margin: 20px auto; display: block; }
+.col-box-author .avatar { width: 135px; height: 135px; border-radius: 50%; margin: 10px auto; display: block; border: 10px solid red; border-color: #607D8B; -webkit-border-radius: 50%; -moz-border-radius: 50%; }
 .col-box-author .name { font-size: 16px; }
 .col-box-author .contact { margin-top: 10px; }
 .col-box-author .contact a { background: #999; color: #eee; padding: 5px 10px; text-decoration: none; border-radius: 5px; white-space: nowrap; }

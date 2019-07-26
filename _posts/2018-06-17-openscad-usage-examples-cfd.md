@@ -21,9 +21,7 @@ We've been learning the basics of OpenSCAD language:
 In this post, I'll teach you how to build commonly used shapes using new tricks:
 You probably can create them already, but I want to show you the power of
 2D-shapes Extrusion in OpenSCAD.
-
-{% include ad1.html %}
-
+<!--more-->
 
 * OpenSCAD CFD usage examples
 {: toc}
@@ -53,14 +51,11 @@ to use a second radius only if the user says so.
 The T-Junction shape I have in mind is illustrated in the following image 
 (Well, this is actually the resulting one ...):
 
-<picture> 
-<source srcset="/assets/img/OpenSCAD/openscad-tjunction.webp" type="image/webp"> 
-<img src="/assets/img/OpenSCAD/openscad-tjunction.jpg" alt="OpenSCAD T-Junction Model">
-</picture>
+![OpenSCAD T-Junction Model](/assets/img/OpenSCAD/openscad-tjunction.jpg)
 
-> If you have any question, don't hesitate, fire at me in the comments section.
+> If you have any questions, don't hesitate, fire at me in the comments section.
 
-{% highlight C %}
+~~~cpp
 /*
     Create an object module called tJunction.
     Parameters:
@@ -99,7 +94,7 @@ module tJunction(mr1,mh,ar1,ah, mr2,ar2) {
 tJunction(10,100,5,50, $fn=60);
 /* translate(-[100,0,0]) tJunction(12,100,5,50,5,3, $fn=60); */
 
-{% endhighlight %}
+~~~
 
 
 ## A parametric U-like pipe [For OpenSCAD 2016+]
@@ -114,12 +109,10 @@ There are generally two ways to create 3D shapes out of 2D ones with OpenSCAD:
 ... And there is a command for each method: `linear_extrude` and `rotate_extrude`.
 
 Let's see what parameters we need to specify in order to build a U-shaped pipe:
-<picture> 
-<source srcset="/assets/img/OpenSCAD/openscad-ushape.webp" type="image/webp"> 
-<img src="/assets/img/OpenSCAD/openscad-ushape.jpg" alt="OpenSCAD UShaped pipe">
-</picture>
 
-{% highlight C %}
+![OpenSCAD UShaped pipe](/assets/img/OpenSCAD/openscad-ushape.jpg)
+
+~~~cpp
 /*
     Create an object module named Ushape.
     Parameters:
@@ -162,7 +155,7 @@ difference(){
 Ushape(2,10,20);
 Ushape(1,10,20.01);
 }
-{% endhighlight %}
+~~~
 
 > It's important that you learn more about these extrusion commands from the
 > [[User
@@ -170,7 +163,7 @@ Ushape(1,10,20.01);
 
 ## A parametric U-like pipe [For older OpenSCAD]
 
-{% highlight C %}
+~~~cpp
 /*
     Create an object module named Ushape.
     Parameters:
@@ -207,7 +200,7 @@ module Ushape(ur1, ur2 ,uh) {
     }
 
 }
-{% endhighlight %}
+~~~
 
 
 > Don't forget to remove the highlighter (#) from the cube command.
@@ -224,7 +217,7 @@ The transition is simple:
 * Replace every instance of the circle with `children(0)` (The first item in the
   children list).
 
-{% highlight C %}
+~~~cpp
 /*
     Create an operator module named Ushape.
     Parameters:
@@ -264,16 +257,12 @@ difference(){
     Ushape(10,20.01) {circle(2,$fn=30);};
 }
 
-{% endhighlight %}
+~~~
 
-{% include ad2.html %}
 
 The previous example should produce something like this:
 
-<picture>
-<source srcset="/assets/img/OpenSCAD/openscad-operator-ushape.webp" type="image/webp"> 
-<img src="/assets/img/OpenSCAD/openscad-operator-ushape.jpg" alt="OpenSCAD operator module Ushape">
-</picture>
+![OpenSCAD operator module Ushape](/assets/img/OpenSCAD/openscad-operator-ushape.jpg)
 
 >
 > > Note: These modules produce a medium-quality STLs (in terms of Triangle
@@ -309,11 +298,7 @@ In the following picture:
 * `X2= (1,0)`
 * `Y2= (0,3)`
 
-<picture class="image-center"> 
-<source srcset="/assets/img/OpenSCAD/openscad-bottle-coords.webp" type="image/webp"> 
-<img src="/assets/img/OpenSCAD/openscad-bottle-coords.png" alt="OpenSCAD bottle coords"
-class="image-center">
-</picture>
+![OpenSCAD bottle coords](/assets/img/OpenSCAD/openscad-bottle-coords.png)
 
 Next we mark some points on one half of the bottle (so we can rotate it later):
 
@@ -322,23 +307,15 @@ Next we mark some points on one half of the bottle (so we can rotate it later):
   linked points, but this is extra work; Thus, make sure you create a manifold
   polygon while selecting these points.
 
-<picture class="image-center">
-<source srcset="/assets/img/OpenSCAD/openscad-bottle-points.webp" type="image/webp">
-<img src="/assets/img/OpenSCAD/openscad-bottle-points.png" alt="WebPlotDigitizer bottle"
-class="image-center">
-</picture>
+![WebPlotDigitizer bottle](/assets/img/OpenSCAD/openscad-bottle-points.png)
 
 Point coordinates can be viewed by Pressing `View Data` under the `Dataset` tab in
 `WebPlotDigitizer`:
 
-<picture class="image-center"> 
-<source srcset="/assets/img/OpenSCAD/openscad-bottle-data.webp" type="image/webp"> 
-<img src="/assets/img/OpenSCAD/openscad-bottle-data.png" alt="WebPlotDigitizer bottle" 
-class="image-center"> 
-</picture>
+![WebPlotDigitizer bottle](/assets/img/OpenSCAD/openscad-bottle-data.png)
 
 Finally, creating the actual bottle model is as easy as executing the command:
-{% highlight C %}
+~~~cpp
 // Create points vector
 pnts = [ [0.000, -3.458],
          [1.033, -3.458],
@@ -350,7 +327,7 @@ pnts = [ [0.000, -3.458],
          [0.000, 3.000] ];
 // Create the polygon and rotate it.
 rotate_extrude(convexity=4) polygon(pnts*10);
-{% endhighlight %}
+~~~
 
 > > Note that we can omit point's z-coordinate if it's `0`.
 >
@@ -359,15 +336,12 @@ rotate_extrude(convexity=4) polygon(pnts*10);
 > > (applied to the text in previous figure).
 > > `:1,8 g/^/ exe "norm! A],\<Esc>I["`  
 > > Done! Now you only have to delete the last `,`
-> > * `1` is the first line's number, and `8` is the last one.
-> > * If you want to know more, ask in the comments.
+> > - `1` is the first line's number, and `8` is the last one.
+> > - If you want to know more, ask in the comments.
 
 This should result in the following model:
 
-<picture> 
-<source srcset="/assets/img/OpenSCAD/openscad-bottle-water.webp" type="image/webp"> 
-<img src="/assets/img/OpenSCAD/openscad-bottle-water.jpg" alt="OpenSCAD Bottle Model">
-</picture>
+![OpenSCAD Bottle Model](/assets/img/OpenSCAD/openscad-bottle-water.jpg)
 
 ### A more complicated model
 
@@ -381,16 +355,13 @@ An example SVG file for a sample bottle of water can be found
 
 It looks like this:
 
-<picture class="image-center">
-<source srcset="/assets/img/OpenSCAD/openscad-path-bottle.webp" type="image/webp"> 
-<img src="/assets/img/OpenSCAD/openscad-path-bottle.png" alt="OpenSCAD SVG path">
-</picture>
+![OpenSCAD SVG path](/assets/img/OpenSCAD/openscad-path-bottle.png)
 
 Now, let's convert this SVG file to an OpenSCAD-compatible DXF:
-{% highlight bash %}
+~~~bash
 $ inkscape -E intermediate.eps openscad-path-bottle.svg
 $ pstoedit -dt -f dxf:-polyaslines\ -mm intermediate.eps openscad-path-bottle.dxf
-{% endhighlight %}
+~~~
 
 - The first command uses `inkscape` to convert the SVG file to the EPS format.
 - The second one uses `pstoedit` to convert the resulting EPS file to a DXF
@@ -402,21 +373,18 @@ $ pstoedit -dt -f dxf:-polyaslines\ -mm intermediate.eps openscad-path-bottle.dx
 To use `openscad-path-bottle.dxf` put it in the same directory as the following
 script (2D shape highlighted):
 
-{% highlight C %}
+~~~cpp
 // Easy as eveything else in OpenSCAD
 rotate_extrude(convexity=4)
 #import("openscad-path-bottle.dxf");
-{% endhighlight %}
+~~~
 
 Which will result in the following shape:
 
-<picture> 
-<source srcset="/assets/img/OpenSCAD/openscad-bottle-svg.png" type="image/png"> 
-<img src="/assets/img/OpenSCAD/openscad-bottle-svg.png" alt="OpenSCAD STL bottle">
-</picture>
+![OpenSCAD STL bottle](/assets/img/OpenSCAD/openscad-bottle-svg.png)
 
 Hey, why don't you try this for fun (Try it multiple times):
-{% highlight C %}
+~~~cpp
 function polyR(l=1) =[
     for (i=[0:20:180])
     [rands(0,l,1)[0]*cos(90-i), rands(0,l,1)[0]*sin(90-i)]
@@ -424,7 +392,7 @@ function polyR(l=1) =[
 
 v = polyR();
 rotate_extrude(convexity=10) scale(15) polygon(v);
-{% endhighlight %}
+~~~
 
 
 ## Exporting models to STL format
@@ -432,9 +400,10 @@ rotate_extrude(convexity=10) scale(15) polygon(v);
 To export your geometry models to STL files, you can either:
 * Use the GUI: `File > Export > Export as STL ...` after rendering the model (with `F6`).
 * Or, from the command line:
-{% highlight bash %}
+
+~~~bash
 $ openscad file.scad -o file.stl
-{% endhighlight %}
+~~~
 
 By default, OpenSCAD exports everything as a single region (named
 `OpenSCAD_Model`) to an ASCII STL file. You'll learn how to improve this
@@ -442,7 +411,5 @@ behavior in the next posts.
 
 > All the models described here are fairly simple and OpenFOAM's `autoPatch` can
 > handle separating mesh boundary patches later efficiently!
-
-{% include ad3.html %}
 
 That's all for today, I hope this was a useful post; see you in the next one!

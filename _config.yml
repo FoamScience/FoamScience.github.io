@@ -5,91 +5,58 @@ description: >
         and gather knowledge about CFD related subjects.
 baseurl: "" # for test: remove string '/space-jekyll-template' to ''
 url: 'https://foamscience.github.io' # for test: remove string 'http://victorvoid.github.io' to '' but in production: 'https://yourusername.githu.io'
-#url: '' # for test: remove string 'http://victorvoid.github.io' to '' but in production: 'https://yourusername.githu.io'
 
-# User settings
-analytics: UA-111265701-1
-username: "Learning CFD with OpenFOAM"
-user_title: Petroleum Eng. Student
+# Your information
 email: elwardifadeli@gmail.com
-twitter_username: FadeliElwardi
+author: M. Elwardi Fadeli
+#avatar: "//www.gravatar.com/avatar/elwardifadeli@gmail.com_md5?d=mm&s=135"
+avatar: "/assets/img/FoamScience/foamscience-logo-400x400-transparent.jpg"
+profile: 
+#twitter_username: twitter_username
 github_username:  FoamScience
-gplus_username:  elwardifadeli
-linkedin_public_url: 'elwardi-fadeli'
-disqus_username: foamscience
-profile_picture: '/assets/img/FoamScience/foamscience-logo-400x400.jpg'
+profile_links:
+  Email: "mailto:elwardifadeli@gmail.com"
+  LinkedIn: "https://linkedin.com/in/elwardi-fadeli"
+  # You can add more profile links above, or edit _includes/sidebar.html 
+
+# Comment Service (Disqus or 多说)
+#  choose one and un-comment the line to active it
+disqus_shortname: foamscience   # get one: https://disqus.com/admin/signup/
+#duoshuo_shortname: xxx  # get one: http://duoshuo.com/create-site/
+
+excerpt_separator: <!--more-->
+
+header:
+  links:             # Links on the header. Link to in-site page with a slash as prefix
+    Home: /
+    About: /about/
+    Contact: /contact/
+    Category: /category/
+    Tags: /tags/
+
+permalink: /:title/
+plugins:
+ - jekyll-paginate
+ - jekyll-gist
+ - jemoji
 
 # Build settings
-markdown: kramdown
-kramdown:
-   math_engine: mathjax
+paginate: 5
+paginate_path: "page:num"
+
 highlighter: rouge
-permalink: /:title/
+markdown: kramdown
 
-# html minify
-compress_html:
-  clippings: all
-  comments: all
-  endings: []
-  profile: false
+# https://jekyllrb.com/docs/configuration/#precedence
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
 
-# Links to include in menu navigation
-links:
-  section_1:
-    - title: Home
-      url: /
-      key_trigger: 1
-    - title: Blog posts
-      url: /posts/
-      key_trigger: 2
-    - title: Series and Simulations
-      url: /series/
-      key_trigger: 3
-    - title: Tags
-      url: /tags/
-      key_trigger: 4
-    - title: About us
-      url: /about/
-      key_trigger: 5
-  Social:
-    - title: Github
-      external: true
-      url: https://www.github.com/FoamScience
-      new_tab: true
-      key_trigger: g
-    - title: Twitter
-      url: https://www.twitter.com/FadeliElwardi
-      external: true
-      new_tab: true
-      key_trigger: t
-    - title: Facebook
-      url: https://www.facebook.com/foamscience
-      external: true
-      new_tab: true
-      key_trigger: f
-    - title: Search
-      url: ""
-      key_trigger: s #WARNING: search only works with "s"
-
-# projects in header index
-#projects:
-#  - name: fluany
-#    url: https://github.com/fluany/fluany
-#  - name: vim-frontend
-#    url: https://github.com/victorvoid/vim-frontend
-#  - name: generator-capybara
-#    url: https://github.com/victorvoid/generator-capybara 
-
-# exclude my node related stuff
-exclude: ['package.json', 'src', 'node_modules']
-
-#plugins:
-#    - jekyll-compress-images
-#
-#compress_images:
-#  images_path: "assets/img/**/*.{gif,png,jpg,jpeg,svg}"
-#
-#imageoptim:
-#  pngout: false
-#  svgo: false
-#  verbose: false
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  math_engine: mathjax

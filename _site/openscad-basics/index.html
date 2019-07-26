@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>OpenSCAD 101: Basics of the Programmers' CAD software « FOAM Science; Doing CFD</title>
+  <meta name="description" content="When it comes to creating a Mesh for OpenFOAM, I always look for the mostmodular way to do things:">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/openscad-basics/">
+  <link rel="alternate" type="application/rss+xml" title="FOAM Science; Doing CFD" href="http://localhost:4000/feed.xml" />
+   <!-- Analytics -->
+ <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', '','auto');
+  ga('send', 'pageview');</script>
+
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-3635214305281166",
+              enable_page_level_ads: true
+                    });
+    </script>
+
+
+</head>
+
+
+  <body>
+
+    <div class="header-placeholder"></div>
+<header class="header">
+  <div class="wrapper">
+    <div id="sidebar-toggle">TOC</div>
+    <a class="site-title" href="/">FOAM Science; Doing CFD</a>
+    <nav class="site-nav">
+      
+        
+        <a class="page-link" href="/">Home</a>
+      
+        
+        <a class="page-link" href="/about/">About</a>
+      
+        
+        <a class="page-link" href="/contact/">Contact</a>
+      
+        
+        <a class="page-link" href="/category/">Category</a>
+      
+        
+        <a class="page-link" href="/tags/">Tags</a>
+      
+    </nav>
+  </div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="col-main">
+          <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">OpenSCAD 101: Basics of the Programmers' CAD software</h1>
+    <p class="post-meta">Jun 7, 2018</p>
+  </header>
+
+  <article class="post-content">
+    <p>When it comes to <code class="highlighter-rouge">creating a Mesh</code> for OpenFOAM, I always look for the most
+<strong>modular</strong> way to do things:
+<!--more--></p>
+
+<ul>
+  <li>
+    <p>If a great control over the mesh is required, <strong>m4 macro language</strong> and <code class="highlighter-rouge">blockMesh</code> 
+are good choices. They are somewhat tiresome to use, but as long as they allow
+me to do pretty much anything I can think of; I don’t care!</p>
+  </li>
+  <li>
+    <p>If I can live with little control over the mesh, (which is a more frequent case)
+ I usually follow a 
+<strong>Model-it-with-CAD-then-cfMesh-it</strong> approach; and there are two reasons:</p>
+  </li>
+</ul>
+
+<ol>
+  <li>If I’m to loose some control over the mesh anyway, why struggle with the <em>very-</em>long <code class="highlighter-rouge">snappyHexMeshDict</code>?</li>
+  <li>Parameterization of <em>cfMesh’s</em> <code class="highlighter-rouge">meshDict</code> is much easier.</li>
+</ol>
+
+<ul id="markdown-toc">
+  <li><a href="#before-we-start-" id="markdown-toc-before-we-start-">Before we start …</a></li>
+  <li><a href="#setting-up-openscad" id="markdown-toc-setting-up-openscad">Setting up OpenSCAD</a></li>
+  <li><a href="#first-steps-learning-the-syntax" id="markdown-toc-first-steps-learning-the-syntax">First steps: Learning the Syntax</a>    <ul>
+      <li><a href="#general-syntax" id="markdown-toc-general-syntax">General syntax</a></li>
+      <li><a href="#variables-in-openscad" id="markdown-toc-variables-in-openscad">Variables in OpenSCAD</a></li>
+      <li><a href="#openscad-vectors-lists" id="markdown-toc-openscad-vectors-lists">OpenSCAD Vectors (Lists)</a></li>
+      <li><a href="#openscad-functions" id="markdown-toc-openscad-functions">OpenSCAD functions</a></li>
+      <li><a href="#the-include-directive" id="markdown-toc-the-include-directive">The <code class="highlighter-rouge">include</code> “directive”</a></li>
+    </ul>
+  </li>
+  <li><a href="#basic-openscad-commands" id="markdown-toc-basic-openscad-commands">Basic OpenSCAD commands</a>    <ul>
+      <li><a href="#2d-and-3d-shapes" id="markdown-toc-2d-and-3d-shapes">2D and 3D shapes</a></li>
+      <li><a href="#transformations-and-modules" id="markdown-toc-transformations-and-modules">Transformations and Modules</a></li>
+      <li><a href="#modifiers" id="markdown-toc-modifiers">Modifiers</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>This post is part of a longer series on how to make use of OpenSCAD
+capabilities to perform CFD-like mesh generation. The typical workflow you are supposed
+to follow can be summarized in these three key points:</p>
+
+<ol>
+  <li>Create a <code class="highlighter-rouge">parametric</code> OpenSCAD model for your problem’s geometry.</li>
+  <li>Use <code class="highlighter-rouge">cfMesh</code> to generate quality meshes (which can also be parametric).</li>
+  <li>Simulate the case with OpenFOAM, change some design variables (Geometry, Mesh
+or Simulation properties) and go back to step <code class="highlighter-rouge">1</code> or <code class="highlighter-rouge">2</code> as needed.</li>
+</ol>
+
+<blockquote>
+  <p>DISCLAIMER:</p>
+
+  <p>Every Code snippet in this post is a fully-functional OpenSCAD “script”.<br />
+I strongly recommend you follow through by “trying” the commands!</p>
+</blockquote>
+
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-3635214305281166" data-ad-slot="4856474507"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+
+<h2 id="before-we-start-">Before we start …</h2>
+
+<p>Before we dive into details of how to create parametric models in OpenSCAD, I
+would like to introduce you to some important tips that you will find very
+useful along the course of your learning process:</p>
+
+<ol>
+  <li>You can run OpenSCAD scripts here: <a href="http://openscad.net">openscad.net</a> if
+you don’t want to install it on your system.</li>
+  <li>OpenSCAD is written in <strong>C++</strong>, and it’s a language by itself.</li>
+  <li><code class="highlighter-rouge">Variables</code> in OpenSCAD are a bit <em>weird</em>: They are set at compile time rather
+than at “run” time (We’ll talk about this later, you only need to know
+that you should never change the value of a variable after setting it).</li>
+  <li>Just like pretty much any other CAD software, you don’t need to stick with
+the standard library: You can easily develop your own, and use others
+libraries.</li>
+  <li>Learning the basics of OpenSCAD shouldn’t take longer than 15mins!</li>
+  <li><strong>OpenSCAD binaries</strong> are available for a wide range of OSs but I’m focusing on
+Linux distros (Command-line usage … etc).</li>
+  <li>You don’t need to write code with the awful default <em>text editor</em> that comes
+with OpenSCAD: Use your own text editor instead (I’m using VIM with
+<a href="http://github.com/torrancew/vim-openscad">VIM-OpenSCAD plugin</a>).</li>
+</ol>
+
+<h2 id="setting-up-openscad">Setting up OpenSCAD</h2>
+
+<p>On Ubuntu-based distros, installing OpenSCAD is as easy as executing the
+command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt install openscad
+</code></pre></div></div>
+
+<p>But this may install a relatively outdated version of the software (<strong>Ubuntu
+16.04 LTS</strong> repos have the 2015.3 version, which is good for now). If you want
+the latest release, follow the instructions provided in the 
+<a href="http://www.openscad.org/downloads.html">Official OpenSCAD Download page</a>.</p>
+
+<p>The default interface will combine a basic <em>text editor</em>, a <em>preview/render window</em>
+(to preview the created models), and a <em>“log” console</em> (displays useful information).</p>
+
+<p>I just can’t stand the default text editor so I’m using <strong>VIM</strong> instead (you
+can use your favorite text editor). You just have to make
+sure that <code class="highlighter-rouge">Design &gt;&gt; Automatic Reload and Preview</code> option is turned on (in
+OpenSCAD); This way, every time you save your <em>.scad</em> file, it gets reloaded and
+models are automatically previewed.</p>
+
+<p>Of course, VIM doesn’t have native support for OpenSCAD’s language, that’s why I
+needed to install a syntax-highlighting plugin first:
+<a href="http://github.com/torrancew/vim-openscad">Vim-OpenSCAD</a></p>
+
+<p>Also, you may need to create a directory to hold all your OpenSCAD projects 
+(Store <em>all</em> of your OpenSCAD scripts in this directory) :</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>mkdir <span class="nt">-p</span> ~/OpenSCADProjs
+</code></pre></div></div>
+
+<blockquote>
+  <p>Just do it, OK! It eases dealing with library imports later!</p>
+</blockquote>
+
+<h2 id="first-steps-learning-the-syntax">First steps: Learning the Syntax</h2>
+
+<p>OpenSCAD’s language is actually very simple, and can be learned in no time; In
+this section we’ll try to break down the most interesting features of the
+language (from a beginner’s perspective of course).</p>
+
+<h3 id="general-syntax">General syntax</h3>
+
+<ul>
+  <li>Every statement in an OpenSCAD “script” has to end with a semi-colon.</li>
+  <li>A simple statement can create shapes, transform them, perform Boolean
+operations … etc.</li>
+  <li>Single-line comments are triggered with <code class="highlighter-rouge">//</code>, and multi-line ones are enclosed
+between <code class="highlighter-rouge">/*</code> and <code class="highlighter-rouge">*/</code> just like in other C-like languages.</li>
+</ul>
+
+<h3 id="variables-in-openscad">Variables in OpenSCAD</h3>
+
+<p>Variables in OpenSCAD are set during compile-time; Their behavior is different
+from what you would expect. To illustrate this, let’s take a simple example:</p>
+
+<p>Suppose you have this Python script (Or the equivalent in any other well-known
+language which implements some sort of mutable data approaches):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This is a comment</span>
+<span class="n">do_something_with</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c"># Hey! x is not initialized!!</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c"># x variable will have a value of one</span>
+<span class="n">do_something_with</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c"># Will do something with x = 1</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c"># Now x will have the value of 5</span>
+<span class="n">do_something_with</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c"># Will do something with x = 5</span>
+</code></pre></div></div>
+
+<p>In OpenSCAD, things are quite different:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// This is a comment
+</span><span class="n">do_something_with</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="c1">// OK, this will do something with x = 5
+</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>  <span class="c1">// x will have the value of 3 for a moment
+</span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// y will have the value of 6
+</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>  <span class="cm">/* The final value of x, which is used in all other instructions */</span>
+</code></pre></div></div>
+
+<p>See? Instead of treating the script line by line; OpenSCAD collects all variable
+values first (If a variable is defined twice, the last value wins), then processes
+the remaining instructions.</p>
+
+<p>Variable assignment is very simple <code class="highlighter-rouge">varName = varValue;</code>, and you can use
+arithmetic expressions in <code class="highlighter-rouge">varValue</code>.</p>
+
+<p>As a general rule:</p>
+<ul>
+  <li>Never change a variable’s value with another instruction in your script; <br />
+Create new variables instead. Think of these variables as immutable.</li>
+</ul>
+
+<blockquote>
+  <p>You can also think of OpenSCAD’s variables as C’s constants; Don’t mess with them
+unless you know what you are doing!</p>
+</blockquote>
+
+<h3 id="openscad-vectors-lists">OpenSCAD Vectors (Lists)</h3>
+
+<p>You can define vectors in the following way:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+
+<span class="c1">// Vector creation
+</span><span class="n">vec</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">];</span>
+<span class="c1">// Display vector value in the console
+</span><span class="n">echo</span><span class="p">(</span><span class="n">vec</span><span class="p">);</span>
+
+<span class="c1">// Matrix creation, trivial
+</span><span class="n">mat</span> <span class="o">=</span> <span class="p">[</span><span class="n">vec</span><span class="p">,</span> <span class="n">vec</span><span class="o">+</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">]];</span>  <span class="c1">// Some Vector operations are supported
+</span>
+<span class="c1">// Access to elements:
+</span><span class="n">echo</span><span class="p">(</span><span class="n">mat</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>   <span class="cm">/* Indexing follows C conventions */</span>
+</code></pre></div></div>
+
+<p>Vectors are represented as simple lists; and some of their operations are 
+supported by default (The ‘+’ operator can handle both floats and vectors).</p>
+
+<p>The <code class="highlighter-rouge">echo</code> command displays the value of the variable in the console (Look for
+lines starting with <code class="highlighter-rouge">ECHO: </code> in the few first lines of the log).</p>
+
+<p>Indexing starts from ‘0’, so <code class="highlighter-rouge">vec[0]</code> represents the value of <code class="highlighter-rouge">a</code> (Just like in
+any other C-based language).</p>
+
+<blockquote>
+  <p>Can you predict what the result of the last instruction in the previous
+snippet would be?</p>
+</blockquote>
+
+<p>Beginners may be tempted to use ranges to define vectors, which is not quite
+right!</p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ran</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">10</span><span class="p">];</span>  <span class="c1">// Range starting from 1, ending with 10 (step =1)
+</span><span class="n">echo</span><span class="p">(</span><span class="n">ran</span><span class="p">);</span>  <span class="c1">// The range doesn't expand, huh !!
+</span>
+<span class="n">echo</span><span class="p">(</span><span class="n">ran</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span> <span class="cm">/* Should output the 4th element in ran, Right?
+                 Well, it gives "undef" instead !! */</span>
+</code></pre></div></div>
+
+<p>Ranges are not vectors, they were created for usage with loops only!</p>
+
+<p>Although, you can define a vector from a range in the following way:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ran</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">4</span><span class="p">];</span>  <span class="c1">// Range starting from 1, ending with 4 (step =1)
+</span><span class="n">vec</span> <span class="o">=</span> <span class="p">[</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="n">ran</span><span class="p">)</span> <span class="n">i</span><span class="o">*</span><span class="mi">2</span> <span class="p">];</span>  <span class="cm">/* vec is a vector */</span>
+</code></pre></div></div>
+
+<p>This will result in the following vector: <code class="highlighter-rouge">[2 4 6 8]</code></p>
+
+<h3 id="openscad-functions">OpenSCAD functions</h3>
+
+<p>Functions in OpenSCAD are meant to take in some values, perform calculations and
+return the results. The anatomy of a function looks like this:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">function</span> <span class="n">funcName</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span> <span class="o">=</span> <span class="n">outputValue</span> <span class="p">;</span>
+</code></pre></div></div>
+
+<p>The arguments are local and do not conflict with external variables.</p>
+
+<p>Say I want to test wether or not some input variables <code class="highlighter-rouge">x,y</code> are
+satisfying a certain constraint <code class="highlighter-rouge">x+y&gt;=0</code>. This can be achieved using a function:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Define the function
+// x, y are local to the function here
+</span><span class="n">function</span> <span class="n">testConst</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">// Now how to call that function?
+</span>
+<span class="c1">// You can't do this:
+</span><span class="n">testConst</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<span class="c1">// Because you'll get "Unknown module" error (Modules are something else)
+</span>
+<span class="c1">// But you can definitely do this:
+</span><span class="n">a</span> <span class="o">=</span> <span class="n">testConst</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c1">// and
+</span><span class="n">echo</span><span class="p">(</span><span class="n">testConst</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>The expression <code class="highlighter-rouge">(x+y&gt;=0) ? 1 : 0</code> is equivalent to:</p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span> <span class="n">is</span> <span class="n">greater</span> <span class="n">than</span> <span class="n">or</span> <span class="n">equal</span> <span class="n">to</span> <span class="mi">0</span><span class="p">)</span> 
+ <span class="p">{</span><span class="n">Give</span> <span class="n">the</span> <span class="n">value</span> <span class="mi">1</span> <span class="n">to</span> <span class="n">the</span> <span class="n">function</span> <span class="p">}</span>
+<span class="k">else</span>  <span class="c1">// if x+y is strict. less than 0
+</span> <span class="p">{</span><span class="n">Give</span> <span class="n">the</span> <span class="n">value</span> <span class="mi">0</span> <span class="n">to</span> <span class="n">the</span> <span class="n">function</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Of course, you can also define argument-less functions:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* Define a function named noArgsFunc that returns two random
+numbers from the range (0,10).  */</span>
+<span class="n">function</span> <span class="n">noArgsFunc</span><span class="p">()</span> <span class="o">=</span> <span class="n">rands</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c1">// Call it
+</span><span class="n">echo</span><span class="p">(</span><span class="n">noArgsFunc</span><span class="p">());</span>
+</code></pre></div></div>
+
+<p>What if I want to call the function I’m defining inside itself? This is also
+supported (called recursive functions). You only need to ensure the recursion
+is terminated somehow:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// There is no factorial function in standard library, so define one
+</span><span class="n">function</span> <span class="n">fact</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span> <span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="mi">1</span> <span class="o">||</span> <span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">n</span><span class="o">*</span><span class="n">fact</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+<span class="n">echo</span><span class="p">(</span><span class="n">fact</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>Note that the definition of <code class="highlighter-rouge">fact</code> is basically a conditional statement where
+the same function is called again if the condition is <code class="highlighter-rouge">false</code>:</p>
+
+<ol>
+  <li>Test if <em>n</em> is equal to 1 or 0; If it’s the case, return the value of 1.</li>
+  <li>If not, multiply <em>n</em> by the factorial of <em>n-1</em>.</li>
+  <li>This process is recursively performed until <code class="highlighter-rouge">fact(1)</code> is reached; The recursion
+is then terminated by the conditional statement.</li>
+</ol>
+
+<h3 id="the-include-directive">The <code class="highlighter-rouge">include</code> “directive”</h3>
+
+<p>OpenSCAD uses two commands to include external OpenSCAD code into
+the current model:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">include &lt;file.scad&gt;</code> will act as if you copy-pasted the content of <code class="highlighter-rouge">file.scad</code> into your
+current file. It will evaluate all instructions in the imported library (including variable
+initialization … etc).</li>
+  <li><code class="highlighter-rouge">use &lt;file.scad&gt;</code> will only include meta-code (function and module definitions) from 
+<code class="highlighter-rouge">file.scad</code>, but
+doesn’t execute any other commands (No variable initialization, no shape creation …
+etc)</li>
+</ul>
+
+<h2 id="basic-openscad-commands">Basic OpenSCAD commands</h2>
+
+<p>Now that you’ve mastered the basics of OpenSCAD’s usual-programming-language features,
+let’s get to the real deal:</p>
+
+<h3 id="2d-and-3d-shapes">2D and 3D shapes</h3>
+
+<p>Try this:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
+<span class="cm">/*
+    r represents the radius of the circle.
+    10 is the radius value, in mm by default.
+    The circle is in X-Y plane by default.
+    And it's center is at the origin.
+    By default, The circle is "coarse" (low resolution).
+*/</span>
+</code></pre></div></div>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// You can specify a diameter instead
+</span><span class="n">circle</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// And you can increase the resolution
+</span><span class="n">circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="mi">40</span><span class="p">);</span>
+<span class="cm">/*
+   $fn is the number of segments to draw a full circle
+*/</span>
+</code></pre></div></div>
+
+<p>The same applies to 3D shapes:</p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sphere</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span> <span class="o">=</span> <span class="mi">40</span><span class="p">);</span> <span class="c1">// if no "r=" or "d=", then it's a radius
+</span><span class="n">cube</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span> <span class="n">center</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+<span class="cm">/*
+  [10,30,10] specifies [width,depth,height] (along [x,y,z])
+  center= true | false specifies whether the cube should be
+                       centered at the origin.
+*/</span>
+</code></pre></div></div>
+
+<p>There are few other pre-defined shapes which you can find here: 
+<a href="http://www.openscad.org/cheatsheet/">OpenSCAD CheatSheet</a></p>
+
+<h3 id="transformations-and-modules">Transformations and Modules</h3>
+
+<p>Now that you’ve created some shapes, you’ll want to do some operations on them;
+That’s exactly what modules are meant to do.</p>
+
+<p>They can be used to define shapes, or even operators, which are then added to
+the language (You can also import them from an external file).</p>
+
+<p>An example of pre-defined module is the <code class="highlighter-rouge">translate</code> command:</p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// This is not the definition of translate
+// This demonstrates its usage.
+</span><span class="n">translate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span> <span class="n">sphere</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> 
+<span class="cm">/* Which translates the sphere in the z-direction by 20 mm */</span>
+</code></pre></div></div>
+
+<p>This command is called an <code class="highlighter-rouge">object module</code>, ie. operates on primitives to define new
+objects.</p>
+
+<p>You can define an object module in the following way:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">module</span> <span class="nf">name</span> <span class="p">(</span> <span class="n">parameters</span> <span class="p">)</span> <span class="p">{</span> <span class="n">actions</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>for example, let’s say I want to create an ellipsoid; Basically, I would write
+something like this:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">scale</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span> <span class="n">sphere</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="mi">30</span><span class="p">);</span>
+<span class="cm">/* scale is a transformation module */</span>
+</code></pre></div></div>
+
+<p>In a more modular way, I would define a special module which takes some vectors as
+parameters and creates the ellipsoid for me:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+    Define a module named ellipsoid
+    Parameters:
+     - dims: vector for dimensions, default value: [10,20,10]
+     - center: coords of the center of the new object,
+               defaults to the origin.
+    What's between {...} is the actions to take.
+
+    Read it like this:
+    1. Create a sphere of radius = 1mm
+    2. scale it in all directions according to the vector 'dims'
+    3. translate the resulting object by the vector 'center'
+*/</span>
+<span class="n">module</span> <span class="nf">ellipsoid</span><span class="p">(</span><span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span> <span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
+  <span class="n">translate</span><span class="p">(</span><span class="n">center</span><span class="p">)</span> <span class="n">scale</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span> <span class="n">sphere</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="mi">30</span><span class="p">);</span> 
+<span class="p">}</span>
+
+<span class="c1">// Now call the module to create different objects:
+</span>
+<span class="c1">// Ellipsoid with default values
+</span><span class="n">ellipsoid</span><span class="p">();</span>
+
+<span class="c1">// Change only the center
+</span><span class="n">ellipsoid</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">30</span><span class="p">]);</span>
+
+<span class="c1">// Change all default parameters
+</span><span class="n">ellipsoid</span><span class="p">(</span><span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span><span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">0</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note that you can omit the <code class="highlighter-rouge">;</code> at the end of a module’s definition.</p>
+</blockquote>
+
+<p>If you think about it carefully, this approach is useful only if you want to take a
+specific “object” and do some operations on it in the sole purpose of creating
+a new object (That’s why it’s called <strong>object module</strong>). What if you need to 
+operate in the same way on a set of different objects?</p>
+
+<p>To illustrate, assume we have a sphere, a cube and a square, and we want to
+create a bunch of duplicates of each object in a specified direction. Indeed, we
+would need an “operator module”, a module that doesn’t care about objects but
+only cares about what operations to perform on them. For this, we’ll need a new 
+concept (<code class="highlighter-rouge">children</code> of a module):</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+   Create a module named duplicate.
+   Parameters:
+     - num: The number of duplicates (original object included).
+     - space: The space between two consecutive objects.
+     - dir: normalized direction vector, defaults to the x-direction.
+   This will take the first object in the children, and translate it by the 
+   required amount each time (in the for loop)
+*/</span>
+<span class="n">module</span> <span class="nf">duplicate</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">dir</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
+<span class="c1">// Starting the range with 0 will preserve the original object
+</span>    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="o">:</span><span class="n">num</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="n">translate</span><span class="p">(</span><span class="n">dir</span><span class="o">*</span><span class="n">space</span><span class="o">*</span><span class="n">i</span><span class="p">)</span> <span class="n">children</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="c1">// Uses only the first element of "children"
+</span><span class="p">}</span>
+
+<span class="c1">// Five duplicates of a sphere in the x (default) direction
+</span><span class="n">duplicate</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span> <span class="n">sphere</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+
+<span class="c1">// Five duplicates of a cube in z-direction
+</span><span class="n">duplicate</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">20</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> <span class="n">translate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">30</span><span class="p">])</span> <span class="n">cube</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">center</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+
+<span class="c1">// Five duplicates of a square in a custom 
+// (but vector-normalized) direction
+</span><span class="n">duplicate</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">20</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">])</span> <span class="n">translate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+                               <span class="n">cube</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">center</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>OpenSCAD doesn’t support STL export of mixed 2D and 3D shapes;<br />
+So, We have to create square-like cubes!!</p>
+</blockquote>
+
+<p>The <code class="highlighter-rouge">for (i = range) action;</code> loop will perform the action while varying <code class="highlighter-rouge">i</code>
+in the <code class="highlighter-rouge">range</code>. The action here is to take the first shape in the <code class="highlighter-rouge">children</code>
+list and translate it by the vector (<code class="highlighter-rouge">dir*space*i</code>).</p>
+
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<!-- Disp add -->
+<p><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3635214305281166" data-ad-slot="6599434036" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+
+<p>The previous script results in something like this:</p>
+
+<p><img src="/assets/img/OpenSCAD/openscad-duplicate.jpg" alt="OpenSCAD duplicates Module" /></p>
+
+<p>(The Blue sphere is at the origin; Hopefully you can tell where everything is!!).</p>
+
+<blockquote>
+  <p>Hey! you are no longer a “beginner”!! You can create modules and use
+functions!!!</p>
+</blockquote>
+
+<h3 id="modifiers">Modifiers</h3>
+
+<blockquote>
+  <p>This not quite necessary to learn now, but it will become handy in the following
+tutorial.</p>
+</blockquote>
+
+<p>You can use modifiers to control the way objects are displayed 
+in OpenSCAD’s preview window:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Transparent cube 
+</span><span class="o">%</span><span class="n">translate</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="n">cube</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="c1">// Highlight a sphere
+</span><span class="cp">#sphere(10);
+</span>
+<span class="c1">// Another way:
+</span><span class="n">color</span><span class="p">(</span><span class="s">"blue"</span><span class="p">,</span><span class="mf">0.8</span><span class="p">)</span> <span class="n">translate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span> <span class="n">cube</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="cm">/* 0.8 controls transparency (alpha) */</span>
+</code></pre></div></div>
+
+<p>That’s it for today, I bet you already learned more tricks just by looking at
+<a href="http://www.openscad.org/cheatsheet/">OpenSCAD’s Cheatsheet</a>.</p>
+
+
+  </article>
+  
+  
+
+<div class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      var disqus_shortname = 'foamscience'; // required: replace example with your forum shortname
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+</div>
+
+
+
+
+
+</div>
+
+        </div>
+        <div class="col-second">
+          <div class="col-box col-box-author">
+  <img class="avatar" src="/assets/img/FoamScience/foamscience-logo-400x400-transparent.jpg" alt="M. Elwardi Fadeli">
+  <div class="col-box-title name">M. Elwardi Fadeli</div>
+  <p></p>
+  <p class="contact">
+    
+    <a href="https://github.com/FoamScience">GitHub</a>
+    
+    
+    
+    <a href="mailto:elwardifadeli@gmail.com">Email</a>
+    
+    <a href="https://linkedin.com/in/elwardi-fadeli">LinkedIn</a>
+    
+  </p>
+</div>
+
+<div class="col-box">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- SideAds -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3635214305281166"
+     data-ad-slot="8889675473"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <div class="col-box-title">Newest Posts</div>
+  <ul class="post-list">
+    
+      <li><a class="post-link" href="/vim-openfoam-power-part2/">Customize VIM to work efficiently with OpenFOAM - Part 2</a></li>
+    
+      <li><a class="post-link" href="/vim-openfoam-power-part1/">Customize VIM to work efficiently with OpenFOAM - Part 1</a></li>
+    
+      <li><a class="post-link" href="/openscad-stock-tank-model/">Stock-Tank mesh construction using OpenSCAD</a></li>
+    
+      <li><a class="post-link" href="/openscad-cfd-usage-examples/">OpenSCAD CFD-oriented Usage Examples</a></li>
+    
+      <li><a class="post-link" href="/openscad-transformations-boolean-operations/">OpenSCAD Transformations & Boolean Operations</a></li>
+    
+  </ul>
+</div>
+
+<div class="col-box post-toc hide">
+  <div class="col-box-title">TOC</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+<div class="wrapper">
+&copy; 2019 M. Elwardi Fadeli
+</div>
+<span><a href="/terms-of-use/">Terms Of Use</a></span>
+<span>|</span>
+<span><a href="/terms-of-use/">Privacy Policy</a></span>
+<div>
+<span>
+    <span style="padding:20px;">
+        <p
+        style="display:block;margin-left:auto;margin-right:auto;width:500px;font-size:12px;"> 
+  The <a href="http://www.openfoam.com/legal/trademark-policy.php">
+      trade mark of the OPENFOAM</a> 
+  name is held by <a href="http://openfoam.com/">ESI-OpenCFD</a>. 
+  At the moment, this offering
+  is not approved or endorsed by OpenCFD Limited, producer and distributor of the OpenFOAM
+  software and owner of the OPENFOAM® and OpenCFD® trade marks. 
+  </p>
+  </span>     
+</span>
+</div>
+</footer>
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});</script>
+<script src="/js/easybook.js"></script>
+
+
+  </body>
+
+</html>

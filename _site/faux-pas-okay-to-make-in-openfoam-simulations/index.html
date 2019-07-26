@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>5 Faux-Pas That Are Actually Okay to Make in OpenFOAM Simulations « FOAM Science; Doing CFD</title>
+  <meta name="description" content="OpenFOAM beginners often find it really hard to get a case to work; which is a‘consequence’ of several factors (I’m not talking about syntax typos here!):  B...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/faux-pas-okay-to-make-in-openfoam-simulations/">
+  <link rel="alternate" type="application/rss+xml" title="FOAM Science; Doing CFD" href="http://localhost:4000/feed.xml" />
+   <!-- Analytics -->
+ <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', '','auto');
+  ga('send', 'pageview');</script>
+
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-3635214305281166",
+              enable_page_level_ads: true
+                    });
+    </script>
+
+
+</head>
+
+
+  <body>
+
+    <div class="header-placeholder"></div>
+<header class="header">
+  <div class="wrapper">
+    <div id="sidebar-toggle">TOC</div>
+    <a class="site-title" href="/">FOAM Science; Doing CFD</a>
+    <nav class="site-nav">
+      
+        
+        <a class="page-link" href="/">Home</a>
+      
+        
+        <a class="page-link" href="/about/">About</a>
+      
+        
+        <a class="page-link" href="/contact/">Contact</a>
+      
+        
+        <a class="page-link" href="/category/">Category</a>
+      
+        
+        <a class="page-link" href="/tags/">Tags</a>
+      
+    </nav>
+  </div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="col-main">
+          <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">5 Faux-Pas That Are Actually Okay to Make in OpenFOAM Simulations</h1>
+    <p class="post-meta">Apr 13, 2018</p>
+  </header>
+
+  <article class="post-content">
+    <p>OpenFOAM beginners often find it really hard to get a case to work; which is a
+‘consequence’ of several factors (I’m not talking about syntax typos here!):</p>
+
+<ul>
+  <li>Bad <code class="highlighter-rouge">mesh</code>.</li>
+  <li>Bad <code class="highlighter-rouge">numerical schemes</code>.</li>
+  <li>Bad <code class="highlighter-rouge">solver</code> parameters.</li>
+</ul>
+
+<p>But it’s not about the things you do to break your case -You can learn about
+those ones by yourself- : It’s all about the <strong>bad things</strong> you do to your case
+that have no to little effect on the results!!
+<!--more--></p>
+
+<ul id="markdown-toc">
+  <li><a href="#1-omitting-important-stuff-in-the-dictionaries" id="markdown-toc-1-omitting-important-stuff-in-the-dictionaries">#1: Omitting important stuff in the dictionaries</a></li>
+  <li><a href="#2-the-numerical-schemes" id="markdown-toc-2-the-numerical-schemes">#2: The numerical schemes</a></li>
+  <li><a href="#3-mesh-quality" id="markdown-toc-3-mesh-quality">#3: Mesh Quality</a></li>
+  <li><a href="#4-openfoam-multiple-versions" id="markdown-toc-4-openfoam-multiple-versions">#4: OpenFOAM multiple versions</a></li>
+  <li><a href="#5-the-writeformat" id="markdown-toc-5-the-writeformat">#5: The writeFormat</a></li>
+</ul>
+
+<h2 id="1-omitting-important-stuff-in-the-dictionaries">#1: Omitting important stuff in the dictionaries</h2>
+
+<p>I’ve talked about this particular issue in an earlier post: 
+<a href="/openfoam-evolution/">OpenFOAM Evolution</a> where I
+mentioned that, starting from OpenFOAM 3.0, users can use any of the following
+<code class="highlighter-rouge">keyword-value</code> variations to express <code class="highlighter-rouge">nu</code> in the standard units:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">nu</span>              <span class="n">nu</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">2</span> <span class="o">-</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]</span> <span class="mf">0.01</span><span class="p">;</span>
+<span class="n">nu</span>              <span class="p">[</span><span class="mi">0</span> <span class="mi">2</span> <span class="o">-</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]</span> <span class="mf">0.01</span><span class="p">;</span>
+<span class="n">nu</span>              <span class="mf">0.01</span><span class="p">;</span></code></pre></figure>
+
+<p>Note that the last one is particularly dangerous: You absolutely shouldn’t put
+something that mysterious in your case files, especially if the case is run
+with a custom solver!</p>
+
+<h2 id="2-the-numerical-schemes">#2: The numerical schemes</h2>
+
+<p>Most of OpenFOAM beginners prefer to stick with the default numerical
+schemes they find in the tutorial cases; which is considered as “good practice”
+until you get excited and try to simulate something different from what the
+tutorial simulates.</p>
+
+<p>Even though OpenFOAM developers do a great job choosing perfect numerical
+schemes for tutorial cases, your case may require a slightly different scheme to
+be used.</p>
+
+<p>That’s why I like to fall back to <code class="highlighter-rouge">upwind</code> schemes whenever I’m confused! This
+is probably a bad idea!! But <code class="highlighter-rouge">upwind</code> schemes work! They really do!! Almost
+always: They may not give the most accurate results in specific circumstances though.</p>
+
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-3635214305281166" data-ad-slot="3466181841"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+
+<p>As an unspoken rule, starting simulations with:</p>
+<ul>
+  <li><code class="highlighter-rouge">leastSquares</code> as <code class="highlighter-rouge">gradSchemes</code> Unless you notice oscillations in the
+calculations of gradients (happens if the mesh is of bad quality), then fall
+back to <code class="highlighter-rouge">Gauss linear</code>.</li>
+  <li><code class="highlighter-rouge">upwind</code> or even <code class="highlighter-rouge">linearUpwind</code> as <code class="highlighter-rouge">divSchemes</code></li>
+  <li><code class="highlighter-rouge">linear limited some_value</code> as <code class="highlighter-rouge">laplacianSchemes</code> (Where <code class="highlighter-rouge">some_value</code> is 1 if
+the mesh is orthogonal, and decreases towards 0 as the mesh gains
+non-orthogonality).</li>
+</ul>
+
+<h2 id="3-mesh-quality">#3: Mesh Quality</h2>
+
+<p>You should never skip checking mesh quality with <code class="highlighter-rouge">checkMesh</code>; It’s crucial to
+know the properties of your mesh:</p>
+
+<ul>
+  <li>If the non-orthogonality is greater than 70, you should consider using non-orthogonal
+correctors.</li>
+  <li>If skewness is greater than 15, consider refining the mesh.</li>
+</ul>
+
+<p>The general rule says: If a hex-mesh’s non-orthogonality is &gt; 80, this mesh is not a
+valid one.</p>
+
+<p>However, it’s possible to tolerate high non-orthogonality values under some
+circumstances: For example, if non-orthogonal cells are not contributing to the
+flow.</p>
+
+<h2 id="4-openfoam-multiple-versions">#4: OpenFOAM multiple versions</h2>
+
+<p>Working with multiple versions of OpenFOAM is easy:</p>
+
+<ul>
+  <li>You create aliases for installed versions of the software (in <code class="highlighter-rouge">~/.bashrc</code>
+ file):</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">   <span class="c"># OpenFOAM versions</span>
+   <span class="nb">alias </span><span class="nv">fe32</span><span class="o">=</span><span class="s1">'source /opt/foam-extend-3.2/etc/bashrc'</span>
+   <span class="nb">alias </span><span class="nv">of4</span><span class="o">=</span><span class="s1">'source /opt/openfoam4/etc/bashrc'</span>
+   <span class="nb">alias </span><span class="nv">of5</span><span class="o">=</span><span class="s1">'source /opt/openfoam5/etc/bashrc'</span>
+   </code></pre></figure>
+
+<ul>
+  <li>When you open the terminal you only need to issue the command <code class="highlighter-rouge">of5</code> to load
+ OpenFOAM 5.</li>
+  <li>When you are done with it, run <code class="highlighter-rouge">wmUnset</code> to unload the shell environment and
+ use another version of the software in the current terminal.</li>
+</ul>
+
+<p>Note that this is the safest way to do this, but it’s also OK to omit unloading
+the environment if you are just simulating cases.</p>
+
+<h2 id="5-the-writeformat">#5: The writeFormat</h2>
+
+<p>Writing OpenFOAM output in ASCII format is not always a good option; if there is
+too much information to write you may run out of space or crush your system.</p>
+
+<p>In general, it’s better to write the output as binary files, and compress them
+with <code class="highlighter-rouge">gzip</code>. the only drawback of this approach is that the risk of damaging
+these files increases and there is no way to repair them if this happens!
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Disp add -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3635214305281166" data-ad-slot="6599434036" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+
+<blockquote>
+  <p>Except that you could re-run the simulation for the damaged <code class="highlighter-rouge">timeSteps</code>, of
+course.</p>
+</blockquote>
+
+<p>I would be happy if you share your experience in this subject with us in the
+comments sections.</p>
+
+  </article>
+  
+  
+
+<div class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      var disqus_shortname = 'foamscience'; // required: replace example with your forum shortname
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+</div>
+
+
+
+
+
+</div>
+
+        </div>
+        <div class="col-second">
+          <div class="col-box col-box-author">
+  <img class="avatar" src="/assets/img/FoamScience/foamscience-logo-400x400-transparent.jpg" alt="M. Elwardi Fadeli">
+  <div class="col-box-title name">M. Elwardi Fadeli</div>
+  <p></p>
+  <p class="contact">
+    
+    <a href="https://github.com/FoamScience">GitHub</a>
+    
+    
+    
+    <a href="mailto:elwardifadeli@gmail.com">Email</a>
+    
+    <a href="https://linkedin.com/in/elwardi-fadeli">LinkedIn</a>
+    
+  </p>
+</div>
+
+<div class="col-box">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- SideAds -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3635214305281166"
+     data-ad-slot="8889675473"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <div class="col-box-title">Newest Posts</div>
+  <ul class="post-list">
+    
+      <li><a class="post-link" href="/vim-openfoam-power-part2/">Customize VIM to work efficiently with OpenFOAM - Part 2</a></li>
+    
+      <li><a class="post-link" href="/vim-openfoam-power-part1/">Customize VIM to work efficiently with OpenFOAM - Part 1</a></li>
+    
+      <li><a class="post-link" href="/openscad-stock-tank-model/">Stock-Tank mesh construction using OpenSCAD</a></li>
+    
+      <li><a class="post-link" href="/openscad-cfd-usage-examples/">OpenSCAD CFD-oriented Usage Examples</a></li>
+    
+      <li><a class="post-link" href="/openscad-transformations-boolean-operations/">OpenSCAD Transformations & Boolean Operations</a></li>
+    
+  </ul>
+</div>
+
+<div class="col-box post-toc hide">
+  <div class="col-box-title">TOC</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+<div class="wrapper">
+&copy; 2019 M. Elwardi Fadeli
+</div>
+<span><a href="/terms-of-use/">Terms Of Use</a></span>
+<span>|</span>
+<span><a href="/terms-of-use/">Privacy Policy</a></span>
+<div>
+<span>
+    <span style="padding:20px;">
+        <p
+        style="display:block;margin-left:auto;margin-right:auto;width:500px;font-size:12px;"> 
+  The <a href="http://www.openfoam.com/legal/trademark-policy.php">
+      trade mark of the OPENFOAM</a> 
+  name is held by <a href="http://openfoam.com/">ESI-OpenCFD</a>. 
+  At the moment, this offering
+  is not approved or endorsed by OpenCFD Limited, producer and distributor of the OpenFOAM
+  software and owner of the OPENFOAM® and OpenCFD® trade marks. 
+  </p>
+  </span>     
+</span>
+</div>
+</footer>
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});</script>
+<script src="/js/easybook.js"></script>
+
+
+  </body>
+
+</html>

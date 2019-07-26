@@ -1,170 +1,30 @@
+---
+layout: null
+---
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>FOAM Science</title>
-    <description>A CFD blog aiming to be a place for OpenFOAM users to share and gather knowledge about CFD related subjects.
-</description>
-    <link>https://foamscience.github.io/</link>
-    <atom:link href="https://foamscience.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 14 Dec 2018 11:48:00 +0100</pubDate>
-    <lastBuildDate>Fri, 14 Dec 2018 11:48:00 +0100</lastBuildDate>
-    <generator>Jekyll v3.8.5</generator>
-    
+    <title>{{ site.title | xml_escape }}</title>
+    <description>{{ site.description | xml_escape }}</description>
+    <link>{{ site.url }}{{ site.baseurl }}/</link>
+    <atom:link href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" rel="self" type="application/rss+xml"/>
+    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+    <generator>Jekyll v{{ jekyll.version }}</generator>
+    {% for post in site.posts limit:10 %}
       <item>
-        <title>Customize VIM to work efficiently with OpenFOAM - Part 2</title>
-        <description>&lt;p&gt;We’ve seen in &lt;a href=&quot;/vim-openfoam-power-part1&quot;&gt;the previous part&lt;/a&gt; some ways to improve our interaction with OpenFOAM case directories and files. In this new post, we want to implement something that facilitates running &lt;code class=&quot;highlighter-rouge&quot;&gt;blockMesh&lt;/code&gt;, or the case solver, right from inside VIM; without going back to the shell. Of course, our implementation should catch errors in the quick fix list (if there are any), then go to the concerned file, and put the cursor on the error line.&lt;/p&gt; &lt;ul id=&quot;markdown-toc&quot;&gt; &lt;li&gt;&lt;a href=&quot;#studying-an-example-vim-compiler&quot; id=&quot;markdown-toc-studying-an-example-vim-compiler&quot;&gt;Studying an example VIM compiler&lt;/a&gt; &lt;ul&gt; &lt;li&gt;&lt;a href=&quot;#using-errorformats-to-catch-openfoam-fatal-errors&quot; id=&quot;markdown-toc-using-errorformats-to-catch-openfoam-fatal-errors&quot;&gt;Using errorformats to catch OpenFOAM Fatal Errors&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt; &lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#building-a-compiler-plugin-for-blockmesh&quot;...</description>
-        <pubDate>Tue, 28 Aug 2018 16:33:24 +0100</pubDate>
-        <link>https://foamscience.github.io/vim-openfoam-power-part2/</link>
-        <guid isPermaLink="true">https://foamscience.github.io/vim-openfoam-power-part2/</guid>
-        
-        <category>openfoam</category>
-        
-        <category>productive</category>
-        
-        
-        <category>vim productivity with openfoam</category>
-        
+        <title>{{ post.title | xml_escape }}</title>
+        <description>{{ post.content | xml_escape }}</description>
+        <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+        <link>{{ post.url | prepend: site.baseurl | prepend: site.url }}</link>
+        <guid isPermaLink="true">{{ post.url | prepend: site.baseurl | prepend: site.url }}</guid>
+        {% for tag in post.tags %}
+        <category>{{ tag | xml_escape }}</category>
+        {% endfor %}
+        {% for cat in post.categories %}
+        <category>{{ cat | xml_escape }}</category>
+        {% endfor %}
       </item>
-    
-      <item>
-        <title>Customize VIM to work efficiently with OpenFOAM - Part 1</title>
-        <description>&lt;p&gt;Today, I’m starting new (short) post series suggesting tricks to customize the &lt;strong&gt;VIM&lt;/strong&gt; text editor so it can be used to edit OpenFOAM cases more efficiently. Of course, making VIM work optimally with every single piece of software you have installed through scripting is a bit of “over-kill”; but having it configured properly is crucial.&lt;/p&gt; &lt;blockquote&gt; &lt;p&gt;These series of posts are for those who are ready to write some lines of VIML code to add interesting functionality to VIM (OpenFOAM-wise).&lt;/p&gt; &lt;/blockquote&gt; &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt; &lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;4856474507&quot;&gt;&lt;/ins&gt; &lt;script&gt; (adsbygoogle = window.adsbygoogle || []).push({}); &lt;/script&gt;&lt;/p&gt; &lt;ul...</description>
-        <pubDate>Mon, 27 Aug 2018 11:21:00 +0100</pubDate>
-        <link>https://foamscience.github.io/vim-openfoam-power-part1/</link>
-        <guid isPermaLink="true">https://foamscience.github.io/vim-openfoam-power-part1/</guid>
-        
-        <category>openfoam</category>
-        
-        <category>productive</category>
-        
-        
-        <category>vim productivity with openfoam</category>
-        
-      </item>
-    
-      <item>
-        <title>Stock-Tank mesh construction using OpenSCAD</title>
-        <description>&lt;p&gt;This post is part of a longer collection:&lt;/p&gt; &lt;ul&gt; &lt;li&gt;&lt;a href=&quot;/openscad-basics/&quot;&gt;OpenSCAD 101: Basics of the OpenSCAD language&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;/openscad-transformations-boolean-operations/&quot;&gt;OpenSCAD Transformations &amp;amp; Boolean Ops&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;/openscad-cfd-usage-examples/&quot;&gt;OpenSCAD CFD-oriented Usage Examples&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt; &lt;p&gt;I’m here featuring a very simple, quick and efficient way of constructing a (2D) stock-tank geometry and similar shapes using &lt;strong&gt;OpenSCAD&lt;/strong&gt;.&lt;/p&gt; &lt;ul id=&quot;markdown-toc&quot;&gt; &lt;li&gt;&lt;a href=&quot;#a-one-time-deal-hard-code-everything-in-openscad-scripts&quot; id=&quot;markdown-toc-a-one-time-deal-hard-code-everything-in-openscad-scripts&quot;&gt;A one time deal: Hard code everything in OpenSCAD scripts!&lt;/a&gt; &lt;ul&gt; &lt;li&gt;&lt;a href=&quot;#is-it-a-bad-idea-to-do-things-this-way&quot; id=&quot;markdown-toc-is-it-a-bad-idea-to-do-things-this-way&quot;&gt;Is it a bad idea to do things this way?&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt; &lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#parametric-design-of-a-stock-tank&quot; id=&quot;markdown-toc-parametric-design-of-a-stock-tank&quot;&gt;Parametric design of a stock tank&lt;/a&gt; &lt;ul&gt; &lt;li&gt;&lt;a href=&quot;#better-than-hard-coding-points-but-still-not-an-optimal-approach&quot; id=&quot;markdown-toc-better-than-hard-coding-points-but-still-not-an-optimal-approach&quot;&gt;Better than hard-coding points, but still not an optimal approach&lt;/a&gt;&lt;/li&gt;...</description>
-        <pubDate>Sun, 01 Jul 2018 20:02:01 +0100</pubDate>
-        <link>https://foamscience.github.io/openscad-stock-tank-model/</link>
-        <guid isPermaLink="true">https://foamscience.github.io/openscad-stock-tank-model/</guid>
-        
-        <category>openfoam</category>
-        
-        <category>openscad</category>
-        
-        <category>meshing</category>
-        
-        
-        <category>openscad basics</category>
-        
-      </item>
-    
-      <item>
-        <title>OpenSCAD CFD-oriented Usage Examples</title>
-        <description>&lt;p&gt;We’ve been learning the basics of OpenSCAD language:&lt;/p&gt; &lt;ul&gt; &lt;li&gt;&lt;a href=&quot;/openscad-basics/&quot;&gt;OpenSCAD 101: Basics of the OpenSCAD language&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;/openscad-transformations-boolean-operations/&quot;&gt;OpenSCAD Transformations &amp;amp; Boolean Ops&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt; &lt;p&gt;In this post, I’ll teach you how to build commonly used shapes using new tricks: You probably can create them already, but I want to show you the power of 2D-shapes Extrusion in OpenSCAD.&lt;/p&gt; &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt; &lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;3466181841&quot;&gt;&lt;/ins&gt; &lt;script&gt; (adsbygoogle = window.adsbygoogle || []).push({}); &lt;/script&gt;&lt;/p&gt; &lt;ul id=&quot;markdown-toc&quot;&gt; &lt;li&gt;&lt;a href=&quot;#a-parametric-t-junction-module&quot; id=&quot;markdown-toc-a-parametric-t-junction-module&quot;&gt;A parametric T-junction module.&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#a-parametric-u-like-pipe-for-openscad-2016&quot; id=&quot;markdown-toc-a-parametric-u-like-pipe-for-openscad-2016&quot;&gt;A parametric U-like pipe [For OpenSCAD 2016+]&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#a-parametric-u-like-pipe-for-older-openscad&quot; id=&quot;markdown-toc-a-parametric-u-like-pipe-for-older-openscad&quot;&gt;A parametric U-like pipe [For...</description>
-        <pubDate>Sun, 17 Jun 2018 08:45:13 +0100</pubDate>
-        <link>https://foamscience.github.io/openscad-cfd-usage-examples/</link>
-        <guid isPermaLink="true">https://foamscience.github.io/openscad-cfd-usage-examples/</guid>
-        
-        <category>openfoam</category>
-        
-        <category>openscad</category>
-        
-        <category>meshing</category>
-        
-        
-        <category>openscad basics</category>
-        
-      </item>
-    
-      <item>
-        <title>OpenSCAD Transformations &amp; Boolean Operations</title>
-        <description>&lt;p&gt;In my previous post, &lt;a href=&quot;/openscad-basics/&quot;&gt;OpenSCAD 101: Basics of the Programmers’ CAD software&lt;/a&gt;, we’ve talked about the most important commands and OpenSCAD’s language features. This time, we’ll discuss transformations (&lt;code class=&quot;highlighter-rouge&quot;&gt;translate&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;scale&lt;/code&gt;, … etc) and introduce you to a new subject: Boolean operations on primitives.&lt;/p&gt; &lt;ul id=&quot;markdown-toc&quot;&gt; &lt;li&gt;&lt;a href=&quot;#more-on-openscads-transformation-modules&quot; id=&quot;markdown-toc-more-on-openscads-transformation-modules&quot;&gt;More on OpenSCAD’s transformation modules&lt;/a&gt; &lt;ul&gt; &lt;li&gt;&lt;a href=&quot;#cascading-transformations-on-a-group-of-objects&quot; id=&quot;markdown-toc-cascading-transformations-on-a-group-of-objects&quot;&gt;Cascading transformations on a group of objects&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#scope-of-openscad-variables&quot; id=&quot;markdown-toc-scope-of-openscad-variables&quot;&gt;Scope of OpenSCAD variables&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt; &lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#boolean-operations-with-openscad&quot; id=&quot;markdown-toc-boolean-operations-with-openscad&quot;&gt;Boolean Operations with OpenSCAD&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt; &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt; &lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;3466181841&quot;&gt;&lt;/ins&gt; &lt;script&gt; (adsbygoogle = window.adsbygoogle || []).push({}); &lt;/script&gt;&lt;/p&gt; &lt;h2 id=&quot;more-on-openscads-transformation-modules&quot;&gt;More...</description>
-        <pubDate>Fri, 15 Jun 2018 07:50:02 +0100</pubDate>
-        <link>https://foamscience.github.io/openscad-transformations-boolean-operations/</link>
-        <guid isPermaLink="true">https://foamscience.github.io/openscad-transformations-boolean-operations/</guid>
-        
-        <category>openfoam</category>
-        
-        <category>openscad</category>
-        
-        <category>meshing</category>
-        
-        
-        <category>openscad basics</category>
-        
-      </item>
-    
-      <item>
-        <title>OpenSCAD 101: Basics of the Programmers' CAD software</title>
-        <description>&lt;p&gt;When it comes to &lt;code class=&quot;highlighter-rouge&quot;&gt;creating a Mesh&lt;/code&gt; for OpenFOAM, I always look for the most &lt;strong&gt;modular&lt;/strong&gt; way to do things:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;If a great control over the mesh is required, &lt;strong&gt;m4 macro language&lt;/strong&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;blockMesh&lt;/code&gt; are good choices. They are somewhat tiresome to use, but as long as they allow me to do pretty much anything I can think of; I don’t care!&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;If I can live with little control over the mesh, (which is a more frequent case) I usually follow a &lt;strong&gt;Model-it-with-CAD-then-cfMesh-it&lt;/strong&gt; approach; and there are two reasons:&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; &lt;ol&gt; &lt;li&gt;If I’m...</description>
-        <pubDate>Thu, 07 Jun 2018 13:34:02 +0100</pubDate>
-        <link>https://foamscience.github.io/openscad-basics/</link>
-        <guid isPermaLink="true">https://foamscience.github.io/openscad-basics/</guid>
-        
-        <category>openfoam</category>
-        
-        <category>openscad</category>
-        
-        <category>meshing</category>
-        
-        
-        <category>openscad basics</category>
-        
-      </item>
-    
-      <item>
-        <title>Hilarious Videos of CFD Simulations</title>
-        <description>&lt;p&gt;I can’t really think of a polished introduction to such a post, so,&lt;/p&gt; &lt;ul&gt; &lt;li&gt;This post lists some eye-catching simulations.&lt;/li&gt; &lt;li&gt;The goal is to motivate and inspire new OpenFOAM users.&lt;/li&gt; &lt;li&gt;This is not an ordered list, OK!&lt;/li&gt; &lt;li&gt;That’s it, you can start watching the videos&lt;/li&gt; &lt;/ul&gt; &lt;blockquote&gt; &lt;p&gt;I will try to keep this list of great CFD simulations updated.&lt;/p&gt; &lt;/blockquote&gt; &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt; &lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;4856474507&quot;&gt;&lt;/ins&gt; &lt;script&gt; (adsbygoogle = window.adsbygoogle || []).push({}); &lt;/script&gt;&lt;/p&gt; &lt;ul id=&quot;markdown-toc&quot;&gt; &lt;li&gt;&lt;a href=&quot;#a-simplified-openfoam-2d-model-for-a-bullet&quot; id=&quot;markdown-toc-a-simplified-openfoam-2d-model-for-a-bullet&quot;&gt;A simplified OpenFOAM 2D model for a bullet&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#shock-waves-hitting-helium-bubbles&quot; id=&quot;markdown-toc-shock-waves-hitting-helium-bubbles&quot;&gt;Shock-waves hitting helium bubbles&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#cfd-simulation-of-a-planing-hull-in-openfoam&quot; id=&quot;markdown-toc-cfd-simulation-of-a-planing-hull-in-openfoam&quot;&gt;CFD simulation...</description>
-        <pubDate>Sat, 28 Apr 2018 13:07:47 +0100</pubDate>
-        <link>https://foamscience.github.io/hilarious-cfd-simulations/</link>
-        <guid isPermaLink="true">https://foamscience.github.io/hilarious-cfd-simulations/</guid>
-        
-        <category>openfoam</category>
-        
-        <category>videos</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>5 Faux-Pas That Are Actually Okay to Make in OpenFOAM Simulations</title>
-        <description>&lt;p&gt;OpenFOAM beginners often find it really hard to get a case to work; which is a ‘consequence’ of several factors (I’m not talking about syntax typos here!):&lt;/p&gt; &lt;ul&gt; &lt;li&gt;Bad &lt;code class=&quot;highlighter-rouge&quot;&gt;mesh&lt;/code&gt;.&lt;/li&gt; &lt;li&gt;Bad &lt;code class=&quot;highlighter-rouge&quot;&gt;numerical schemes&lt;/code&gt;.&lt;/li&gt; &lt;li&gt;Bad &lt;code class=&quot;highlighter-rouge&quot;&gt;solver&lt;/code&gt; parameters.&lt;/li&gt; &lt;/ul&gt; &lt;p&gt;But it’s not about the things you do to break your case -You can learn about those ones by yourself- : It’s all about the &lt;strong&gt;bad things&lt;/strong&gt; you do to your case that have no to little effect on the results!!&lt;/p&gt; &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt; &lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;3466181841&quot;&gt;&lt;/ins&gt; &lt;script&gt; (adsbygoogle = window.adsbygoogle || []).push({}); &lt;/script&gt;&lt;/p&gt; &lt;ul...</description>
-        <pubDate>Fri, 13 Apr 2018 10:08:13 +0100</pubDate>
-        <link>https://foamscience.github.io/faux-pas-okay-to-make-in-openfoam-simulations/</link>
-        <guid isPermaLink="true">https://foamscience.github.io/faux-pas-okay-to-make-in-openfoam-simulations/</guid>
-        
-        <category>openfoam</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>The 3 Greatest Moments in Computational Fluid Dynamics History</title>
-        <description>&lt;p&gt;The CFD knowledge you know now were accumulated over the years through Trial &amp;amp; Error procedures, which lead to a continuous refinement of the concepts and techniques used in this industry.&lt;/p&gt; &lt;ul id=&quot;markdown-toc&quot;&gt; &lt;li&gt;&lt;a href=&quot;#the-first-moment-calculations-done-by-humans-but-they-did-it&quot; id=&quot;markdown-toc-the-first-moment-calculations-done-by-humans-but-they-did-it&quot;&gt;The First Moment: Calculations done by humans, but they did it!&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#the-second-moment-the-first-functional-model&quot; id=&quot;markdown-toc-the-second-moment-the-first-functional-model&quot;&gt;The Second Moment: The First Functional Model!&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#the-third-moment-the-finite-volume-method&quot; id=&quot;markdown-toc-the-third-moment-the-finite-volume-method&quot;&gt;The Third Moment: The Finite Volume Method&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt; &lt;p&gt;Predicting simple shear flows, free and confined jet flows wasn’t always a simple task: This article showcases the most important “moments” in CFD history; from my personal point of view of course!&lt;/p&gt; &lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;...</description>
-        <pubDate>Wed, 28 Mar 2018 09:33:34 +0100</pubDate>
-        <link>https://foamscience.github.io/greatest-moments-computational-fluid-dynamics/</link>
-        <guid isPermaLink="true">https://foamscience.github.io/greatest-moments-computational-fluid-dynamics/</guid>
-        
-        <category>openfoam</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>The Evolution of OpenFOAM</title>
-        <description>&lt;p&gt;OpenFOAM was originally a commercial product called &lt;strong&gt;FOAM&lt;/strong&gt;, and it was first released as an “Open Source Software” in December 2004 (Under the &lt;a href=&quot;https://en.wikipedia.org/wiki/GNU_General_Public_License&quot;&gt;GNU GPL&lt;/a&gt;, renamed OpenFOAM since then).&lt;/p&gt; &lt;ul id=&quot;markdown-toc&quot;&gt; &lt;li&gt;&lt;a href=&quot;#openfoam-1x&quot; id=&quot;markdown-toc-openfoam-1x&quot;&gt;OPENFOAM 1.x&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#openfoam-2x&quot; id=&quot;markdown-toc-openfoam-2x&quot;&gt;OPENFOAM 2.x&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#openfoam-3x&quot; id=&quot;markdown-toc-openfoam-3x&quot;&gt;OPENFOAM 3.x&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#openfoam-4x&quot; id=&quot;markdown-toc-openfoam-4x&quot;&gt;OPENFOAM 4.x&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#openfoam-5x--updated-17082018&quot; id=&quot;markdown-toc-openfoam-5x--updated-17082018&quot;&gt;OPENFOAM 5.x [Updated: 17/08/2018]&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;#openfoam-60--updated-17082018&quot; id=&quot;markdown-toc-openfoam-60--updated-17082018&quot;&gt;OPENFOAM 6.0 [Updated: 17/08/2018]&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt; &lt;p&gt;This act had great effects on OpenFOAM’s user base and started to build a vast caring community. In this post, I’m going to showcase the major improvements introduced to OpenFOAM (official) code from the beginning (&lt;code class=&quot;highlighter-rouge&quot;&gt;OF1.0&lt;/code&gt;) up until...</description>
-        <pubDate>Mon, 26 Mar 2018 11:22:10 +0100</pubDate>
-        <link>https://foamscience.github.io/openfoam-evolution/</link>
-        <guid isPermaLink="true">https://foamscience.github.io/openfoam-evolution/</guid>
-        
-        <category>openfoam</category>
-        
-        <category>evolution</category>
-        
-        
-      </item>
-    
+    {% endfor %}
   </channel>
 </rss>

@@ -16,10 +16,10 @@ I can't really think of a polished introduction to such a post, so,
 * The goal is to motivate and inspire new OpenFOAM users.
 * This is not an ordered list, OK!
 * That's it, you can start watching the videos
+<!--more-->
 
 > I will try to keep this list of great CFD simulations updated.
 
-{% include ad3.html %}
 
 
 * greatest moments in CFD
@@ -34,6 +34,7 @@ shock wave fields).
 The simulation was conducted by **GDTech Belgium** and was published around the
 end of 2014.
 
+{% include ad2.html %}
 {% include youtube.html id="D6iuVr9V6os" %}
 
 ## Shock-waves hitting helium bubbles
@@ -74,6 +75,7 @@ Well, OpenFOAM always has the upper hand when it comes to being `open source`!
 I wasn't sure if CFD engineers could pull something so serious -until I watched this video-, but **Clemens Lischka** 
 did it and published the results 2 years ago!
 
+{% include ad3.html %}
 {% include youtube.html id="-d_zYeqebco" %}
 
 ## CFDSupport's Transient sports car simulation
@@ -88,7 +90,6 @@ really serious about it:
 > great CFD simulation (OpenFOAM is preferred, but you can link to any other
 > CFD software simulation ...).
 
-{% include ad2.html %}
 
 ## [Update: 28/07/2018] NASA's Aircraft landing gear air flow simulation
 

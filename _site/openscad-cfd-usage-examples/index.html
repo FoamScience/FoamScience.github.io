@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>OpenSCAD CFD-oriented Usage Examples « FOAM Science; Doing CFD</title>
+  <meta name="description" content="We’ve been learning the basics of OpenSCAD language:  OpenSCAD 101: Basics of the OpenSCAD language  OpenSCAD Transformations &amp; Boolean OpsIn this post, ...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/openscad-cfd-usage-examples/">
+  <link rel="alternate" type="application/rss+xml" title="FOAM Science; Doing CFD" href="http://localhost:4000/feed.xml" />
+   <!-- Analytics -->
+ <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', '','auto');
+  ga('send', 'pageview');</script>
+
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-3635214305281166",
+              enable_page_level_ads: true
+                    });
+    </script>
+
+
+</head>
+
+
+  <body>
+
+    <div class="header-placeholder"></div>
+<header class="header">
+  <div class="wrapper">
+    <div id="sidebar-toggle">TOC</div>
+    <a class="site-title" href="/">FOAM Science; Doing CFD</a>
+    <nav class="site-nav">
+      
+        
+        <a class="page-link" href="/">Home</a>
+      
+        
+        <a class="page-link" href="/about/">About</a>
+      
+        
+        <a class="page-link" href="/contact/">Contact</a>
+      
+        
+        <a class="page-link" href="/category/">Category</a>
+      
+        
+        <a class="page-link" href="/tags/">Tags</a>
+      
+    </nav>
+  </div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="col-main">
+          <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">OpenSCAD CFD-oriented Usage Examples</h1>
+    <p class="post-meta">Jun 17, 2018</p>
+  </header>
+
+  <article class="post-content">
+    <p>We’ve been learning the basics of OpenSCAD language:</p>
+<ul>
+  <li><a href="/openscad-basics/">OpenSCAD 101: Basics of the OpenSCAD language</a></li>
+  <li><a href="/openscad-transformations-boolean-operations/">OpenSCAD Transformations &amp; Boolean Ops</a></li>
+</ul>
+
+<p>In this post, I’ll teach you how to build commonly used shapes using new tricks:
+You probably can create them already, but I want to show you the power of
+2D-shapes Extrusion in OpenSCAD.
+<!--more--></p>
+
+<ul id="markdown-toc">
+  <li><a href="#a-parametric-t-junction-module" id="markdown-toc-a-parametric-t-junction-module">A parametric T-junction module.</a></li>
+  <li><a href="#a-parametric-u-like-pipe-for-openscad-2016" id="markdown-toc-a-parametric-u-like-pipe-for-openscad-2016">A parametric U-like pipe [For OpenSCAD 2016+]</a></li>
+  <li><a href="#a-parametric-u-like-pipe-for-older-openscad" id="markdown-toc-a-parametric-u-like-pipe-for-older-openscad">A parametric U-like pipe [For older OpenSCAD]</a></li>
+  <li><a href="#an-even-better-ushape-module" id="markdown-toc-an-even-better-ushape-module">An Even Better Ushape module</a></li>
+  <li><a href="#a-bottle-of-water" id="markdown-toc-a-bottle-of-water">A Bottle of water</a>    <ul>
+      <li><a href="#a-simple-model" id="markdown-toc-a-simple-model">A simple model</a></li>
+      <li><a href="#a-more-complicated-model" id="markdown-toc-a-more-complicated-model">A more complicated model</a></li>
+    </ul>
+  </li>
+  <li><a href="#exporting-models-to-stl-format" id="markdown-toc-exporting-models-to-stl-format">Exporting models to STL format</a></li>
+</ul>
+
+<blockquote>
+  <p>One of the most important lessons I learned while working with OpenSCAD is
+that I
+absolutely have to keep my models “parametric” no matter what!</p>
+</blockquote>
+
+<h2 id="a-parametric-t-junction-module">A parametric T-junction module.</h2>
+
+<p>First, let’s learn how to manipulate module parameters (arguments) efficiently:</p>
+
+<ol>
+  <li>You already know that you can specify a default value for a parameter.</li>
+  <li><code class="highlighter-rouge">cylinder(r=1,h=2)</code> and <code class="highlighter-rouge">cylinder(r1=1, r2=2, h=5)</code> both work fine because
+the cylinder module is set up in a way that if only one radius is supplied,
+it’s considered as “cylinder radius”; but if two are supplied, the module
+produces a cone like shape.</li>
+  <li>At the moment, OpenSCAD doesn’t support setting a module’s parameter value as the
+default value of another one, i.e. the command <code class="highlighter-rouge">module dum(p1,p2=p1) {echo(p2);}</code> 
+will result in a warning: “Ignoring unknown variable p1”, and the <code class="highlighter-rouge">echo</code> command
+will say that <code class="highlighter-rouge">p2</code> is <code class="highlighter-rouge">undef</code>.</li>
+</ol>
+
+<p>The following example shows a way of dealing with such situations where we want
+to use a second radius only if the user says so.</p>
+
+<p>The T-Junction shape I have in mind is illustrated in the following image 
+(Well, this is actually the resulting one …):</p>
+
+<p><img src="/assets/img/OpenSCAD/openscad-tjunction.jpg" alt="OpenSCAD T-Junction Model" /></p>
+
+<blockquote>
+  <p>If you have any questions, don’t hesitate, fire at me in the comments section.</p>
+</blockquote>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+    Create an object module called tJunction.
+    Parameters:
+    - mr1: Main cylinder radius in mm
+    - mh:  Main cylinder height in mm
+    - ar1: Additional cylinder radius in mm
+    - ah:  Additional cylinder height in mm
+    [Optional parameters, for cone-like shapes]
+    - mr2: Second main cylinder radius in mm 
+    - ar2: Second additional cylinder radius in mm 
+
+    This module creates a T-shaped pipe (pointing up in z-direction).
+*/</span>
+<span class="n">module</span> <span class="nf">tJunction</span><span class="p">(</span><span class="n">mr1</span><span class="p">,</span><span class="n">mh</span><span class="p">,</span><span class="n">ar1</span><span class="p">,</span><span class="n">ah</span><span class="p">,</span> <span class="n">mr2</span><span class="p">,</span><span class="n">ar2</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// First check that the main cylinder is wider
+</span>    <span class="k">if</span> <span class="p">(</span><span class="n">mr1</span><span class="o">&lt;</span><span class="n">ar1</span><span class="p">){</span> 
+       <span class="c1">// ECHO knows HTML 
+</span>       <span class="c1">// Use checkMesh-like indicators (***) for auto error finding
+</span>        <span class="n">echo</span><span class="p">(</span><span class="s">"&lt;font color='red'&gt;*** Check cylinders dimensions&lt;/font&gt;"</span><span class="p">);</span>
+    <span class="p">}</span>   
+    
+    <span class="c1">// If optional parameters are not defined,
+</span>    <span class="c1">// Use only the main ones.
+</span>    <span class="n">mr2</span> <span class="o">=</span> <span class="p">(</span><span class="n">mr2</span> <span class="o">==</span> <span class="n">undef</span><span class="p">)</span> <span class="o">?</span> <span class="n">mr1</span><span class="o">:</span> <span class="n">mr2</span><span class="p">;</span>
+    <span class="n">ar2</span> <span class="o">=</span> <span class="p">(</span><span class="n">ar2</span> <span class="o">==</span> <span class="n">undef</span><span class="p">)</span> <span class="o">?</span> <span class="n">ar1</span><span class="o">:</span> <span class="n">ar2</span><span class="p">;</span>
+
+    <span class="c1">// Build the actual thing
+</span>    <span class="k">union</span><span class="p">(){</span>
+        <span class="n">rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="n">cylinder</span><span class="p">(</span><span class="n">r1</span><span class="o">=</span><span class="n">mr1</span><span class="p">,</span><span class="n">r2</span><span class="o">=</span><span class="n">mr2</span><span class="p">,</span><span class="n">h</span><span class="o">=</span><span class="n">mh</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+        <span class="n">cylinder</span><span class="p">(</span><span class="n">r1</span><span class="o">=</span><span class="n">ar1</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">ar2</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">ah</span><span class="p">);</span>
+    <span class="p">}</span>   
+<span class="p">}</span>
+
+<span class="c1">// An example
+</span><span class="n">tJunction</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="mi">60</span><span class="p">);</span>
+<span class="cm">/* translate(-[100,0,0]) tJunction(12,100,5,50,5,3, $fn=60); */</span>
+
+</code></pre></div></div>
+
+<h2 id="a-parametric-u-like-pipe-for-openscad-2016">A parametric U-like pipe [For OpenSCAD 2016+]</h2>
+
+<p>There are generally two ways to create 3D shapes out of 2D ones with OpenSCAD:</p>
+
+<ul>
+  <li><strong>Linear Extrusion:</strong> Extruding a 2D shape in a single direction
+(Specifically, in the z-direction), but the shape can be twisted!</li>
+  <li><strong>Rotating Extrusion:</strong> Rotating a 2D shape around the Z-axis to create a
+symmetric shape (Rotational symmetry).</li>
+</ul>
+
+<p>… And there is a command for each method: <code class="highlighter-rouge">linear_extrude</code> and <code class="highlighter-rouge">rotate_extrude</code>.</p>
+
+<p>Let’s see what parameters we need to specify in order to build a U-shaped pipe:</p>
+
+<p><img src="/assets/img/OpenSCAD/openscad-ushape.jpg" alt="OpenSCAD UShaped pipe" /></p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+    Create an object module named Ushape.
+    Parameters:
+    - ur1: Pipe radius.
+    - ur2: 2*ur2 is the center-to-center distance between 
+           the extensions of U shape.
+    - uh: length of these extensions.
+    Requires OpenSCAD 2016.xx or newer because:
+    ** It uses the angle argument **
+    
+    Makes use of standard extrusions to build
+    a U-shaped pipe.
+*/</span>
+<span class="n">module</span> <span class="nf">Ushape</span><span class="p">(</span><span class="n">ur1</span><span class="p">,</span> <span class="n">ur2</span> <span class="p">,</span><span class="n">uh</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// Circle resolution
+</span>    <span class="n">cRes</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>
+    <span class="c1">// Extrusion resolution
+</span>    <span class="n">eRes</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+
+    <span class="k">union</span><span class="p">(){</span>
+        <span class="c1">// The rounded part
+</span>        <span class="n">rotate_extrude</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span> <span class="n">convexity</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">eRes</span><span class="p">)</span>
+               <span class="n">translate</span><span class="p">([</span><span class="n">ur2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="n">circle</span><span class="p">(</span><span class="n">ur1</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">cRes</span><span class="p">);</span>
+
+        <span class="c1">// U extensions
+</span>        <span class="n">rotate</span><span class="p">([</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">uh</span><span class="p">,</span><span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">eRes</span><span class="p">)</span>
+               <span class="n">translate</span><span class="p">([</span><span class="n">ur2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="n">circle</span><span class="p">(</span><span class="n">ur1</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">cRes</span><span class="p">);</span>
+        <span class="n">rotate</span><span class="p">([</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">uh</span><span class="p">,</span><span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">eRes</span><span class="p">)</span>
+               <span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="n">ur2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="n">circle</span><span class="p">(</span><span class="n">ur1</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">cRes</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="c1">// Simple example usage:
+// Ushape(2,10,20);
+</span>
+<span class="c1">// Hollow U-shape
+</span><span class="n">difference</span><span class="p">(){</span>
+<span class="n">Ushape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">);</span>
+<span class="n">Ushape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mf">20.01</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>It’s important that you learn more about these extrusion commands from the
+<a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/2D_to_3D_Extrusion#Rotate_Extrude">[User
+Manual]</a></p>
+</blockquote>
+
+<h2 id="a-parametric-u-like-pipe-for-older-openscad">A parametric U-like pipe [For older OpenSCAD]</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+    Create an object module named Ushape.
+    Parameters:
+    - ur1: Pipe radius.
+    - ur2: 2*ur2 is the center-to-center distance between 
+           the extensions of U shape.
+    - uh: length of these extensions.
+    Works with all OpenSCAD versions:
+    Instead of using the new "angle" argument,
+    use an intersection to get the same effect.
+    Makes use of standard extrusions to build
+    a U-shaped pipe.
+*/</span>
+<span class="n">module</span> <span class="nf">Ushape</span><span class="p">(</span><span class="n">ur1</span><span class="p">,</span> <span class="n">ur2</span> <span class="p">,</span><span class="n">uh</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// Circle resolution
+</span>    <span class="n">cRes</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>
+    <span class="c1">// Extrusion resolution
+</span>    <span class="n">eRes</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+
+    <span class="k">union</span><span class="p">(){</span>
+    <span class="c1">// The rounded part
+</span>        <span class="n">intersection</span><span class="p">(){</span> <span class="c1">// Intersect the extruded circle with a cube
+</span>        <span class="n">rotate_extrude</span><span class="p">(</span><span class="n">convexity</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">eRes</span><span class="p">)</span>
+               <span class="n">translate</span><span class="p">([</span><span class="n">ur2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="n">circle</span><span class="p">(</span><span class="n">ur1</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">cRes</span><span class="p">);</span>
+        <span class="cp"># translate([0,(ur2+ur1),0])
+</span>            <span class="n">cube</span><span class="p">([</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">ur2</span><span class="o">+</span><span class="n">ur1</span><span class="p">),</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">ur2</span><span class="o">+</span><span class="n">ur1</span><span class="p">),</span><span class="mi">2</span><span class="o">*</span><span class="n">ur1</span><span class="p">],</span><span class="n">center</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="c1">// U extensions
+</span>        <span class="n">rotate</span><span class="p">([</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">uh</span><span class="p">,</span><span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">eRes</span><span class="p">)</span>
+               <span class="n">translate</span><span class="p">([</span><span class="n">ur2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="n">circle</span><span class="p">(</span><span class="n">ur1</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">cRes</span><span class="p">);</span>
+        <span class="n">rotate</span><span class="p">([</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">uh</span><span class="p">,</span><span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">eRes</span><span class="p">)</span>
+               <span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="n">ur2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="n">circle</span><span class="p">(</span><span class="n">ur1</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">cRes</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Don’t forget to remove the highlighter (#) from the cube command.</p>
+</blockquote>
+
+<h2 id="an-even-better-ushape-module">An Even Better Ushape module</h2>
+
+<p>Why limiting ourselves to circles? Indeed, there is no reason, so, we can
+upgrade our previous model to take in any 2D shape (hopefully) and use it when
+creating the U shape.</p>
+
+<p>The transition is simple:</p>
+<ul>
+  <li>Remove instructions and variables (Resolution and Radius variables) that
+are related to the base circle in old module.</li>
+  <li>Replace every instance of the circle with <code class="highlighter-rouge">children(0)</code> (The first item in the
+children list).</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+    Create an operator module named Ushape.
+    Parameters:
+    - ur: 2*ur is the center-to-center distance between 
+           the extensions of U shape.
+    - uh: length of these extensions.
+    Children:
+    - Use only one child object
+    Requires OpenSCAD 2016.xx or newer because:
+    ** It uses the angle argument **
+    
+    Makes use of standard extrusions to build
+    a U-shaped pipe.
+*/</span>
+<span class="n">module</span> <span class="nf">Ushape</span><span class="p">(</span><span class="n">ur</span> <span class="p">,</span><span class="n">uh</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// Extrusion resolution
+</span>    <span class="n">eRes</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span> 
+
+    <span class="k">union</span><span class="p">(){</span>
+        <span class="c1">// The rounded part
+</span>        <span class="n">rotate_extrude</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span> <span class="n">convexity</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">eRes</span><span class="p">)</span>
+               <span class="n">translate</span><span class="p">([</span><span class="n">ur</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="n">children</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> 
+
+        <span class="c1">// U extensions
+</span>        <span class="n">rotate</span><span class="p">([</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">uh</span><span class="p">,</span><span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">eRes</span><span class="p">)</span>
+               <span class="n">translate</span><span class="p">([</span><span class="n">ur</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="n">children</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+        <span class="n">rotate</span><span class="p">([</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="n">linear_extrude</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">uh</span><span class="p">,</span><span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="n">eRes</span><span class="p">)</span>
+               <span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="n">ur</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="n">children</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="p">}</span>   
+
+<span class="p">}</span>
+
+<span class="c1">// Hollow U-shape
+</span><span class="n">difference</span><span class="p">(){</span>
+    <span class="n">Ushape</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span> <span class="p">{</span><span class="n">scale</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mf">.7</span><span class="p">])</span> <span class="n">circle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="mi">30</span><span class="p">);};</span>
+    <span class="n">Ushape</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mf">20.01</span><span class="p">)</span> <span class="p">{</span><span class="n">circle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="mi">30</span><span class="p">);};</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>The previous example should produce something like this:</p>
+
+<p><img src="/assets/img/OpenSCAD/openscad-operator-ushape.jpg" alt="OpenSCAD operator module Ushape" /></p>
+
+<blockquote>
+
+  <blockquote>
+    <p>Note: These modules produce a medium-quality STLs (in terms of Triangle
+Quality), but this can be easily improved if you are in dire need of quality
+triangles.</p>
+  </blockquote>
+
+  <blockquote>
+    <p>You can check these models using OpenFOAM’s <code class="highlighter-rouge">surfaceCheck</code> utility after
+exporting them to STL files.</p>
+  </blockquote>
+
+</blockquote>
+
+<h2 id="a-bottle-of-water">A Bottle of water</h2>
+
+<h3 id="a-simple-model">A simple model</h3>
+
+<p>Extrusion commands are best used with <code class="highlighter-rouge">polygons</code>; This example illustrate how
+simple it is to model a bottle of water in OpenSCAD. Of course, the approach
+used here is my own way of dealing with simple problems efficiently; For more
+complicated shapes, I’ll show you another way to make the most of <code class="highlighter-rouge">rotate_extrude</code>.</p>
+
+<p>First, we have to get a simple blueprint for a bottle of water.</p>
+
+<p><a href="https://us.123rf.com/450wm/maralingstad/maralingstad1509/maralingstad150901356/45434655-vector-blueprint-water-bottle-on-engineer-or-architect-background-.jpg">This picture</a> is good enough.</p>
+
+<p>I usually use <a href="https://automeris.io/WebPlotDigitizer">WepPlotDigitizer</a> 
+   to extract the coordinates of the most important points in the shape:</p>
+
+<p>In this case, I chose the center of the main circle as an origin of
+coordinates system (Both axes are chosen to match the featured “diameters”).</p>
+
+<p>In the following picture:</p>
+<ul>
+  <li><code class="highlighter-rouge">X1</code> and <code class="highlighter-rouge">Y1</code> are at the origin.</li>
+  <li><code class="highlighter-rouge">X2= (1,0)</code></li>
+  <li><code class="highlighter-rouge">Y2= (0,3)</code></li>
+</ul>
+
+<p><img src="/assets/img/OpenSCAD/openscad-bottle-coords.png" alt="OpenSCAD bottle coords" /></p>
+
+<p>Next we mark some points on one half of the bottle (so we can rotate it later):</p>
+
+<ul>
+  <li>The order of these points is actually not important because the <code class="highlighter-rouge">polygon</code>
+command in OpenSCAD has a <code class="highlighter-rouge">paths</code> option to specify the correct order of
+linked points, but this is extra work; Thus, make sure you create a manifold
+polygon while selecting these points.</li>
+</ul>
+
+<p><img src="/assets/img/OpenSCAD/openscad-bottle-points.png" alt="WebPlotDigitizer bottle" /></p>
+
+<p>Point coordinates can be viewed by Pressing <code class="highlighter-rouge">View Data</code> under the <code class="highlighter-rouge">Dataset</code> tab in
+<code class="highlighter-rouge">WebPlotDigitizer</code>:</p>
+
+<p><img src="/assets/img/OpenSCAD/openscad-bottle-data.png" alt="WebPlotDigitizer bottle" /></p>
+
+<p>Finally, creating the actual bottle model is as easy as executing the command:</p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create points vector
+</span><span class="n">pnts</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="mf">0.000</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.458</span><span class="p">],</span>
+         <span class="p">[</span><span class="mf">1.033</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.458</span><span class="p">],</span>
+         <span class="p">[</span><span class="mf">1.100</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.395</span><span class="p">],</span>
+         <span class="p">[</span><span class="mf">1.100</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.553</span><span class="p">],</span>
+         <span class="p">[</span><span class="mf">0.433</span><span class="p">,</span> <span class="mf">2.842</span><span class="p">],</span>
+         <span class="p">[</span><span class="mf">0.367</span><span class="p">,</span> <span class="mf">2.905</span><span class="p">],</span>
+         <span class="p">[</span><span class="mf">0.300</span><span class="p">,</span> <span class="mf">3.000</span><span class="p">],</span>
+         <span class="p">[</span><span class="mf">0.000</span><span class="p">,</span> <span class="mf">3.000</span><span class="p">]</span> <span class="p">];</span>
+<span class="c1">// Create the polygon and rotate it.
+</span><span class="n">rotate_extrude</span><span class="p">(</span><span class="n">convexity</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="n">polygon</span><span class="p">(</span><span class="n">pnts</span><span class="o">*</span><span class="mi">10</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <blockquote>
+    <p>Note that we can omit point’s z-coordinate if it’s <code class="highlighter-rouge">0</code>.</p>
+  </blockquote>
+
+  <blockquote>
+    <p>Using a decent text editor is crucial here: In VIM, 
+you can create the <code class="highlighter-rouge">pnts</code> vector with only one command
+(applied to the text in previous figure).
+<code class="highlighter-rouge">:1,8 g/^/ exe "norm! A],\&lt;Esc&gt;I["</code><br />
+Done! Now you only have to delete the last <code class="highlighter-rouge">,</code></p>
+    <ul>
+      <li><code class="highlighter-rouge">1</code> is the first line’s number, and <code class="highlighter-rouge">8</code> is the last one.</li>
+      <li>If you want to know more, ask in the comments.</li>
+    </ul>
+  </blockquote>
+</blockquote>
+
+<p>This should result in the following model:</p>
+
+<p><img src="/assets/img/OpenSCAD/openscad-bottle-water.jpg" alt="OpenSCAD Bottle Model" /></p>
+
+<h3 id="a-more-complicated-model">A more complicated model</h3>
+
+<p>If you want an exact match to your sketch, you can follow the following approach:</p>
+<ol>
+  <li>Create an SVG-path file using <code class="highlighter-rouge">GIMP</code> and <code class="highlighter-rouge">LibreCAD</code> for your model.</li>
+  <li>Convert the SVG file to DXF using <code class="highlighter-rouge">inkscape</code> and <code class="highlighter-rouge">pstoedit</code>.</li>
+  <li>Get it into OpenSCAD and use <code class="highlighter-rouge">rotate_extrude</code> on it.</li>
+</ol>
+
+<p>An example SVG file for a sample bottle of water can be found
+<a href="/assets/img/OpenSCAD/openscad-path-bottle.svg">here</a></p>
+
+<p>It looks like this:</p>
+
+<p><img src="/assets/img/OpenSCAD/openscad-path-bottle.png" alt="OpenSCAD SVG path" /></p>
+
+<p>Now, let’s convert this SVG file to an OpenSCAD-compatible DXF:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>inkscape <span class="nt">-E</span> intermediate.eps openscad-path-bottle.svg
+<span class="nv">$ </span>pstoedit <span class="nt">-dt</span> <span class="nt">-f</span> dxf:-polyaslines<span class="se">\ </span><span class="nt">-mm</span> intermediate.eps openscad-path-bottle.dxf
+</code></pre></div></div>
+
+<ul>
+  <li>The first command uses <code class="highlighter-rouge">inkscape</code> to convert the SVG file to the EPS format.</li>
+  <li>The second one uses <code class="highlighter-rouge">pstoedit</code> to convert the resulting EPS file to a DXF
+file.</li>
+</ul>
+
+<blockquote>
+  <p>Note that the <code class="highlighter-rouge">-polyaslines</code> option is very important as OpenSCAD doesn’t
+support curved lines in DXF files.</p>
+</blockquote>
+
+<p>To use <code class="highlighter-rouge">openscad-path-bottle.dxf</code> put it in the same directory as the following
+script (2D shape highlighted):</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Easy as eveything else in OpenSCAD
+</span><span class="n">rotate_extrude</span><span class="p">(</span><span class="n">convexity</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="cp">#import("openscad-path-bottle.dxf");
+</span></code></pre></div></div>
+
+<p>Which will result in the following shape:</p>
+
+<p><img src="/assets/img/OpenSCAD/openscad-bottle-svg.png" alt="OpenSCAD STL bottle" /></p>
+
+<p>Hey, why don’t you try this for fun (Try it multiple times):</p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">function</span> <span class="n">polyR</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span><span class="p">[</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="o">:</span><span class="mi">20</span><span class="o">:</span><span class="mi">180</span><span class="p">])</span>
+    <span class="p">[</span><span class="n">rands</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="mi">90</span><span class="o">-</span><span class="n">i</span><span class="p">),</span> <span class="n">rands</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="mi">90</span><span class="o">-</span><span class="n">i</span><span class="p">)]</span>
+<span class="p">];</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="n">polyR</span><span class="p">();</span>
+<span class="n">rotate_extrude</span><span class="p">(</span><span class="n">convexity</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="n">scale</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="n">polygon</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="exporting-models-to-stl-format">Exporting models to STL format</h2>
+
+<p>To export your geometry models to STL files, you can either:</p>
+<ul>
+  <li>Use the GUI: <code class="highlighter-rouge">File &gt; Export &gt; Export as STL ...</code> after rendering the model (with <code class="highlighter-rouge">F6</code>).</li>
+  <li>Or, from the command line:</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>openscad file.scad <span class="nt">-o</span> file.stl
+</code></pre></div></div>
+
+<p>By default, OpenSCAD exports everything as a single region (named
+<code class="highlighter-rouge">OpenSCAD_Model</code>) to an ASCII STL file. You’ll learn how to improve this
+behavior in the next posts.</p>
+
+<blockquote>
+  <p>All the models described here are fairly simple and OpenFOAM’s <code class="highlighter-rouge">autoPatch</code> can
+handle separating mesh boundary patches later efficiently!</p>
+</blockquote>
+
+<p>That’s all for today, I hope this was a useful post; see you in the next one!</p>
+
+  </article>
+  
+  
+
+<div class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      var disqus_shortname = 'foamscience'; // required: replace example with your forum shortname
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+</div>
+
+
+
+
+
+</div>
+
+        </div>
+        <div class="col-second">
+          <div class="col-box col-box-author">
+  <img class="avatar" src="/assets/img/FoamScience/foamscience-logo-400x400-transparent.jpg" alt="M. Elwardi Fadeli">
+  <div class="col-box-title name">M. Elwardi Fadeli</div>
+  <p></p>
+  <p class="contact">
+    
+    <a href="https://github.com/FoamScience">GitHub</a>
+    
+    
+    
+    <a href="mailto:elwardifadeli@gmail.com">Email</a>
+    
+    <a href="https://linkedin.com/in/elwardi-fadeli">LinkedIn</a>
+    
+  </p>
+</div>
+
+<div class="col-box">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- SideAds -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3635214305281166"
+     data-ad-slot="8889675473"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <div class="col-box-title">Newest Posts</div>
+  <ul class="post-list">
+    
+      <li><a class="post-link" href="/vim-openfoam-power-part2/">Customize VIM to work efficiently with OpenFOAM - Part 2</a></li>
+    
+      <li><a class="post-link" href="/vim-openfoam-power-part1/">Customize VIM to work efficiently with OpenFOAM - Part 1</a></li>
+    
+      <li><a class="post-link" href="/openscad-stock-tank-model/">Stock-Tank mesh construction using OpenSCAD</a></li>
+    
+      <li><a class="post-link" href="/openscad-cfd-usage-examples/">OpenSCAD CFD-oriented Usage Examples</a></li>
+    
+      <li><a class="post-link" href="/openscad-transformations-boolean-operations/">OpenSCAD Transformations & Boolean Operations</a></li>
+    
+  </ul>
+</div>
+
+<div class="col-box post-toc hide">
+  <div class="col-box-title">TOC</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+<div class="wrapper">
+&copy; 2019 M. Elwardi Fadeli
+</div>
+<span><a href="/terms-of-use/">Terms Of Use</a></span>
+<span>|</span>
+<span><a href="/terms-of-use/">Privacy Policy</a></span>
+<div>
+<span>
+    <span style="padding:20px;">
+        <p
+        style="display:block;margin-left:auto;margin-right:auto;width:500px;font-size:12px;"> 
+  The <a href="http://www.openfoam.com/legal/trademark-policy.php">
+      trade mark of the OPENFOAM</a> 
+  name is held by <a href="http://openfoam.com/">ESI-OpenCFD</a>. 
+  At the moment, this offering
+  is not approved or endorsed by OpenCFD Limited, producer and distributor of the OpenFOAM
+  software and owner of the OPENFOAM® and OpenCFD® trade marks. 
+  </p>
+  </span>     
+</span>
+</div>
+</footer>
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});</script>
+<script src="/js/easybook.js"></script>
+
+
+  </body>
+
+</html>

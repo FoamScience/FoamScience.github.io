@@ -19,11 +19,11 @@ In this new post, we want to implement something that facilitates
 running `blockMesh`, or the case solver, right from inside VIM; without going back to the shell.
 Of course, our implementation should catch errors in the quick fix list (if there are any), 
 then go to the concerned file, and put the cursor on the error line.
+<!--more-->
 
 * OpenFOAM cases with VIM
 {: toc}
 
-{% include ad1.html %}
 
 For this, we'll use two main VIM facilities: *VIM compilers* and *QuickFix* list.
 The compilers are used to automatically run a shell command on a file; For example:
@@ -51,16 +51,16 @@ format of error lines) and `makeprg` (make program, the shell executable to run)
 
 As an example, let's go through the *ant-compiler* line by line:
 
-{% highlight vim %}
+~~~vim
 " Vim Compiler File
 " Compiler:	ant
 " Maintainer:	Johannes Zellner <johannes@zellner.org>
 " Last Change:	Mi, 13 Apr 2005 22:50:07 CEST
-{% endhighlight %}
+~~~
 
 The header, just for information, then we have some checks to perform:
 
-{% highlight vim %}
+~~~vim
 if exists("current_compiler")
     finish
 endif
@@ -70,7 +70,7 @@ if exists(":CompilerSet") != 2		" older Vim always used :setlocal
   command -nargs=* CompilerSet setlocal <args>
 endif
 
-{% endhighlight %}
+~~~
 
 The first if structure checks if the compiler is already set (if it's the case, vim will leave the script). 
 If not, it
@@ -88,7 +88,7 @@ you execute the ex-command `:make`, VIM runs `ant` in a shell, and watches for i
 shows VIM how to find the error line and what to extract from it (explained in more
 details in the next section).
 
-{% highlight vim %}
+~~~vim
 let s:cpo_save = &cpo
 set cpo&vim
 
@@ -113,7 +113,7 @@ CompilerSet errorformat=\ %#[%.%#]\ %#%f:%l:%v:%*\\d:%*\\d:\ %t%[%^:]%#:%m,
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
-{% endhighlight %}
+~~~
 
 
 ### Using errorformats to catch OpenFOAM Fatal Errors
@@ -142,9 +142,9 @@ browse errors when the tool fails. For this, we need to create our custom-compil
 Copy the `ant.vim` compiler to that directory and rename it as `blockMesh.vim`, on Unix
 systems, one can say:
 
-{% highlight bash %}
+~~~bash
 cp /usr/share/vim/vim74/compiler/ant.vim ~/.vim/compiler/blockMesh.vim
-{% endhighlight %}
+~~~
 
 Modify the header so it suits your preferences, and then start building the custom VIM compiler:
 - Hopefully, you are editing the file with VIM.
@@ -152,11 +152,11 @@ Modify the header so it suits your preferences, and then start building the cust
 - Time to set the "errorformat": We know that OpenFOAM displays errors in multiple
 lines (if you write "hxe" instead of "hex" in a *blockMeshDict*):
 
-{% highlight text %}
+~~~text
 --> FOAM FATAL IO ERROR:
 CellShape has unknown model on line 45 the word 'hxe'
 file: /home/elwardi/OpenFOAM/elwardi-4.1/run/movingCone/system/blockMeshDict.blocks at line 45.
-{% endhighlight %}
+~~~
 
 Note that this is NOT a general FOAM ERROR; some other IO errors specify a range
 of lines; others suggest solutions before stating the error-line.
@@ -167,7 +167,6 @@ in `%f` and `%l` respectively).However, there are some problems in the filename:
 notice the ending `.blocks` appended to it, in fact, things could be messier:
 `.ddtschemes.default`.
 
-{% include ad2.html %}
 
 How many dots are there in the filename? The real problem is that the `path/to/case`
 always contains a dot character (frrom the OpenFOAM version, eg. user-4.1), so matching
@@ -193,10 +192,10 @@ This is actually troublesome, so, I've decided to approach the situation differe
 We leave our filename and error-line alone, and add another error that captures only the
 message (using a simple multi-line error-format).
 
-{% highlight vim %}
+~~~vim
 CompilerSet errorformat=\file:\ %f\.%[a-z]%*[a-z\ ]\ line\ %l\.
                         \%E-->\ %*[A-Z:\ ],%Z%m
-{% endhighlight %}
+~~~
 
 - `%E` denotes the start of a multi-line error.
 - Then we find the line saying `Fatal IO Error` (starts with –> then there are some
@@ -206,7 +205,7 @@ CompilerSet errorformat=\file:\ %f\.%[a-z]%*[a-z\ ]\ line\ %l\.
 
 The compiler plugin is now complete:
 
-{% highlight vim %}
+~~~vim
 " Vim Compiler File
 " Compiler: blockMesh
 " Fadeli Mohammed Elwardi <foamscience.github.io>
@@ -233,7 +232,7 @@ CompilerSet errorformat=
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
-{% endhighlight %}
+~~~
 
 
 And you should be ready to test it with a sample (erroneous) `blockMeshDict`:
@@ -283,7 +282,7 @@ here:
 In order to learn how VIM interacts with the system, we'll use the second option: We'll
 add a `FOAMGetApplication()` function to our `customFoam.vim`
 
-{% highlight vim %}
+~~~vim
 function! FOAMGetApplication()
     " Source run functions and execute getApplication
     let cmd=". $WM_PROJECT_DIR/bin/tools/RunFunctions && getApplication"
@@ -291,7 +290,7 @@ function! FOAMGetApplication()
     echomsg 'This case is set to be simulated with: '.foamApp
     return foamApp
 endfunction
-{% endhighlight %}
+~~~
 
 - `cmd` is a string, representing the shell command that sources run functions and then
   executes `getApplication` in the current case dir.
@@ -309,12 +308,14 @@ Copy `blockMesh.vim` to `foam.vim`.
 `let s:foamApp = FOAMGetApplication()`
 - Instead of `CompilerSet`, define a new function setting the compiler to the solver
 name, then call it.
-{% highlight vim %}
+
+~~~vim
 function! FOAMSetCompiler()
     exe 'CompilerSet makeprg='.s:foamApp
 endfunction
 call FOAMSetCompiler()
-{% endhighlight %}
+~~~
+
 - For the file line in the error format, use
 `\\file:\ %f\.%*[a-zA-Z]%*[a-zA-Z\ .]\ line\ %l%*[.a-zA-Z0-9\ ]`
 So we can cover stuff like "from line 15 to line 20." and be more dynamic with the
@@ -325,19 +326,19 @@ Done!! We are ready to go!
 
 We only need to tell VIM to set the compiler to "foam" whenever a Foam File is opened;
 and to set the compiler to `blockMesh` if the entered buffer is named `blockMeshDict`.
-{% highlight vim %}
+
+~~~vim
 augroup FOAMautocmds
 autocmd!
 autocmd FileType foam* call FOAMSetPathToCaseDir()
 autocmd FileType foam* compile foam
 autocmd BufEnter *blockMeshDict compile blockMesh
 augroup End
-{% endhighlight %}
+~~~
 
 > *FileType* autocmds will *always* be executed before *BufEnter* ones, so `blockMeshDict` files
 > will always have `blockMesh` as their compiler.
 
-{% include ad3.html %}
 
 The complete configuration files can be downloaded from here:
 

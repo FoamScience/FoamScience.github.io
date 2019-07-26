@@ -16,6 +16,7 @@ There are **1.3K** `OpenFOAM` topic followers on Quora out of a total of **23.1K
 topic followers. I know this is probably not an accurate way to estimate how
 many Quora users use OpenFOAM for their CFD simulation, but, at least, it gives a rough
 estimate of how many Quora users are watching for OpenFOAM-related questions.
+<!--more-->
 
 * Quora questions OpenFoam
 {: toc}
@@ -25,7 +26,6 @@ interesting answers about OpenFOAM in this blog post.
 
 So, let's get started.
 
-{% include ad2.html %}
 
 ## Will I learn CFD better using OpenFOAM as compared to Ansys CFD?
 
@@ -41,9 +41,9 @@ Going down the **OpenFOAM** road has the following benefits:
 * Makes people learn all sorts of things: Numerical analysis, C++ (even Python in my case) coding,
 and the physics of things.
 
-* Has a welcoming community that will help out if needed.
+* Has a welcoming community which will help out if needed.
 
-* Allows (and encourages) you to **read** the "source code" of all the libraries, solvers and
+* Allows (and encourages) you to **read** the "source code" of all libraries, solvers and
 utilities!! Actually, this a big help even if you don't understand C++ at
 all!
 
@@ -62,6 +62,8 @@ If one chooses to work with Commercial Software, he will benefit from:
 The ability to see what's actually going on behind the scenes has always been a
 big plus for open source software.  
 
+{% include ad1.html %}
+
 ## Does OpenFOAM come with an integrated GUI?
 
 > Simply put: The answer is "there is no official graphical user interface for
@@ -73,7 +75,7 @@ official releases don't include one.
 In addition, most OpenFOAM users run a great deal of their simulations in Ubuntu servers, thus
 they will be interacting with the command line the whole time anyway.
 
-The answers for this question features some useful (for absolute beginners) GUI
+The answers for this question feature some useful (for absolute beginners) GUI
 applications:
 
 * [SimFlow](https://sim-flow.com): A really good GUI application which uses
@@ -81,7 +83,7 @@ applications:
   the integration of custom solvers but sets a low limit on `mesh cell count`.
 
 * [SimScale](http://simscale.com): A platform integrating OpenFOAM solvers and
-  provides free online CFD projects.
+  providing free online CFD projects.
 
 But I find it a bit weird that no one mentioned the very useful [wiki page](https://openfoamwiki.net/index.php/GUI)
 which holds all major open source, free and commercial GUIs built for OpenFAOM (Even the
@@ -104,7 +106,6 @@ behind? that's OK.
   stable official version along side a `foam-extend` fork; It has many community
   additions that may be of some use in your case.
 
-{% include ad1.html %}
 
 I think It's worth mentioning that OpenFOAM I/O (Input Output) format has
 changed only once in 20 years, so, this probably something you shouldn't worry
@@ -125,6 +126,8 @@ Let's first present some user feedback for this question:
 
 Some users also report the lack of a GUI as an inconvenience, but this is their
 opinion; Personally I think that:
+
+{% include ad2.html %}
 
 * Meshing is no longer an issue: `snappyHexMesh` and the great `cfMesh` are up
   for the task now (see my [OpenFOAM Utilities Roundup
@@ -156,7 +159,6 @@ course on **C++** because OpenFOAM heavily uses its Object Oriented features.
 * May be take a course, or use online resources to master the use of different
   OpenFOAM classes.
 
-{% include ad3.html %}
 
 If you have any suggestion or feedback about this post, don't hesitate to
 comment below.

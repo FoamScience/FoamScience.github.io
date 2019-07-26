@@ -1,8 +1,11 @@
 ---
-layout: minimal
+layout: page
 title: FOAM Science's Privacy Plocity
+nocomments: true
 permalink: /privacy-policy/
 ---
+
+# Privacy Policy
 
 * privacy content
 {: toc}

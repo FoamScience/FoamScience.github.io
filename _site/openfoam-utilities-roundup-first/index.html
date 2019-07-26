@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>OPENFOAM utilities Roundup 1 « FOAM Science; Doing CFD</title>
+  <meta name="description" content="While working on any OpenFOAM case, users frequently find themselves in need ofa tool to perform a specific task, in a specific way. This article identifies ...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/openfoam-utilities-roundup-first/">
+  <link rel="alternate" type="application/rss+xml" title="FOAM Science; Doing CFD" href="http://localhost:4000/feed.xml" />
+   <!-- Analytics -->
+ <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', '','auto');
+  ga('send', 'pageview');</script>
+
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-3635214305281166",
+              enable_page_level_ads: true
+                    });
+    </script>
+
+
+</head>
+
+
+  <body>
+
+    <div class="header-placeholder"></div>
+<header class="header">
+  <div class="wrapper">
+    <div id="sidebar-toggle">TOC</div>
+    <a class="site-title" href="/">FOAM Science; Doing CFD</a>
+    <nav class="site-nav">
+      
+        
+        <a class="page-link" href="/">Home</a>
+      
+        
+        <a class="page-link" href="/about/">About</a>
+      
+        
+        <a class="page-link" href="/contact/">Contact</a>
+      
+        
+        <a class="page-link" href="/category/">Category</a>
+      
+        
+        <a class="page-link" href="/tags/">Tags</a>
+      
+    </nav>
+  </div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="col-main">
+          <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">OPENFOAM utilities Roundup 1</h1>
+    <p class="post-meta">Mar 16, 2018</p>
+  </header>
+
+  <article class="post-content">
+    <p>While working on any OpenFOAM case, users frequently find themselves in need of
+a tool to perform a specific task, in a specific way. This article 
+identifies some of the best available utilities associated with OPENFOAM’s workflow.
+<!--more--></p>
+
+<ul id="markdown-toc">
+  <li><a href="#meshing-utilities" id="markdown-toc-meshing-utilities">Meshing utilities</a>    <ul>
+      <li><a href="#cfmesh" id="markdown-toc-cfmesh">CfMesh</a></li>
+      <li><a href="#mesh-converters" id="markdown-toc-mesh-converters">Mesh Converters</a></li>
+    </ul>
+  </li>
+  <li><a href="#post-processing" id="markdown-toc-post-processing">Post-processing</a>    <ul>
+      <li><a href="#postprocess" id="markdown-toc-postprocess">postProcess</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>There are several conditions for a utility to gain a place in this list 
+(That’s how I choose the tools I work with anyways):</p>
+
+<ol>
+  <li>It has to be free.</li>
+  <li>It has to be efficient enough (Both machine-wise and user-wise).</li>
+  <li>It has to deliver quality results.</li>
+  <li>It has to be customizable to some extent.</li>
+  <li>It has to be scriptable (for parameter variation … etc).</li>
+</ol>
+
+<blockquote>
+  <p>Note: Utilities are not required to be “cross-platform”;
+If not mentioned otherwise, they are designed to work in Unix-like systems.</p>
+</blockquote>
+
+<p>This post tries to mention some useful OpenFOAM utilities that every OpenFOAM
+user should know of; and we’ll be glad if you can share your experience with
+these tools (and any others) with us in the comments section.</p>
+
+<h2 id="meshing-utilities">Meshing utilities</h2>
+
+<p>Let’s start with the (probably) most important step in any <strong>CFD simulation</strong>; the
+<code class="highlighter-rouge">meshing phase</code>. Finding a decent meshing tool is crucial for the accuracy of
+your simulations; and what’s more important is the amount of time <code class="highlighter-rouge">you</code> spend on
+meshing the domain.</p>
+
+<p>For me, thinking about what strategy to take when attempting to mesh a domain is
+worth several minutes, (See the <strong>meshing phase tutorial</strong> in <a href="/simulations/s01l001">The S01L001
+simulation</a> for more information).</p>
+
+<p>However, time needed for the machine to produce a good mesh should also be kept
+minimal: This is where the meshing utility’s efficiency can shine.</p>
+
+<h3 id="cfmesh">CfMesh</h3>
+
+<p><a href="https://cfmesh.com">CfMesh</a> is a really great cross-platform meshing utility.
+It delivers quality meshes starting from (possibly coarse) surface geometries. 
+The amusing thing is that it only requires the presence of a small dictionary 
+file called <code class="highlighter-rouge">meshDict</code> describing few mesh settings (<code class="highlighter-rouge">maxCellSize</code> …etc).</p>
+
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-3635214305281166" data-ad-slot="3466181841"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+
+<p>Let me present some of its features:</p>
+
+<ul>
+  <li>Built on top of <strong>OpenFOAM</strong>; which means it tries to generate OpenFOAM valid
+meshes whenever possible.</li>
+  <li>Can construct 3D hexahedral, tetrahedral and polyhedral meshes.</li>
+  <li>Also capable of generating 2D hex-meshes.</li>
+  <li>Parallel computing is supported (using MPI).</li>
+  <li>The mesh is created from geometries in the form of surface triangulation (.STL
+or .FMS files); which can be coarse (to some extent).</li>
+  <li>Takes into account <em>geometry patch names</em> if you want it to.</li>
+  <li>The <code class="highlighter-rouge">meshDict</code> file has to contain only two entries (one pointing to the path for
+the geometry file, and the other featuring the <code class="highlighter-rouge">maxCellSize</code>)</li>
+  <li>Automatic and local mesh refinement.</li>
+</ul>
+
+<p>This tool has quickly become my <em>favorite meshing</em> utility mainly because:</p>
+
+<ol>
+  <li>It saves me the trouble of going through <code class="highlighter-rouge">snappyHexMesh</code> dictionary file.</li>
+  <li>I already know how to quickly create STL geometry files using CAD tools.</li>
+</ol>
+
+<p>If you want to see it in action, go through the <a href="/simulations/s01l001">S01L001 Simulation</a>.</p>
+
+<h3 id="mesh-converters">Mesh Converters</h3>
+
+<p>Sometimes, you may want to work on an <em>existing mesh</em>: But the mesh is
+in another format. In this case, you may want to execute the following commands:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>util
+<span class="nv">$ </span><span class="nb">ls </span>mesh/conversion</code></pre></figure>
+
+<p>to discover what standard OpenFOAM mesh conversion tools are available.</p>
+
+<p>The most important ones are probably:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>gmshToFoam <span class="nt">-help</span>
+<span class="nv">$ </span>gambitToFoam</code></pre></figure>
+
+<h2 id="post-processing">Post-processing</h2>
+
+<p>Visualizing case results is another important step in OpenFOAM workflow, and for
+that, we’ll need capable tools (in addition to the well-known <strong>ParaView</strong>):</p>
+
+<h3 id="postprocess">postProcess</h3>
+
+<p><code class="highlighter-rouge">postProcess</code> is the standard post-processing utility which is shipped with
+official OpenFOAM releases. It does nothing more than “executing”
+specified <code class="highlighter-rouge">functionObjects</code>.</p>
+
+<p>Here are some common uses for this tool from the command line:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>postProcess <span class="nt">-func</span> <span class="s2">"flowRatePatch(name=outlet)"</span>
+<span class="nv">$ </span>postProcess <span class="nt">-func</span> <span class="s2">"patchAverage(name=outlet,U)"</span></code></pre></figure>
+
+<p>The usage of this tool from the command line seems to be a <em>bit confusing</em> for new
+OpenFOAM users; So, let’s see how a typical get-to-know-this-utility workflow
+goes:</p>
+
+<blockquote>
+  <p>As a general advice; The source code and the user guide are great resourses
+(Probably the best ones)</p>
+</blockquote>
+
+<ul>
+  <li>First, users are encouraged to read the help section:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>postProcess <span class="nt">-help</span></code></pre></figure>
+
+<ul>
+  <li>
+    <p>Which leads to an important conclusion: The utility accepts to run a <code class="highlighter-rouge">functionObject</code>
+specified by the <code class="highlighter-rouge">-func</code> option.</p>
+  </li>
+  <li>
+    <p>Now, we only need to figure out how exactly the function object is specified;
+thus, we try:</p>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>postProcess <span class="nt">-list</span></code></pre></figure>
+
+<p>to list what types of functionObjects are ready to use; Then:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>postProcess <span class="nt">-func</span> flowRatePatch</code></pre></figure>
+
+<ul>
+  <li>
+    <p>This command will throw a <code class="highlighter-rouge">FOAM_FATAL_ERROR</code> because the utility simply can’t find
+any information about the target patch (its <code class="highlighter-rouge">patchName</code>).</p>
+  </li>
+  <li>
+    <p>Run the following command to locate any flowRatePatch-related files:</p>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>locate <span class="nt">-i</span> flowRatePatch</code></pre></figure>
+
+<p>We are specifically interested in these two files:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">/opt/openfoam4/etc/caseDicts/postProcessing/flowRate/flowRatePatch
+/opt/openfoam4/etc/caseDicts/postProcessing/flowRate/flowRatePatch.cfg</code></pre></figure>
+
+<p>Of course, the first one is the main file, and the second is just a
+configuration one.</p>
+
+<ul>
+  <li>Opening the first file in a text editor reveals all the secrets we are seeking:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |   
+    \\  /    A nd           | Web:      www.OpenFOAM.org
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+Description
+    Calculates the flow rate through a specified patch by summing the flux on
+    patch faces.  For solvers where the flux is volumetric, the flow rate is
+    volumetric; where flux is mass flux, the flow rate is mass flow rate.
+
+\*---------------------------------------------------------------------------*/</span>
+
+<span class="n">name</span>    <span class="o">&lt;</span><span class="n">patchName</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="cp">#includeEtc "caseDicts/postProcessing/flowRate/flowRatePatch.cfg"
+</span>
+<span class="o">//</span> <span class="o">*************************************************************************</span> <span class="o">//</span></code></pre></figure>
+
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-3635214305281166" data-ad-slot="4856474507"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+
+<p>The <code class="highlighter-rouge">name</code> keyword is responsible for holding the target patch name; This is why we
+must invoke <code class="highlighter-rouge">postProcess</code> passing a <code class="highlighter-rouge">name</code> to the functionObject:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>postProcess <span class="nt">-func</span> <span class="s2">"flowRatePatch(name=outlet)"</span></code></pre></figure>
+
+<blockquote>
+  <p>We don’t really care, but the include statement loads up this functionObject’s
+configuration.</p>
+</blockquote>
+
+<p>I hope this post was helpful; if you have any useful suggestions, you are
+encouraged to share them with us in the comments section.</p>
+
+
+  </article>
+  
+  
+
+<div class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      var disqus_shortname = 'foamscience'; // required: replace example with your forum shortname
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+</div>
+
+
+
+
+
+</div>
+
+        </div>
+        <div class="col-second">
+          <div class="col-box col-box-author">
+  <img class="avatar" src="/assets/img/FoamScience/foamscience-logo-400x400-transparent.jpg" alt="M. Elwardi Fadeli">
+  <div class="col-box-title name">M. Elwardi Fadeli</div>
+  <p></p>
+  <p class="contact">
+    
+    <a href="https://github.com/FoamScience">GitHub</a>
+    
+    
+    
+    <a href="mailto:elwardifadeli@gmail.com">Email</a>
+    
+    <a href="https://linkedin.com/in/elwardi-fadeli">LinkedIn</a>
+    
+  </p>
+</div>
+
+<div class="col-box">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- SideAds -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3635214305281166"
+     data-ad-slot="8889675473"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <div class="col-box-title">Newest Posts</div>
+  <ul class="post-list">
+    
+      <li><a class="post-link" href="/vim-openfoam-power-part2/">Customize VIM to work efficiently with OpenFOAM - Part 2</a></li>
+    
+      <li><a class="post-link" href="/vim-openfoam-power-part1/">Customize VIM to work efficiently with OpenFOAM - Part 1</a></li>
+    
+      <li><a class="post-link" href="/openscad-stock-tank-model/">Stock-Tank mesh construction using OpenSCAD</a></li>
+    
+      <li><a class="post-link" href="/openscad-cfd-usage-examples/">OpenSCAD CFD-oriented Usage Examples</a></li>
+    
+      <li><a class="post-link" href="/openscad-transformations-boolean-operations/">OpenSCAD Transformations & Boolean Operations</a></li>
+    
+  </ul>
+</div>
+
+<div class="col-box post-toc hide">
+  <div class="col-box-title">TOC</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+<div class="wrapper">
+&copy; 2019 M. Elwardi Fadeli
+</div>
+<span><a href="/terms-of-use/">Terms Of Use</a></span>
+<span>|</span>
+<span><a href="/terms-of-use/">Privacy Policy</a></span>
+<div>
+<span>
+    <span style="padding:20px;">
+        <p
+        style="display:block;margin-left:auto;margin-right:auto;width:500px;font-size:12px;"> 
+  The <a href="http://www.openfoam.com/legal/trademark-policy.php">
+      trade mark of the OPENFOAM</a> 
+  name is held by <a href="http://openfoam.com/">ESI-OpenCFD</a>. 
+  At the moment, this offering
+  is not approved or endorsed by OpenCFD Limited, producer and distributor of the OpenFOAM
+  software and owner of the OPENFOAM® and OpenCFD® trade marks. 
+  </p>
+  </span>     
+</span>
+</div>
+</footer>
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});</script>
+<script src="/js/easybook.js"></script>
+
+
+  </body>
+
+</html>

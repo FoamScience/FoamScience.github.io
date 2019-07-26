@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>The Evolution of OpenFOAM « FOAM Science; Doing CFD</title>
+  <meta name="description" content="OpenFOAM was originally a commercial product called FOAM, and it wasfirst released as an “Open Source Software” in December 2004 (Under the GNUGPL, renamedOp...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/openfoam-evolution/">
+  <link rel="alternate" type="application/rss+xml" title="FOAM Science; Doing CFD" href="http://localhost:4000/feed.xml" />
+   <!-- Analytics -->
+ <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', '','auto');
+  ga('send', 'pageview');</script>
+
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-3635214305281166",
+              enable_page_level_ads: true
+                    });
+    </script>
+
+
+</head>
+
+
+  <body>
+
+    <div class="header-placeholder"></div>
+<header class="header">
+  <div class="wrapper">
+    <div id="sidebar-toggle">TOC</div>
+    <a class="site-title" href="/">FOAM Science; Doing CFD</a>
+    <nav class="site-nav">
+      
+        
+        <a class="page-link" href="/">Home</a>
+      
+        
+        <a class="page-link" href="/about/">About</a>
+      
+        
+        <a class="page-link" href="/contact/">Contact</a>
+      
+        
+        <a class="page-link" href="/category/">Category</a>
+      
+        
+        <a class="page-link" href="/tags/">Tags</a>
+      
+    </nav>
+  </div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="col-main">
+          <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">The Evolution of OpenFOAM</h1>
+    <p class="post-meta">Mar 26, 2018</p>
+  </header>
+
+  <article class="post-content">
+    <p>OpenFOAM was originally a commercial product called <strong>FOAM</strong>, and it was
+first released as an “Open Source Software” in December 2004 (Under the <a href="https://en.wikipedia.org/wiki/GNU_General_Public_License">GNU
+GPL</a>, renamed
+OpenFOAM since then). 
+<!--more--></p>
+
+<ul id="markdown-toc">
+  <li><a href="#openfoam-1x" id="markdown-toc-openfoam-1x">OPENFOAM 1.x</a></li>
+  <li><a href="#openfoam-2x" id="markdown-toc-openfoam-2x">OPENFOAM 2.x</a></li>
+  <li><a href="#openfoam-3x" id="markdown-toc-openfoam-3x">OPENFOAM 3.x</a></li>
+  <li><a href="#openfoam-4x" id="markdown-toc-openfoam-4x">OPENFOAM 4.x</a></li>
+  <li><a href="#openfoam-5x--updated-17082018" id="markdown-toc-openfoam-5x--updated-17082018">OPENFOAM 5.x  [Updated: 17/08/2018]</a></li>
+  <li><a href="#openfoam-60--updated-17082018" id="markdown-toc-openfoam-60--updated-17082018">OPENFOAM 6.0  [Updated: 17/08/2018]</a></li>
+</ul>
+
+<p>This act had great effects on OpenFOAM’s user base and started to build a vast
+caring community. In this post, I’m going to showcase the major improvements
+introduced to OpenFOAM (official) code from the beginning (<code class="highlighter-rouge">OF1.0</code>) up until now 
+(<code class="highlighter-rouge">OF5.0</code>).</p>
+
+<h2 id="openfoam-1x">OPENFOAM 1.x</h2>
+
+<p>At the beginning, the development focused on user interaction with the software
+(mainly compiling errors and similar stuff). After few partial versions, <code class="highlighter-rouge">OF1.4</code>
+came with the first noticeable efficiency improvements:</p>
+
+<ul>
+  <li>A new compressible two-phase flow (<strong>cavitation</strong>) was added.</li>
+  <li>Porous media models were introduced for the first time.</li>
+  <li>Implementation of Multiple reference frames (MRF).</li>
+</ul>
+
+<p>The next few releases have introduced new applications (meshing, case
+initialization, functionObjects and post-processing) and libraries (radiation 
+modeling, LES &amp; RAS turbulence models, basic mesh motion … etc).</p>
+
+<p>And before reaching <code class="highlighter-rouge">OF2.0</code>, many numerical polynomial-fit higher-order
+interpolation schemes were added (linear, quadratic, cubic), and many new
+boundary conditions were added and improved in association with new library
+development (Turbulence and thermophysical modeling).</p>
+
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<!-- Disp add -->
+<p><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3635214305281166" data-ad-slot="6599434036" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+
+<h2 id="openfoam-2x">OPENFOAM 2.x</h2>
+
+<p><code class="highlighter-rouge">OF2.0</code> was the first release that officially supported some Linux distributions
+(Binary Deb packages for Ubuntu and .RPM ones for SUSE).</p>
+
+<p>On the technical side, it is worth mentioning that a “local-time stepping,
+Steady-state VoF (Volume of Fluid) “ method was introduced to OpenFOAM in this 
+release.</p>
+
+<p>The next releases, up until <code class="highlighter-rouge">OF3.0</code>, added support for  Fedora Linux while
+continuing to improve efficiency of the code and introducing new features:</p>
+
+<ul>
+  <li>
+    <p>Arbitrary mesh interface (AMI): Rotation of geometries and more flexibility 
+when using cyclic boundaries and coupling simulations between separate mesh 
+regions (e.g. surface film and bulk flow)</p>
+  </li>
+  <li>Meshing tools got interesting features: They had new useful options.
+    <ol>
+      <li><code class="highlighter-rouge">snappyHexMesh</code> features and capabilities were on fire during this cycle of 
+releases.</li>
+      <li><code class="highlighter-rouge">checkMesh</code> learned how to listen for user-specified mesh quality
+settings.</li>
+      <li><code class="highlighter-rouge">decomposePar</code> and <code class="highlighter-rouge">reconstructPar</code> were improved for multi-region
+ simulations handling.</li>
+    </ol>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">fvOptions</code> used for source/sink specification in <code class="highlighter-rouge">OF2.2.0</code> (How they were
+doing this before?).</p>
+  </li>
+  <li>
+    <p>Migration to <strong>Doxygen</strong> to generate code documentation.</p>
+  </li>
+  <li>
+    <p>Macro expansions and regular expressions in keyword names were first
+introduced for the first time in <code class="highlighter-rouge">OF2.2.2</code>.</p>
+  </li>
+  <li>
+    <p>And Hey! <code class="highlighter-rouge">OF2.3</code> came with a new meshing tool <code class="highlighter-rouge">foamyHexMesh</code>.</p>
+  </li>
+  <li>Pre-processing tools also got a boost in terms of efficiency and user
+convenience.</li>
+</ul>
+
+<blockquote>
+  <p>In general, any complains about meshing tools originate from this era :)</p>
+</blockquote>
+
+<h2 id="openfoam-3x">OPENFOAM 3.x</h2>
+
+<p>With the release of <code class="highlighter-rouge">OF3.0.0</code> things got a lot more interesting (from the user
+perspective at least):</p>
+
+<ul>
+  <li><code class="highlighter-rouge">blockMeshDict</code> moved to <strong>system</strong> directory</li>
+  <li>Official packages supported only Ubuntu</li>
+  <li><strong>fvSchemes</strong> no longer requires the dictionary <code class="highlighter-rouge">fluxRequired</code></li>
+  <li>Many regions of the code were redesigned to improve consistency and make it
+easier to work with.</li>
+</ul>
+
+<p>This release focused mainly on turbulence models:</p>
+
+<ul>
+  <li>it gave <strong>turbulenceProperties</strong> the ability to select any turbulence model
+instead of using the old <strong>RASProperties</strong> and <strong>LESProperties</strong></li>
+</ul>
+
+<p>Also, many of you may not know this, but <code class="highlighter-rouge">blockMesh</code> learned how to overcome the particular
+vertex ordering when constructing block faces in this release!</p>
+
+<p>This basically means that:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp">    <span class="n">fixedWalls</span>
+    <span class="p">{</span>   
+        <span class="n">type</span> <span class="n">wall</span><span class="p">;</span>
+        <span class="n">faces</span>
+        <span class="p">(</span>
+            <span class="p">(</span><span class="mi">0</span> <span class="mi">7</span> <span class="mi">4</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="p">(</span><span class="mi">2</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">(</span><span class="mi">1</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">);</span>
+    <span class="p">}</span>   </code></pre></figure>
+
+<p>Is the same as</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp">    <span class="n">fixedWalls</span>
+    <span class="p">{</span>   
+        <span class="n">type</span> <span class="n">wall</span><span class="p">;</span>
+        <span class="n">faces</span>
+        <span class="p">(</span>
+            <span class="p">(</span><span class="mi">0</span> <span class="mi">4</span> <span class="mi">7</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="p">(</span><span class="mi">2</span> <span class="mi">1</span> <span class="mi">5</span> <span class="mi">6</span><span class="p">)</span>
+            <span class="p">(</span><span class="mi">1</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">);</span>
+    <span class="p">}</span>   </code></pre></figure>
+
+<blockquote>
+  <p>You can try this immediately on a tutorial case!!</p>
+</blockquote>
+
+<p>Teaching the tool the ability to find the appropriate ordering of face vertices
+on its own helped a lot with improving its “scriptability”.</p>
+
+<p>Many input-related improvements were performed, for example, the following
+entries are all valid starting from this release:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">nu</span>              <span class="n">nu</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">2</span> <span class="o">-</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]</span> <span class="mf">0.01</span><span class="p">;</span>
+<span class="n">nu</span>              <span class="p">[</span><span class="mi">0</span> <span class="mi">2</span> <span class="o">-</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]</span> <span class="mf">0.01</span><span class="p">;</span></code></pre></figure>
+
+<p>You can also omit the dimensions specification and write:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">nu</span>              <span class="mf">0.01</span><span class="p">;</span></code></pre></figure>
+
+<p>But it’s not recommended to do so.</p>
+
+<p>After <code class="highlighter-rouge">OF3.0.0</code>, <code class="highlighter-rouge">OF3.0.1</code> was released to fix some bugs and help programmers
+with the development of new applications:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">foamNewBC</code> and <code class="highlighter-rouge">foamNewApp</code> now create templates for boundary conditions and
+new applications (solvers, utilities).</li>
+</ul>
+
+<h2 id="openfoam-4x">OPENFOAM 4.x</h2>
+
+<p><code class="highlighter-rouge">OpenFOAM 4.0</code> introduced many improvements to the user interface:</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">foamDictionary</code> prints and modifies dictionary content.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">foamListTimes -rm</code> removes time directories (but not <strong>0</strong> dir.): Use this
+instead of struggling with regular expressions.</p>
+  </li>
+  <li>
+    <p>We used to <code class="highlighter-rouge">grep</code> things if we want to know how a keyword is used (and I still
+do), but the new <code class="highlighter-rouge">foamSearch</code> is a great tool for this task.</p>
+  </li>
+  <li>
+    <p>All old post-processing (small, one-task-oriented ) tools are fused into a single one:
+<code class="highlighter-rouge">postProcess</code></p>
+  </li>
+  <li>
+    <p>Many <code class="highlighter-rouge">functionObjects</code> are re-factored.</p>
+  </li>
+  <li>
+    <p>A load of new BCs are added, with <strong>noSlip</strong> standing out!!</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">foamList</code> lists models used in OpenFOAM (<code class="highlighter-rouge">-functionObjects</code>, <code class="highlighter-rouge">-scalarBCs</code> …
+etc).</p>
+  </li>
+</ul>
+
+<p>As usual the version after this one (<code class="highlighter-rouge">OF4.1</code>) only fixed some bugs.</p>
+
+<h2 id="openfoam-5x--updated-17082018">OPENFOAM 5.x  [Updated: 17/08/2018]</h2>
+
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-3635214305281166" data-ad-slot="4856474507"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+
+<p>OpenFOAM can now be installed conveniently on <strong>Windows 10</strong> machines using
+Microsoft’s <strong>Windows subsystem for Linux</strong>.</p>
+
+<p>The first thing I noticed when using OpenFOAM 5 for the first time is that solvers
+and utilities know about bash-TAB completion; the new <code class="highlighter-rouge">-list*</code> options for the 
+commands are very useful (try <code class="highlighter-rouge">-listScalarBCs</code>).</p>
+
+<p>New Function Objects were introduced including the handy <code class="highlighter-rouge">flowRateFaceZone</code> which 
+calculates flow rate through a face zone (wasn’t possible before without using <code class="highlighter-rouge">SWAK4FOAM</code>
+function objects).</p>
+
+<p>The release also improves some ramp functions and adds some, though I’m not a fan
+of those functions!!</p>
+
+<blockquote>
+  <p>For the technical details on what new things <code class="highlighter-rouge">OF5.0</code> offers, head to 
+<a href="https://openfoam.org/release/5-0/">OF5 Release Info Page</a>; I think you ready for
+that now!!</p>
+</blockquote>
+
+<h2 id="openfoam-60--updated-17082018">OPENFOAM 6.0  [Updated: 17/08/2018]</h2>
+
+<p>OF6 is being tested by regular users for more than a month now, including me, and I love it.
+The focus mainly goes to making OpenFOAM a more user-friendly software:</p>
+
+<ul>
+  <li>
+    <p>Remember using DyM versions of solvers? Well, that’s deprecated because now, standard solvers
+are able to handle mesh motion natively instead of using specialized versions of the same
+solver.</p>
+  </li>
+  <li>
+    <p>There is no need to copy <code class="highlighter-rouge">0.orig</code> to <code class="highlighter-rouge">0</code>; Initial and boundary conditions are now read
+from both directories automatically.</p>
+  </li>
+  <li>
+    <p>A new <code class="highlighter-rouge">atmosphericModels</code> library which I missed for a while now!!</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>More exciting changes at:
+<a href="https://openfoam.org/release/6/">OF6 Release Info Page</a></p>
+</blockquote>
+
+  </article>
+  
+  
+
+<div class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      var disqus_shortname = 'foamscience'; // required: replace example with your forum shortname
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+</div>
+
+
+
+
+
+</div>
+
+        </div>
+        <div class="col-second">
+          <div class="col-box col-box-author">
+  <img class="avatar" src="/assets/img/FoamScience/foamscience-logo-400x400-transparent.jpg" alt="M. Elwardi Fadeli">
+  <div class="col-box-title name">M. Elwardi Fadeli</div>
+  <p></p>
+  <p class="contact">
+    
+    <a href="https://github.com/FoamScience">GitHub</a>
+    
+    
+    
+    <a href="mailto:elwardifadeli@gmail.com">Email</a>
+    
+    <a href="https://linkedin.com/in/elwardi-fadeli">LinkedIn</a>
+    
+  </p>
+</div>
+
+<div class="col-box">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- SideAds -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3635214305281166"
+     data-ad-slot="8889675473"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <div class="col-box-title">Newest Posts</div>
+  <ul class="post-list">
+    
+      <li><a class="post-link" href="/vim-openfoam-power-part2/">Customize VIM to work efficiently with OpenFOAM - Part 2</a></li>
+    
+      <li><a class="post-link" href="/vim-openfoam-power-part1/">Customize VIM to work efficiently with OpenFOAM - Part 1</a></li>
+    
+      <li><a class="post-link" href="/openscad-stock-tank-model/">Stock-Tank mesh construction using OpenSCAD</a></li>
+    
+      <li><a class="post-link" href="/openscad-cfd-usage-examples/">OpenSCAD CFD-oriented Usage Examples</a></li>
+    
+      <li><a class="post-link" href="/openscad-transformations-boolean-operations/">OpenSCAD Transformations & Boolean Operations</a></li>
+    
+  </ul>
+</div>
+
+<div class="col-box post-toc hide">
+  <div class="col-box-title">TOC</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+<div class="wrapper">
+&copy; 2019 M. Elwardi Fadeli
+</div>
+<span><a href="/terms-of-use/">Terms Of Use</a></span>
+<span>|</span>
+<span><a href="/terms-of-use/">Privacy Policy</a></span>
+<div>
+<span>
+    <span style="padding:20px;">
+        <p
+        style="display:block;margin-left:auto;margin-right:auto;width:500px;font-size:12px;"> 
+  The <a href="http://www.openfoam.com/legal/trademark-policy.php">
+      trade mark of the OPENFOAM</a> 
+  name is held by <a href="http://openfoam.com/">ESI-OpenCFD</a>. 
+  At the moment, this offering
+  is not approved or endorsed by OpenCFD Limited, producer and distributor of the OpenFOAM
+  software and owner of the OPENFOAM® and OpenCFD® trade marks. 
+  </p>
+  </span>     
+</span>
+</div>
+</footer>
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});</script>
+<script src="/js/easybook.js"></script>
+
+
+  </body>
+
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>OpenSCAD Transformations & Boolean Operations « FOAM Science; Doing CFD</title>
+  <meta name="description" content="In my previous post, OpenSCAD 101: Basics of the Programmers’ CAD software,we’ve talked about the most important commands and OpenSCAD’s language features.Th...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/openscad-transformations-boolean-operations/">
+  <link rel="alternate" type="application/rss+xml" title="FOAM Science; Doing CFD" href="http://localhost:4000/feed.xml" />
+   <!-- Analytics -->
+ <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', '','auto');
+  ga('send', 'pageview');</script>
+
+  
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-3635214305281166",
+              enable_page_level_ads: true
+                    });
+    </script>
+
+
+</head>
+
+
+  <body>
+
+    <div class="header-placeholder"></div>
+<header class="header">
+  <div class="wrapper">
+    <div id="sidebar-toggle">TOC</div>
+    <a class="site-title" href="/">FOAM Science; Doing CFD</a>
+    <nav class="site-nav">
+      
+        
+        <a class="page-link" href="/">Home</a>
+      
+        
+        <a class="page-link" href="/about/">About</a>
+      
+        
+        <a class="page-link" href="/contact/">Contact</a>
+      
+        
+        <a class="page-link" href="/category/">Category</a>
+      
+        
+        <a class="page-link" href="/tags/">Tags</a>
+      
+    </nav>
+  </div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="col-main">
+          <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">OpenSCAD Transformations & Boolean Operations</h1>
+    <p class="post-meta">Jun 15, 2018</p>
+  </header>
+
+  <article class="post-content">
+    <p>In my previous post, <a href="/openscad-basics/">OpenSCAD 101: Basics of the Programmers’ CAD software</a>,
+we’ve talked about the most important commands and OpenSCAD’s language features.
+This time, we’ll discuss transformations (<code class="highlighter-rouge">translate</code>, <code class="highlighter-rouge">scale</code>, … etc) and
+introduce you to a new subject: Boolean operations on primitives.
+<!--more--></p>
+
+<ul id="markdown-toc">
+  <li><a href="#more-on-openscads-transformation-modules" id="markdown-toc-more-on-openscads-transformation-modules">More on OpenSCAD’s transformation modules</a>    <ul>
+      <li><a href="#cascading-transformations-on-a-group-of-objects" id="markdown-toc-cascading-transformations-on-a-group-of-objects">Cascading transformations on a group of objects</a></li>
+      <li><a href="#scope-of-openscad-variables" id="markdown-toc-scope-of-openscad-variables">Scope of OpenSCAD variables</a></li>
+    </ul>
+  </li>
+  <li><a href="#boolean-operations-with-openscad" id="markdown-toc-boolean-operations-with-openscad">Boolean Operations with OpenSCAD</a></li>
+</ul>
+
+<h2 id="more-on-openscads-transformation-modules">More on OpenSCAD’s transformation modules</h2>
+
+<h3 id="cascading-transformations-on-a-group-of-objects">Cascading transformations on a group of objects</h3>
+
+<p>A transformation is basically an operator module, so, it returns a new object,
+which, naturally, can be transformed again. You are already familiar with this
+concept, but, what if we wanted to perform two transformations on a group of
+objects?</p>
+
+<p>Well, grouping in OpenSCAD is usually performed with <code class="highlighter-rouge">{...}</code> (groups objects,
+actions … etc). The only requirement here is that you don’t forget the tailing
+semi-colon at the end of each object definition:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">m_axis</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">cent</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">30</span><span class="p">];</span>
+
+<span class="n">mirror</span><span class="p">(</span><span class="n">m_axis</span><span class="p">)</span> 
+<span class="n">translate</span><span class="p">(</span><span class="n">cent</span><span class="p">){</span>
+   <span class="n">cube</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span><span class="n">center</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+   <span class="n">translate</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="n">sphere</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">mirror</code> transformation mirrors the object on a plane through the origin.
+<code class="highlighter-rouge">m_axis</code> is a normal vector to that plane. So, the previous snippet will:</p>
+
+<ol>
+  <li>Create a 10x20x20 cube at the origin.</li>
+  <li>Create a sphere of radius 5 at (10,0,0).</li>
+  <li>Translate each object by <code class="highlighter-rouge">cent</code> vector.</li>
+  <li>Mirror both resulting objects on the X-Y plane.</li>
+</ol>
+
+<blockquote>
+  <p>This <a href="http://openscad.org/cheatsheet/">[CheatSheet]</a> lists the available transformations
+and the <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#mirror">[user
+manual]</a>
+explains how to use them.</p>
+</blockquote>
+
+<h3 id="scope-of-openscad-variables">Scope of OpenSCAD variables</h3>
+
+<p>Continuing with our grouping thing: Remember when I told you not to mess with
+variables in OpenSCAD? Well, you are now ready to do so:</p>
+
+<ol>
+  <li>OpenSCAD (starting from 2015.03 I think) is a scope-aware language, which
+means variables are defined locally in their scopes and can overwrite outer
+ones but only inside their scope.</li>
+  <li>A couple of braces <code class="highlighter-rouge">{...}</code> defines a new scope only if used with a module.</li>
+</ol>
+
+<p>To illustrate, you can try out these few lines:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Global scope
+</span><span class="n">vec</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">];</span>
+<span class="n">echo</span><span class="p">(</span><span class="n">vec</span><span class="p">);</span>
+
+<span class="n">translate</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Inner scope
+</span>    <span class="n">vec</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+    <span class="n">sphere</span><span class="p">(</span><span class="n">vec</span><span class="p">);</span>
+    <span class="n">echo</span><span class="p">(</span><span class="n">vec</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Global scope is back
+</span><span class="n">rotate</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="n">cube</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The first <code class="highlighter-rouge">echo</code> will output the value of the vector <code class="highlighter-rouge">vec</code>; the second one will
+say that <code class="highlighter-rouge">vec</code> is a floating point equal to 5, and the <code class="highlighter-rouge">rotate</code> command
+will use the vector <code class="highlighter-rouge">vec</code> simply because it doesn’t know about the other <code class="highlighter-rouge">vec</code>
+(note that the <code class="highlighter-rouge">translate</code> command also doesn’t know about it!).</p>
+
+<p>Dummy scopes like this one:</p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span> <span class="n">var</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="p">}</span> <span class="c1">// is this a scope?
+</span>
+<span class="n">echo</span><span class="p">(</span><span class="n">var</span><span class="p">);</span> <span class="cm">/* ECHO: 10 
+              No it's not! 
+              If it was, ECHO should say 'undef' */</span>
+</code></pre></div></div>
+<p>are not considered as valid scopes.</p>
+
+<p><strong>A side note:</strong><br />
+Numbers are represented as 64 bit IEEE floating points, and only decimal
+notation is supported.
+<code class="highlighter-rouge">nan</code> (NotANumber) is the only value that is not equal to any value (including
+itself):</p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">/</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">// You can't say this:
+// if (x == 0/0) echo "yes";
+// Because nothing is equal to 0/0 including 0/0
+</span>
+<span class="c1">// Alternatively, use this:
+</span><span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">!=</span> <span class="n">x</span><span class="p">)</span> <span class="n">echo</span><span class="p">(</span><span class="s">"yes"</span><span class="p">);</span>
+
+<span class="c1">// This also useful:
+// Test to see if y is defined or not:
+</span><span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">undef</span><span class="p">)</span> <span class="n">echo</span><span class="p">(</span><span class="s">"y is not defined yet"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="boolean-operations-with-openscad">Boolean Operations with OpenSCAD</h2>
+
+<p>There are three basic Boolean operations you can perform on a group of objects
+in OpenSCAD:</p>
+
+<ol>
+  <li><strong>Union (logical Or)</strong>: Simply sums all child objects into a single one.</li>
+  <li><strong>Difference (logical and not)</strong>: Subtracts all child objects starting from
+the second one from the first one.</li>
+  <li><strong>Intersection (logical and)</strong>: Intersects all child objects.</li>
+</ol>
+
+<p>They are all modules with no arguments, so:</p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vec</span> <span class="o">=</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+
+<span class="k">union</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">sphere</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+    <span class="n">cube</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">translate</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="n">difference</span><span class="p">()</span> <span class="p">{</span>
+<span class="n">sphere</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="c1">// Subtract all following objects from the sphere
+</span><span class="n">cube</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">translate</span><span class="p">(</span><span class="o">-</span><span class="n">vec</span><span class="p">)</span> <span class="n">intersection</span><span class="p">()</span> <span class="p">{</span>
+<span class="n">cube</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+<span class="n">sphere</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The following image showcases the results of each module call:
+<img src="/assets/img/OpenSCAD/openscad-boolean-operations.jpg" alt="&quot;OpenSCAD Boolean Operations&quot;" /></p>
+
+<p>Now let’s do something interesting with what we have just learned:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+   Create a module named specialCubes.
+   It places a series of cubes on the perimeter of
+   a circle (centered at the origin) where each
+   cube is oriented towards the center of this circle.
+   Parameters:
+     - num: The number of cubes to place.
+     - dist: circle radius (distance from origin). 
+*/</span>
+
+<span class="n">module</span> <span class="nf">specialCubes</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// Approximate the size of each cube
+// Remember, this var. is local to this module
+</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span> <span class="n">PI</span> <span class="o">*</span><span class="n">dist</span><span class="o">/</span><span class="n">num</span><span class="p">)</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="cm">/* Yes, PI is defined in the MCAD library
+   Alongside TAU (2*PI) and mm_per_inch to convert
+   inches to meters.
+   Take a look at /usr/share/openscad/libraries/MCAD/constants.scad
+*/</span>
+<span class="n">range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="o">:</span><span class="mi">360</span><span class="o">/</span><span class="n">num</span><span class="o">:</span><span class="mi">360</span><span class="p">];</span>
+<span class="c1">// ranges are of the form [start: step :end]
+</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="n">range</span><span class="p">)</span>
+<span class="n">rotate</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="n">translate</span><span class="p">(</span><span class="n">dist</span><span class="o">*</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">rotate</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">cube</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="c1">// Subtract cubes as we create them from the first
+// Cylinder.
+</span><span class="n">difference</span><span class="p">(){</span>
+<span class="n">cylinder</span><span class="p">(</span><span class="n">r</span><span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span><span class="n">center</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+<span class="n">specialCubes</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+<span class="n">specialCubes</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="n">cylinder</span><span class="p">(</span><span class="n">r</span><span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="err">$</span><span class="n">fn</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This will result in something similar to:</p>
+
+<p><img src="/assets/img/OpenSCAD/openscad-interesting-boolean.jpg" alt="OpenSCAD transformations and boolean ops" /></p>
+
+<blockquote>
+
+  <blockquote>
+    <p>Try to remove the <code class="highlighter-rouge">center=true</code> option from the first cylinder and
+evaluate the results!</p>
+  </blockquote>
+
+  <blockquote>
+    <p>If you are having trouble figuring out what happened here,<br />
+rebuild the module from scratch without the for command.</p>
+  </blockquote>
+
+</blockquote>
+
+<p>Let’s explain the <code class="highlighter-rouge">for</code> command though:</p>
+<ol>
+  <li>Create a cube at the origin of calculated size.</li>
+  <li>Rotate it 45 degrees so it’s oriented towards the origin in its original state.</li>
+  <li>Translate it in the x-direction by <code class="highlighter-rouge">dist</code> units.</li>
+  <li>Rotate the resulting object by <code class="highlighter-rouge">i</code> degrees around the z-axis.</li>
+  <li>These four steps are repeated for each <code class="highlighter-rouge">i</code> in the <code class="highlighter-rouge">range</code>.</li>
+</ol>
+
+<p>Note that the last cylinder cannot have a height of ‘1’, because 
+the <code class="highlighter-rouge">difference</code> module will be confused when it finds the common
+ surface (<code class="highlighter-rouge">h = 1.01</code> will work fine though).</p>
+
+  </article>
+  
+  
+
+<div class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      var disqus_shortname = 'foamscience'; // required: replace example with your forum shortname
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+</div>
+
+
+
+
+
+</div>
+
+        </div>
+        <div class="col-second">
+          <div class="col-box col-box-author">
+  <img class="avatar" src="/assets/img/FoamScience/foamscience-logo-400x400-transparent.jpg" alt="M. Elwardi Fadeli">
+  <div class="col-box-title name">M. Elwardi Fadeli</div>
+  <p></p>
+  <p class="contact">
+    
+    <a href="https://github.com/FoamScience">GitHub</a>
+    
+    
+    
+    <a href="mailto:elwardifadeli@gmail.com">Email</a>
+    
+    <a href="https://linkedin.com/in/elwardi-fadeli">LinkedIn</a>
+    
+  </p>
+</div>
+
+<div class="col-box">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- SideAds -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3635214305281166"
+     data-ad-slot="8889675473"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <div class="col-box-title">Newest Posts</div>
+  <ul class="post-list">
+    
+      <li><a class="post-link" href="/vim-openfoam-power-part2/">Customize VIM to work efficiently with OpenFOAM - Part 2</a></li>
+    
+      <li><a class="post-link" href="/vim-openfoam-power-part1/">Customize VIM to work efficiently with OpenFOAM - Part 1</a></li>
+    
+      <li><a class="post-link" href="/openscad-stock-tank-model/">Stock-Tank mesh construction using OpenSCAD</a></li>
+    
+      <li><a class="post-link" href="/openscad-cfd-usage-examples/">OpenSCAD CFD-oriented Usage Examples</a></li>
+    
+      <li><a class="post-link" href="/openscad-transformations-boolean-operations/">OpenSCAD Transformations & Boolean Operations</a></li>
+    
+  </ul>
+</div>
+
+<div class="col-box post-toc hide">
+  <div class="col-box-title">TOC</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+<div class="wrapper">
+&copy; 2019 M. Elwardi Fadeli
+</div>
+<span><a href="/terms-of-use/">Terms Of Use</a></span>
+<span>|</span>
+<span><a href="/terms-of-use/">Privacy Policy</a></span>
+<div>
+<span>
+    <span style="padding:20px;">
+        <p
+        style="display:block;margin-left:auto;margin-right:auto;width:500px;font-size:12px;"> 
+  The <a href="http://www.openfoam.com/legal/trademark-policy.php">
+      trade mark of the OPENFOAM</a> 
+  name is held by <a href="http://openfoam.com/">ESI-OpenCFD</a>. 
+  At the moment, this offering
+  is not approved or endorsed by OpenCFD Limited, producer and distributor of the OpenFOAM
+  software and owner of the OPENFOAM® and OpenCFD® trade marks. 
+  </p>
+  </span>     
+</span>
+</div>
+</footer>
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});</script>
+<script src="/js/easybook.js"></script>
+
+
+  </body>
+
+</html>

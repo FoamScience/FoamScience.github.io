@@ -1,6 +1,7 @@
 ---
 title: Contact
 layout: page
+nocomments: true
 permalink: /contact/
 ---
 
@@ -13,7 +14,7 @@ permalink: /contact/
 .contact-input {
     border:none;
     border-bottom: 1px solid #eee;
-    width: 20em;
+    width: 40em;
 }
 
 .contact-input:focus {

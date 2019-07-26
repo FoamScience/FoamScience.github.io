@@ -16,11 +16,10 @@ Today, I'm starting new (short) post series suggesting tricks to customize the *
 text editor so it can be used to edit OpenFOAM cases more efficiently.
 Of course, making VIM work optimally with every single piece of software you have
 installed through scripting is a bit of "over-kill"; but having it configured properly is crucial.
+<!--more-->
 
 > These series of posts are for those who are ready to write some lines of VIML code
 > to add interesting functionality to VIM (OpenFOAM-wise).
-
-{% include ad3.html %}
 
 * OpenFOAM cases with VIM
 {: toc}
@@ -92,7 +91,7 @@ All what we have to do is to write a small script -which contains only one funct
 searching the first few lines of a file for the keyword `FoamFile`. 
 This tells VIM that the file is a `OpenFOAM Dictionary File`:
 
-{% highlight vim %}
+~~~vim
 " Filename: foamFT.vim
 
 " No debug stuff
@@ -119,7 +118,7 @@ augroup FOAMFTautocmds
 autocmd!
 autocmd BufRead * call SetFoamType()
 augroup End
-{% endhighlight %}
+~~~
 
 
 To check whether the script works or not; Just execute the ex-command `:set ft`
@@ -138,7 +137,6 @@ completion in command-line mode; that is, when you type `:e c<TAB>`, VIM automat
 completes *constant* for you. But, if, for example, you invoke it from the system directory
 of a case, it won't know about the files in the other directories (*0*, *constant* ... etc).
 
-{% include ad1.html %}
 
 There's also the super-useful command `:find` which finds the specified file in the path
 (could include multiple -independent- directories) and then edit it. The desired work-flow can
@@ -147,7 +145,7 @@ type `:find t<TAB>`, which instantly expands to `:find transportProperties` (Not
 this file is located under *constant* directory), then, hitting *ENTER* switches to that file to edit it.
 
 
-{% highlight vim %}
+~~~vim
 " Filename: customFoam.vim
 
 function! FOAMSetPathToCaseDir()
@@ -173,7 +171,7 @@ augroup FOAMautocmds
 autocmd!
 autocmd FileType foam* call FOAMSetPathToCaseDir()
 augroup End
-{% endhighlight %}
+~~~
 
 Let's go through that script line-by-line, shall we?
 - `function! FOAMSetPathToCaseDir()` overwrites any function defined with this name
@@ -245,7 +243,6 @@ mesh is present) run `vim boundary`
 - Check both the path and the working directory (using `:set path` and `:pwd` respectively).
 - You can issue `:!blockMesh` while editing the file to rebuild the mesh.
 
-{% include ad3.html %}
 
 That's it for now, the next post will explain ways to get the most of VIM compilers to
 run `blockMesh` and OpenFOAM solvers on cases right from inside VIM and browse errors.

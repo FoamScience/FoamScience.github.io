@@ -13,8 +13,9 @@ ads: true
 ---
 
 While working on any OpenFOAM case, users frequently find themselves in need of
-a tool to perform a specific task, in a specific way. This article helps
-identify some of the best available utilities associated with OPENFOAM's workflow.
+a tool to perform a specific task, in a specific way. This article 
+identifies some of the best available utilities associated with OPENFOAM's workflow.
+<!--more-->
 
 * OpenFOAM utilities
 {: toc}
@@ -25,7 +26,7 @@ There are several conditions for a utility to gain a place in this list
 1. It has to be free.
 2. It has to be efficient enough (Both machine-wise and user-wise).
 3. It has to deliver quality results.
-4. It has to customizable to some extent.
+4. It has to be customizable to some extent.
 5. It has to be scriptable (for parameter variation ... etc).
 
 >Note: Utilities are not required to be "cross-platform";
@@ -38,7 +39,6 @@ these tools (and any others) with us in the comments section.
 
 ## Meshing utilities
 
-{% include ad1.html %}
 
 Let's start with the (probably) most important step in any **CFD simulation**; the
 `meshing phase`. Finding a decent meshing tool is crucial for the accuracy of
@@ -57,7 +57,9 @@ minimal: This is where the meshing utility's efficiency can shine.
 [CfMesh](https://cfmesh.com) is a really great cross-platform meshing utility.
 It delivers quality meshes starting from (possibly coarse) surface geometries. 
 The amusing thing is that it only requires the presence of a small dictionary 
-file called `meshDict` describes few mesh settings (`maxCellSize` ...etc).
+file called `meshDict` describing few mesh settings (`maxCellSize` ...etc).
+
+{% include ad1.html %}
 
 Let me present some of its features:
 
@@ -70,10 +72,10 @@ Let me present some of its features:
   or .FMS files); which can be coarse (to some extent).
 * Takes into account _geometry patch names_ if you want it to.
 * The `meshDict` file has to contain only two entries (one pointing to the path for
-  the geometry file, and the other featuring the maxCellSize)
+  the geometry file, and the other featuring the `maxCellSize`)
 * Automatic and local mesh refinement.
 
-This tool has quickly become my _favorite meshing_ utilities mainly because:
+This tool has quickly become my _favorite meshing_ utility mainly because:
 
 1. It saves me the trouble of going through `snappyHexMesh` dictionary file.
 2. I already know how to quickly create STL geometry files using CAD tools. 
@@ -83,8 +85,8 @@ site.baseurl }}/simulations/s01l001).
 
 ### Mesh Converters
 
-Sometimes, you may want to work on an _already existing mesh_: But the mesh is
-another format. In this case, you may want to execute the following commands:
+Sometimes, you may want to work on an _existing mesh_: But the mesh is
+in another format. In this case, you may want to execute the following commands:
 
 {% highlight bash %}
 $ util
@@ -124,7 +126,6 @@ goes:
 > As a general advice; The source code and the user guide are great resourses
 > (Probably the best ones)
 
-{% include ad3.html %}
 
 * First, users are encouraged to read the help section:
 {% highlight bash %}
@@ -182,7 +183,7 @@ name    <patchName>;
 // ************************************************************************* //
 {% endhighlight %}
 
-{% include ad2.html %}
+{% include ad3.html %}
 
 The `name` keyword is responsible for holding the target patch name; This is why we
 must invoke `postProcess` passing a `name` to the functionObject:

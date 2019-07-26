@@ -1,10 +1,8 @@
 ---
-layout: minimal
+layout: page
 title: About
+nocomments: true
 permalink: /about/
-public: true
-comments: false
-share: true
 ---
 
 > The <a href="http://www.openfoam.com/legal/trademark-policy.php"> trade mark of the OPENFOAM</a> 

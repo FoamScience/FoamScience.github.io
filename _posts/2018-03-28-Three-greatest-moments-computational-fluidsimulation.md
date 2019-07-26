@@ -10,9 +10,10 @@ math: true
 ads: true
 ---
 
-The CFD knowledge you know now were accumulated over the years through Trial &
+The CFD knowledge you know now was accumulated over the years through Trial &
 Error procedures, which lead to a continuous refinement of the concepts and
 techniques used in this industry.
+<!--more-->
 
 * greatest moments in CFD
 {: toc}
@@ -21,7 +22,6 @@ Predicting simple shear flows, free and confined jet flows wasn't always a
 simple task: This article showcases the most important "moments" in CFD history;
 from my personal point of view of course!
 
-{% include ad1.html %}
 
 ## The First Moment: Calculations done by humans, but they did it!
 
@@ -40,6 +40,8 @@ which were reduced to 1-D and 2-D equations describing physics problems on
 "simple" domain geometries: Simply put, lack of computational power was
 responsible for people suffering with hand calculations!!
 
+{% include ad1.html %}
+
 ## The Second Moment: The First Functional Model!
 
 Engineers had to wait for a team at the Los Alamos National Lab (1957) to develop the
@@ -51,7 +53,7 @@ You can find information about this big step in Fluid Flow Simulation here:
 [The Legacy and Future of CFD At Los Alamos](http://collectivescience.com/documents/CFD_6_96.pdf)
 
 Few years later, **Douglas Aircraft** was able to develop a basic 3D CFD analysis in
-order to simulation fluid flow around airfoils.
+order to simulate fluid flow around airfoils.
 
 
 But still, engineers were facing (trivial) problems back then:
@@ -78,10 +80,11 @@ In 2004, OpenFOAM was released as an "Open Source" CFD library, which boosted
 researches in this area and made it available to all engineers to share code and
 experience.
 
-{% include ad3.html %}
 
 From this point on (`This point` included ...), I think advancement in CFD-related 
 subjects was (and still) based on the development of mathematics and computer programming.
+
+{% include ad3.html %}
 
 
 I'll be happy if you could share your thoughts on this subject with us in the

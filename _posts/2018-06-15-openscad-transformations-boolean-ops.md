@@ -18,18 +18,18 @@ In my previous post, [OpenSCAD 101: Basics of the Programmers' CAD software](/op
 we've talked about the most important commands and OpenSCAD's language features.
 This time, we'll discuss transformations (`translate`, `scale`, ... etc) and
 introduce you to a new subject: Boolean operations on primitives.
+<!--more-->
 
 
 * OpenSCAD transformations & Boolean operations
 {: toc}
 
-{% include ad1.html %}
 
 ## More on OpenSCAD's transformation modules
 
 ### Cascading transformations on a group of objects
 
-A transformation is basically an object module, so, it returns a new object,
+A transformation is basically an operator module, so, it returns a new object,
 which, naturally, can be transformed again. You are already familiar with this
 concept, but, what if we wanted to perform two transformations on a group of
 objects?
@@ -38,7 +38,7 @@ Well, grouping in OpenSCAD is usually performed with `{...}` (groups objects,
 actions ... etc). The only requirement here is that you don't forget the tailing
 semi-colon at the end of each object definition:
 
-{% highlight C %}
+~~~cpp
 m_axis = [0,0,1];
 cent = [10,5,30];
 
@@ -47,7 +47,7 @@ translate(cent){
    cube([10,20,20],center=true);
    translate([10,0,0]) sphere(5);
 }
-{% endhighlight %}
+~~~
 
 The `mirror` transformation mirrors the object on a plane through the origin.
 `m_axis` is a normal vector to that plane. So, the previous snippet will:
@@ -74,7 +74,7 @@ variables in OpenSCAD? Well, you are now ready to do so:
 
 To illustrate, you can try out these few lines:
 
-{% highlight C %}
+~~~cpp
 // Global scope
 vec = [10,5,0];
 echo(vec);
@@ -88,7 +88,7 @@ translate(vec) {
 
 // Global scope is back
 rotate(vec) cube(10);
-{% endhighlight %}
+~~~
 
 The first `echo` will output the value of the vector `vec`; the second one will
 say that `vec` is a floating point equal to 5, and the `rotate` command
@@ -96,13 +96,13 @@ will use the vector `vec` simply because it doesn't know about the other `vec`
 (note that the `translate` command also doesn't know about it!).
 
 Dummy scopes like this one:
-{% highlight C %}
+~~~cpp
 { var = 10; } // is this a scope?
 
 echo(var); /* ECHO: 10 
               No it's not! 
               If it was, ECHO should say 'undef' */
-{% endhighlight %}
+~~~
 are not considered as valid scopes.
 
 **A side note:**  
@@ -110,7 +110,7 @@ Numbers are represented as 64 bit IEEE floating points, and only decimal
 notation is supported.
 `nan` (NotANumber) is the only value that is not equal to any value (including
 itself):
-{% highlight C %}
+~~~cpp
 x = 0/0;
 
 // You can't say this:
@@ -123,7 +123,7 @@ if (x != x) echo("yes");
 // This also useful:
 // Test to see if y is defined or not:
 if (y == undef) echo("y is not defined yet");
-{% endhighlight %}
+~~~
 
 ## Boolean Operations with OpenSCAD
 
@@ -135,10 +135,9 @@ in OpenSCAD:
    the second one from the first one.
 3. **Intersection (logical and)**: Intersects all child objects.
 
-{% include ad3.html %}
 
 They are all modules with no arguments, so:
-{% highlight C %}
+~~~cpp
 vec = [40, 0, 0];
 
 union() {
@@ -156,19 +155,15 @@ translate(-vec) intersection() {
 cube(20);
 sphere(10);
 }
-{% endhighlight %}
+~~~
 
 The following image showcases the results of each module call:
-<picture>
-  <source srcset="/assets/img/OpenSCAD/openscad-boolean-operations.webp" type="image/webp">
-  <source srcset="/assets/img/OpenSCAD/openscad-boolean-operations.jpg" type="image/jpeg"> 
-  <img src="/assets/img/OpenSCAD/openscad-boolean-operations.jpg" alt="Alt Text!">
-</picture>
+!["OpenSCAD Boolean Operations"](/assets/img/OpenSCAD/openscad-boolean-operations.jpg)
 
 
 Now let's do something interesting with what we have just learned:
 
-{% highlight C %}
+~~~cpp
 /*
    Create a module named specialCubes.
    It places a series of cubes on the perimeter of
@@ -208,15 +203,11 @@ specialCubes(30, 20);
 specialCubes(20, 10);
 cylinder(r= 2, h=5, $fn=30, center=true);
 }
-
-{% endhighlight %}
+~~~
 
 This will result in something similar to:
 
-<picture> 
-<source srcset="/assets/img/OpenSCAD/openscad-interesting-boolean.webp" type="image/webp">
-<img src="/assets/img/OpenSCAD/openscad-interesting-boolean.jpg" alt="OpenSCAD transformation and boolean ops" >
-</picture>
+![OpenSCAD transformations and boolean ops](/assets/img/OpenSCAD/openscad-interesting-boolean.jpg)
 
 >
 > > Try to remove the `center=true` option from the first cylinder and
@@ -225,9 +216,6 @@ This will result in something similar to:
 > > If you are having trouble figuring out what happened here,  
 > > rebuild the module from scratch without the for command.
 >
-
-{% include ad2.html %}
-
 
 Let's explain the `for` command though:
 1. Create a cube at the origin of calculated size.

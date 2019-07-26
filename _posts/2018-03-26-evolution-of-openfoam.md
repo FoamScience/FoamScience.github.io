@@ -15,6 +15,7 @@ OpenFOAM was originally a commercial product called **FOAM**, and it was
 first released as an "Open Source Software" in December 2004 (Under the [GNU
 GPL](https://en.wikipedia.org/wiki/GNU_General_Public_License), renamed
 OpenFOAM since then). 
+<!--more-->
 
 * OpenFOAM history
 {: toc}
@@ -24,7 +25,6 @@ caring community. In this post, I'm going to showcase the major improvements
 introduced to OpenFOAM (official) code from the beginning (`OF1.0`) up until now 
 (`OF5.0`).
 
-{% include ad3.html %}
 
 ## OPENFOAM 1.x
 
@@ -32,23 +32,25 @@ At the beginning, the development focused on user interaction with the software
 (mainly compiling errors and similar stuff). After few partial versions, `OF1.4`
 came with the first noticeable efficiency improvements:
 
-* A new compressible two-phase flow (**cavitation**) is added.
-* Porous media models are introduced for the first time.
+* A new compressible two-phase flow (**cavitation**) was added.
+* Porous media models were introduced for the first time.
 * Implementation of Multiple reference frames (MRF).
 
-The few next releases have introduced new applications (meshing, case
+The next few releases have introduced new applications (meshing, case
 initialization, functionObjects and post-processing) and libraries (radiation 
 modeling, LES & RAS turbulence models, basic mesh motion ... etc).
 
 And before reaching `OF2.0`, many numerical polynomial-fit higher-order
 interpolation schemes were added (linear, quadratic, cubic), and many new
-boundary conditions are added and improved in association with new library
+boundary conditions were added and improved in association with new library
 development (Turbulence and thermophysical modeling).
+
+{% include ad2.html %}
 
 ## OPENFOAM 2.x
 
 `OF2.0` was the first release that officially supported some Linux distributions
-(Compiled Deb packages for Ubuntu and .RPM ones for SUSE).
+(Binary Deb packages for Ubuntu and .RPM ones for SUSE).
 
 On the technical side, it is worth mentioning that a "local-time stepping,
 Steady-state VoF (Volume of Fluid) " method was introduced to OpenFOAM in this 
@@ -72,7 +74,7 @@ settings.
 * `fvOptions` used for source/sink specification in `OF2.2.0` (How they were
   doing this before?). 
 
-* Migration to **Doxygen** for generating code documentation.
+* Migration to **Doxygen** to generate code documentation.
 
 * Macro expansions and regular expressions in keyword names were first
   introduced for the first time in `OF2.2.2`.
@@ -91,7 +93,7 @@ perspective at least):
 
 * `blockMeshDict` moved to **system** directory
 * Official packages supported only Ubuntu
-* **fvSchemes** no longer requires the keyword `fluxRequired`
+* **fvSchemes** no longer requires the dictionary `fluxRequired`
 * Many regions of the code were redesigned to improve consistency and make it
   easier to work with.
 
@@ -100,8 +102,8 @@ This release focused mainly on turbulence models:
 * it gave **turbulenceProperties** the ability to select any turbulence model
   instead of using the old **RASProperties** and **LESProperties**
 
-Also, many of you may not know this, but `blockMesh` doesn't require particular
-ordering anymore!
+Also, many of you may not know this, but `blockMesh` learned how to overcome the particular
+vertex ordering when constructing block faces in this release!
 
 This basically means that:
 
@@ -141,7 +143,6 @@ on its own helped a lot with improving its "scriptability".
 Many input-related improvements were performed, for example, the following
 entries are all valid starting from this release:
 
-{% include ad1.html %}
 
 {% highlight cpp %}
 nu              nu [0 2 -1 0 0 0 0] 0.01;
@@ -188,22 +189,24 @@ As usual the version after this one (`OF4.1`) only fixed some bugs.
 
 ## OPENFOAM 5.x  [Updated: 17/08/2018]
 
+{% include ad3.html %}
+
 OpenFOAM can now be installed conveniently on **Windows 10** machines using
 Microsoft's **Windows subsystem for Linux**.
 
 
 The first thing I noticed when using OpenFOAM 5 for the first time is that solvers
-and utilities know about bash-TAB completion; the new `-list\*` options for the 
+and utilities know about bash-TAB completion; the new `-list*` options for the 
 commands are very useful (try `-listScalarBCs`).
 
 New Function Objects were introduced including the handy `flowRateFaceZone` which 
-calculates flow rate through a face zone (wasn't possible unless using `SWAK4FOAM`
+calculates flow rate through a face zone (wasn't possible before without using `SWAK4FOAM`
 function objects).
 
 The release also improves some ramp functions and adds some, though I'm not a fan
 of those functions!!
 
-> For the technical details on what new things `OF5.0` offers, head over to 
+> For the technical details on what new things `OF5.0` offers, head to 
 > [OF5 Release Info Page](https://openfoam.org/release/5-0/); I think you ready for
 > that now!!
 
@@ -221,7 +224,6 @@ solver.
 
 - A new `atmosphericModels` library which I missed for a while now!!
 
-{% include ad2.html %}
 
 > More exciting changes at:
 > [OF6 Release Info Page](https://openfoam.org/release/6/)

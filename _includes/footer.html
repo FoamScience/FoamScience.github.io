@@ -1,41 +1,26 @@
-<footer>
-
-    <p> <span>
-      <a style="color:white;font-weight:bold;margin-right:20px;" href="/privacy-policy" class="btn">Privacy Policy</a>
-      <a style="color:white;font-weight:bold;" href="/terms-of-use">Terms of Use</a>
-    </span> </p>
-
+<footer class="footer">
+<div class="wrapper">
+&copy; {{ site.time | date: '%Y' }} {{ site.author }}
+</div>
+<span><a href="/terms-of-use/">Terms Of Use</a></span>
+<span>|</span>
+<span><a href="/terms-of-use/">Privacy Policy</a></span>
+<div>
+<span>
     <span style="padding:20px;">
         <p
         style="display:block;margin-left:auto;margin-right:auto;width:500px;font-size:12px;"> 
-  The <a style="color:white;font-weight:bold;" 
-      href="http://www.openfoam.com/legal/trademark-policy.php"> trade mark of the OPENFOAM</a> 
-  name is held by <a style="color:white;font-weight:bold;
-      "href="http://openfoam.com/">ESI-OpenCFD</a>. 
+  The <a href="http://www.openfoam.com/legal/trademark-policy.php">
+      trade mark of the OPENFOAM</a> 
+  name is held by <a href="http://openfoam.com/">ESI-OpenCFD</a>. 
   At the moment, this offering
   is not approved or endorsed by OpenCFD Limited, producer and distributor of the OpenFOAM
   software and owner of the OPENFOAM® and OpenCFD® trade marks. 
   </p>
-  <p style="margin: 0">Copyrights {{site.time | date: '%Y'}}. All Rights Reserved by {{site.title}}</p>
   </span>     
-
-
-<script type="text/javascript">
-$("script[type='math/tex']").replaceWith(
-  function(){
-    var tex = $(this).text();
-    return "<span class=\"inline-equation\">" +
-           katex.renderToString(tex) +
-           "</span>";
-});
-
-$("script[type='math/tex; mode=display']").replaceWith(
-  function(){
-    var tex = $(this).text();
-    return "<div class=\"equation\">" +
-           katex.renderToString("\\displaystyle "+tex) +
-           "</div>";
-});
-</script>
-
+</span>
+</div>
 </footer>
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});</script>
+<script src="{{ "/js/easybook.js" | prepend: site.baseurl }}"></script>

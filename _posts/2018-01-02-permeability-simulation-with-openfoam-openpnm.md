@@ -18,7 +18,7 @@ Permeability and Filtration coefficient are a must-know factor for oil/gas reser
 * Simulation porous materials with OpenFOAM
 {: toc}
 
-It's hard to define an audience for this paper, really. Any one who wants to:
+It's hard to define an audience for this paper, really. Anyone who wants to:
 
  * Kill the time by learning about permeability of soils, or
  * Prepare for a numerical simulation of permeability of soils
@@ -32,32 +32,51 @@ And understands the basics of:
 Should be able to benefit from this presentation and related files (The way I 
 presented it: Split it up to parts and give each part to the appropriate audience).
 
-<picture>
-   <source srcset="/assets/img/permeabilitySimulation/openfoam-pressure-permeability-results.webp" type="image/webp">
-   <img src="/assets/img/permeabilitySimulation/openfoam-pressure-permeability-results.png" alt="OpenFoam
-permeability simulation">
-</picture>
+![Simulating flow through porous medium with openfoam](/assets/img/permeabilitySimulation/openfoam-pressure-permeability-results.png)
 
 ## Abstract
 
-One of the most important properties of hydrocarbon reservoirs is their capacity of passing fluids; ie, their permeability to fluids in questions. The engineering knowledge have accumulated over the years to explain, optimize and use the behavior of reservoirs in this matter.
+One of the most important properties of hydrocarbon reservoirs is their capacity of
+passing fluids; ie, their permeability to fluids in question. The engineering knowledge
+have accumulated over the years to explain, optimize and use the behavior of reservoirs in
+this matter.
 
-With a great focus on granular reservoirs, this presentation introduces key concepts regarding this interesting property of rocks, including the most effective way of comparing two reservoirs in respect to their permeability: The use of permeability coefficient; In addition, we've tried to present the most important factors affecting rock permeability, and how they affect it.
+With a great focus on granular reservoirs, this presentation introduces key concepts
+regarding this interesting property of rocks, including the most effective way of
+comparing two reservoirs in respect to their permeability: The use of permeability
+coefficient; In addition, we've tried to present the most important factors affecting rock
+permeability, and how they affect it.
 
-Based on these factors, several mathematical models -adhering to certain conditions- were formed; we've picked two well-known well-accepted models to feature: Kozeny-Carman (relatively simple porosity-permeability relationship); Happel-Brenner (more complex porosity-permeability relationship).
-
-With their "very limited" porosity range, these models fail in predicting the permeability of many rock sample; especially if they require the determination of grain shape descriptors (sphericity, roundness ... etc). 
-
-Thus, results from mathematical predictions are always treated with caution; The most accurate method to estimate permeability of a sample rock to a certain test fluid is to actually measure it (More precisely, calculate it from measured data). This paper features the most-common permeability tests methods (Principle: apply pressure gradients, measure the outgoing flow rate, and use Darcy's law to determine permeability). We've also tried to show how field-based methods (Well tests and logs) are used to calculate permeability.
+Based on these factors, several mathematical models -adhering to certain conditions- were
+formed; we've picked two well-known well-accepted models to feature: Kozeny-Carman
+(relatively simple porosity-permeability relationship); Happel-Brenner (more complex
+porosity-permeability relationship).
 
 {% include ad1.html %}
 
-To formulate a better understanding of this concept, we've tried to use common simulation approaches to determine the permeability of a piece of porous material (a 2-D 1.024mm*0.728mm image generated with `porespy` -a Python Library-):
+With their "very limited" porosity range, these models fail in predicting the permeability
+of many rock sample; especially if they require the determination of grain shape
+descriptors (sphericity, roundness ... etc). 
 
-* Directly simulate a viscous flow through medium's pores using OpenFOAM (The most trusted method).
-* Instead of real pore (complex) geometry, assemble the porous material to a network of spheres (pores) connected by cylinders (throats), and solve the flow there, using openPNM -also a Python Library-.
+Thus, results from mathematical predictions are always treated with caution; The most
+accurate method to estimate permeability of a sample rock to a certain test fluid is to
+actually measure it (More precisely, calculate it from measured data). This paper features
+the most-common permeability tests methods (Principle: apply pressure gradients, measure
+the outgoing flow rate, and use Darcy's law to determine permeability). We've also tried
+to show how field-based methods (Well tests and logs) are used to estimate permeability.
+
+To formulate a better understanding of this concept, we've tried to use common simulation
+approaches to determine the permeability of a piece of porous material (a 2-D
+1.024mm*0.728mm image generated with `porespy` -a Python Library-):
+
+* Directly simulate a viscous flow through medium's pores using OpenFOAM (The most trusted
+  method).
+* Instead of real pore (complex) geometry, assemble the porous material to a network of
+  spheres (pores) connected by cylinders (throats), and solve the flow there, using
+  openPNM -also a Python Library-.
 
 {% include ad2.html %}
+
 
 ## Downloads 
 

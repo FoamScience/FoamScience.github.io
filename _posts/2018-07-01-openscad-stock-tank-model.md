@@ -19,16 +19,16 @@ This post is part of a longer collection:
 * [OpenSCAD Transformations & Boolean Ops](/openscad-transformations-boolean-operations/)
 * [OpenSCAD CFD-oriented Usage Examples](/openscad-cfd-usage-examples/)
 
-I'm here featuring a very simple, quick and efficient way of constructing
+It features a very simple, quick and efficient way of constructing
 a (2D) stock-tank geometry and similar shapes using **OpenSCAD**.
+<!--more-->
 
 * OpenSCAD Stock tank model
 {: toc}
 
-{% include ad1.html %}
 
 The main reason I present this way of thinking here is that I don't think
-**blockMesh** is quite the right tool for such tasks; even when used with
+`blockMesh` is quite the right tool for such tasks; even when used with
 a powerful macro language, like *m4*.
 
 
@@ -44,11 +44,8 @@ Well, there are a couple of things I expect you to be proficient in:
 
 As an example mesh, we will be creating the one presented in the following
 figure:
-<picture>
-<source srcset="/assets/img/OpenSCAD/tank-model-sketch.webp" type="image/webp">
-<img src="/assets/img/OpenSCAD/tank-model-sketch.png" alt="Sketch of desired OpenSCAD
-model">
-</picture>
+
+![Sketch of desired OpenSCAD model](/assets/img/OpenSCAD/tank-model-sketch.png)
 
 Of course, model dimensions don't matter because the goal is to
 create a parametric one.
@@ -60,17 +57,17 @@ you might think:
 
 1. Create **points** and **paths** 
   vectors (if necessary) using your text editor.
-2. Run **linear\_extrude** on resulting polygon.
+2. Run `linear\_extrude` on resulting polygon.
 
 The first step strongly depends on used text editor; In VIM, 
 I have this awesome vim command defined in my *.vimrc* file:
 
-{% highlight vim %}
+~~~vim
 command! -nargs=+ Calc :read !python -c "from math import *;
             \ import numpy as np;
             \ np.set_printoptions(precision=4);
             \ <args>"
-{% endhighlight %}
+~~~
 
 Which allows me to run Python code directly via VIM (imports
 are kind of important here).
@@ -80,9 +77,9 @@ of **radius = 1** between `[10,1]` and `[12,1]` points,
 I only need to issue the following VIM command while
 editing the SCAD script:
 
-{% highlight vim %}
+~~~vim
 :Calc l=np.linspace(10,12,10); m=np.mat([l,1+np.sqrt(1-(l-11)**2)]); print(m.transpose().tolist())
-{% endhighlight %}
+~~~
 
 Which will insert all points into the current file (actually, the print command
 is the one responsible for this). 
@@ -93,7 +90,7 @@ is the one responsible for this).
 
 
 Yes, it is. These tricks may work if one only needs to prototype something, or if
-he desires to check whether an idea is good enough to be implemented! 
+one desires to check whether an idea is good enough to be implemented! 
 But they fail badly in real situations,
 where users absolutely have to create a parametric model.
 
@@ -109,7 +106,7 @@ Instead of relying on the power of a text editor, it might be a good idea to
 use list comprehensions to build needed points. Here's a complete OpenSCAD
 script explaining the situation:
 
-{% highlight c %}
+~~~cpp
 
 // Points of the lower arc:
 // half-a-circle, radius = 1, between [10,1] and [12,1]
@@ -136,17 +133,16 @@ paths = [ for (i = [0 : 1 : len(points)-1]) i ];
 // The actual 3D model
 linear_extrude(2,[0,0]) polygon(points, [paths]);
 
-{% endhighlight %}
+~~~
 
-{% include ad3.html %}
 
-This is certainly a better approach, but we're still need to do some
+This is certainly a better approach, but we still need to do some
 adjustments for easier parameterization: Let's define an (object) module to 
 create the boxes-like portion of our model.
 
 ## Using modules to construct parametric geometries
 
-{% highlight c %}
+~~~cpp
 /*
     Create an object model called tank.
     Parameters:
@@ -173,11 +169,11 @@ module tank (w=1, tbh=10, pbl=[6,4],pbw=[3,1],st=[0,3]) {
             cube([pbw[i]+0.001,tbh,3]);
         }   
 }
-{% endhighlight %}
+~~~
 
 We can also define our own module to create arcs:
 
-{% highlight c %}
+~~~cpp
 /*
     Create module named arc.
     Parameters:
@@ -206,39 +202,34 @@ module arc (r=1, w=1, ext=3) {
     paths = [ for (i = [0 : 1 : len(points)-1]) i ];
     linear_extrude(2) polygon(points, [paths]);
 }
-{% endhighlight %}
+~~~
 
 To make sense of module arguments, refer to the following figure:
 
-<picture>
-<source srcset="/assets/img/OpenSCAD/tank-model-boxes.webp" type="image/webp">
-<img src="/assets/img/OpenSCAD/tank-model-boxes.png" alt="Partially parametric OpenSCAD
-model">
-</picture>
+![Partially parametric OpenSCAD model](/assets/img/OpenSCAD/tank-model-boxes.png)
 
 Now, creating basic models is as simple as issuing:
 
-{% highlight c %}
+~~~cpp
 union() {
     tank();
     translate([11,1]) arc();
 }
-{% endhighlight %}
+~~~
 
 More complicated models can be easily derived by overwriting
 default parameter values:
 
-{% highlight c %}
+~~~cpp
 union() {
     tank(tbh=15, pbl=[6,4,10],pbw=[3,1,5],st=[0,3,4]);
     translate([16,1]) arc();
     translate([-2,6,2]) rotate([0,180,0]) arc(r=2);
 }
-{% endhighlight %}
+~~~
 
 Which results in:
 
-{% include ad3.html %}
 
 ![Final OpenSCAD parametric model](/assets/img/OpenSCAD/tank-model.png)
 

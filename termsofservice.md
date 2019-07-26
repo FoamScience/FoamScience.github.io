@@ -1,6 +1,7 @@
 ---
-layout: minimal
+layout: page
 title: Terms Of Use
+nocomments: true
 permalink: /terms-of-use/
 ---
 

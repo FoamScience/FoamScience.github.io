@@ -21,8 +21,8 @@ OpenFOAM beginners often find it really hard to get a case to work; which is a
 But it's not about the things you do to break your case -You can learn about
 those ones by yourself- : It's all about the **bad things** you do to your case
 that have no to little effect on the results!!
+<!--more-->
 
-{% include ad1.html %}
 
 * OpenFOAM simulation mistakes
 {: toc}
@@ -60,6 +60,8 @@ be used.
 That's why I like to fall back to `upwind` schemes whenever I'm confused! This
 is probably a bad idea!! But `upwind` schemes work! They really do!! Almost
 always: They may not give the most accurate results in specific circumstances though.
+
+{% include ad1.html %}
 
 As an unspoken rule, starting simulations with:
 * `leastSquares` as `gradSchemes` Unless you notice oscillations in the
@@ -106,7 +108,6 @@ Working with multiple versions of OpenFOAM is easy:
 Note that this is the safest way to do this, but it's also OK to omit unloading
 the environment if you are just simulating cases.
 
-{% include ad2.html %}
 
 ## #5: The writeFormat
 
@@ -117,6 +118,7 @@ too much information to write you may run out of space or crush your system.
 In general, it's better to write the output as binary files, and compress them
 with `gzip`. the only drawback of this approach is that the risk of damaging
 these files increases and there is no way to repair them if this happens!
+{% include ad2.html %}
 
 > Except that you could re-run the simulation for the damaged `timeSteps`, of
 > course.

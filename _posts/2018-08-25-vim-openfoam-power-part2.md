@@ -84,6 +84,8 @@ learn about this topic, just don't touch those lines!
 The line `CompilerSet makeprg=ant` sets the ant program as the make program (when
 you execute the ex-command `:make`, VIM runs `ant` in a shell, and watches for its output).
 
+{% include ad2.html %}
+
 `CompilerSet errorformat=\ %#[%.%#]\ %#%f:%l:%v:%*\\d:%*\\d:\%t%[%^:]%#:%m`
 shows VIM how to find the error line and what to extract from it (explained in more
 details in the next section).
@@ -202,6 +204,8 @@ CompilerSet errorformat=\file:\ %f\.%[a-z]%*[a-z\ ]\ line\ %l\.
   uppercase letters,semicolons, and spaces).
 - `%Z` denotes the end of multi-line error (which is only one line here!) then
  we capture everything in the second line as a `%m` (an error message).
+
+{% include ad3.html %}
 
 The compiler plugin is now complete:
 

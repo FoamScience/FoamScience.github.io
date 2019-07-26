@@ -64,6 +64,8 @@ The `mirror` transformation mirrors the object on a plane through the origin.
 
 ### Scope of OpenSCAD variables
 
+{% include ad1.html %}
+
 Continuing with our grouping thing: Remember when I told you not to mess with
 variables in OpenSCAD? Well, you are now ready to do so:
 
@@ -156,6 +158,8 @@ cube(20);
 sphere(10);
 }
 ~~~
+
+{% include ad2.html %}
 
 The following image showcases the results of each module call:
 !["OpenSCAD Boolean Operations"](/assets/img/OpenSCAD/openscad-boolean-operations.jpg)

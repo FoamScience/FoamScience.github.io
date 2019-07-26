@@ -96,6 +96,7 @@ tJunction(10,100,5,50, $fn=60);
 
 ~~~
 
+{% include ad2.html %}
 
 ## A parametric U-like pipe [For OpenSCAD 2016+]
 
@@ -394,6 +395,7 @@ v = polyR();
 rotate_extrude(convexity=10) scale(15) polygon(v);
 ~~~
 
+{% include ad3.html %}
 
 ## Exporting models to STL format
 

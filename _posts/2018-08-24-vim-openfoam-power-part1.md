@@ -77,6 +77,8 @@ There are two common ways to determine a file type for a file:
 - Take a look at the file's content then decide; This is the Unix way, which we'll be
 using here: It just means we'll search the content of a file for the line that says `FoamFile`.
 
+{% include ad3.html %}
+
 We are not the first ones who try to detect `foam` file type in VIM; the *vim-OpenFoam-syntax*
 plugin already does that. Actually, it assigns different file types for different `foam` files.
 For example, it sets: 
@@ -172,6 +174,8 @@ autocmd!
 autocmd FileType foam* call FOAMSetPathToCaseDir()
 augroup End
 ~~~
+
+{% include ad1.html %}
 
 Let's go through that script line-by-line, shall we?
 - `function! FOAMSetPathToCaseDir()` overwrites any function defined with this name

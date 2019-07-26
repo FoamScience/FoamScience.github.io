@@ -77,6 +77,8 @@ of **radius = 1** between `[10,1]` and `[12,1]` points,
 I only need to issue the following VIM command while
 editing the SCAD script:
 
+{% include ad2.html %}
+
 ~~~vim
 :Calc l=np.linspace(10,12,10); m=np.mat([l,1+np.sqrt(1-(l-11)**2)]); print(m.transpose().tolist())
 ~~~
@@ -141,6 +143,8 @@ adjustments for easier parameterization: Let's define an (object) module to
 create the boxes-like portion of our model.
 
 ## Using modules to construct parametric geometries
+
+{% include ad1.html %}
 
 ~~~cpp
 /*

@@ -6,8 +6,8 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 26 Jul 2019 17:53:52 +0100</pubDate>
-    <lastBuildDate>Fri, 26 Jul 2019 17:53:52 +0100</lastBuildDate>
+    <pubDate>Sun, 28 Jul 2019 13:45:36 +0100</pubDate>
+    <lastBuildDate>Sun, 28 Jul 2019 13:45:36 +0100</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -90,6 +90,14 @@ learn about this topic, just don’t touch those lines!&lt;/p&gt;
 
 &lt;p&gt;The line &lt;code class=&quot;highlighter-rouge&quot;&gt;CompilerSet makeprg=ant&lt;/code&gt; sets the ant program as the make program (when
 you execute the ex-command &lt;code class=&quot;highlighter-rouge&quot;&gt;:make&lt;/code&gt;, VIM runs &lt;code class=&quot;highlighter-rouge&quot;&gt;ant&lt;/code&gt; in a shell, and watches for its output).&lt;/p&gt;
+
+&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- Disp add --&gt;
+&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;6599434036&quot; data-ad-format=&quot;auto&quot; data-full-width-responsive=&quot;true&quot;&gt;&lt;/ins&gt;
+&lt;script&gt;
+(adsbygoogle = window.adsbygoogle || []).push({});
+&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CompilerSet errorformat=\ %#[%.%#]\ %#%f:%l:%v:%*\\d:%*\\d:\%t%[%^:]%#:%m&lt;/code&gt;
 shows VIM how to find the error line and what to extract from it (explained in more
@@ -211,6 +219,13 @@ uppercase letters,semicolons, and spaces).&lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%Z&lt;/code&gt; denotes the end of multi-line error (which is only one line here!) then
  we capture everything in the second line as a &lt;code class=&quot;highlighter-rouge&quot;&gt;%m&lt;/code&gt; (an error message).&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;4856474507&quot;&gt;&lt;/ins&gt;
+&lt;script&gt;
+     (adsbygoogle = window.adsbygoogle || []).push({});
+&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;The compiler plugin is now complete:&lt;/p&gt;
 
@@ -464,6 +479,13 @@ ending with &lt;code class=&quot;highlighter-rouge&quot;&gt;.html&lt;/code&gt; a
 using here: It just means we’ll search the content of a file for the line that says &lt;code class=&quot;highlighter-rouge&quot;&gt;FoamFile&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;4856474507&quot;&gt;&lt;/ins&gt;
+&lt;script&gt;
+     (adsbygoogle = window.adsbygoogle || []).push({});
+&lt;/script&gt;&lt;/p&gt;
+
 &lt;p&gt;We are not the first ones who try to detect &lt;code class=&quot;highlighter-rouge&quot;&gt;foam&lt;/code&gt; file type in VIM; the &lt;em&gt;vim-OpenFoam-syntax&lt;/em&gt;
 plugin already does that. Actually, it assigns different file types for different &lt;code class=&quot;highlighter-rouge&quot;&gt;foam&lt;/code&gt; files.
 For example, it sets: 
@@ -554,6 +576,13 @@ autocmd&lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;
 autocmd &lt;span class=&quot;nb&quot;&gt;FileType&lt;/span&gt; foam* &lt;span class=&quot;k&quot;&gt;call&lt;/span&gt; FOAMSetPathToCaseDir&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 augroup End
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;3466181841&quot;&gt;&lt;/ins&gt;
+&lt;script&gt;
+     (adsbygoogle = window.adsbygoogle || []).push({});
+&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;Let’s go through that script line-by-line, shall we?&lt;/p&gt;
 &lt;ul&gt;
@@ -742,6 +771,14 @@ of &lt;strong&gt;radius = 1&lt;/strong&gt; between &lt;code class=&quot;highligh
 I only need to issue the following VIM command while
 editing the SCAD script:&lt;/p&gt;
 
+&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- Disp add --&gt;
+&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;6599434036&quot; data-ad-format=&quot;auto&quot; data-full-width-responsive=&quot;true&quot;&gt;&lt;/ins&gt;
+&lt;script&gt;
+(adsbygoogle = window.adsbygoogle || []).push({});
+&lt;/script&gt;&lt;/p&gt;
+
 &lt;div class=&quot;language-vim highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;Calc &lt;span class=&quot;k&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;np&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;linspace&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;np&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;mat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;+&lt;/span&gt;np&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;sqrt&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;-(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;-11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;**&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)])&lt;/span&gt;; print&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;transpose&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;tolist&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -802,6 +839,13 @@ adjustments for easier parameterization: Let’s define an (object) module to
 create the boxes-like portion of our model.&lt;/p&gt;
 
 &lt;h2 id=&quot;using-modules-to-construct-parametric-geometries&quot;&gt;Using modules to construct parametric geometries&lt;/h2&gt;
+
+&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;3466181841&quot;&gt;&lt;/ins&gt;
+&lt;script&gt;
+     (adsbygoogle = window.adsbygoogle || []).push({});
+&lt;/script&gt;&lt;/p&gt;
 
 &lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/*
     Create an object model called tank.
@@ -1010,6 +1054,14 @@ to use a second radius only if the user says so.&lt;/p&gt;
 &lt;span class=&quot;cm&quot;&gt;/* translate(-[100,0,0]) tJunction(12,100,5,50,5,3, $fn=60); */&lt;/span&gt;
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- Disp add --&gt;
+&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;6599434036&quot; data-ad-format=&quot;auto&quot; data-full-width-responsive=&quot;true&quot;&gt;&lt;/ins&gt;
+&lt;script&gt;
+(adsbygoogle = window.adsbygoogle || []).push({});
+&lt;/script&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;a-parametric-u-like-pipe-for-openscad-2016&quot;&gt;A parametric U-like pipe [For OpenSCAD 2016+]&lt;/h2&gt;
 
@@ -1330,6 +1382,13 @@ script (2D shape highlighted):&lt;/p&gt;
 &lt;span class=&quot;n&quot;&gt;rotate_extrude&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;convexity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;polygon&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
+&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;4856474507&quot;&gt;&lt;/ins&gt;
+&lt;script&gt;
+     (adsbygoogle = window.adsbygoogle || []).push({});
+&lt;/script&gt;&lt;/p&gt;
+
 &lt;h2 id=&quot;exporting-models-to-stl-format&quot;&gt;Exporting models to STL format&lt;/h2&gt;
 
 &lt;p&gt;To export your geometry models to STL files, you can either:&lt;/p&gt;
@@ -1426,6 +1485,13 @@ explains how to use them.&lt;/p&gt;
 
 &lt;h3 id=&quot;scope-of-openscad-variables&quot;&gt;Scope of OpenSCAD variables&lt;/h3&gt;
 
+&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;3466181841&quot;&gt;&lt;/ins&gt;
+&lt;script&gt;
+     (adsbygoogle = window.adsbygoogle || []).push({});
+&lt;/script&gt;&lt;/p&gt;
+
 &lt;p&gt;Continuing with our grouping thing: Remember when I told you not to mess with
 variables in OpenSCAD? Well, you are now ready to do so:&lt;/p&gt;
 
@@ -1517,6 +1583,14 @@ the second one from the first one.&lt;/li&gt;
 &lt;span class=&quot;n&quot;&gt;sphere&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- Disp add --&gt;
+&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;6599434036&quot; data-ad-format=&quot;auto&quot; data-full-width-responsive=&quot;true&quot;&gt;&lt;/ins&gt;
+&lt;script&gt;
+(adsbygoogle = window.adsbygoogle || []).push({});
+&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;The following image showcases the results of each module call:
 &lt;img src=&quot;/assets/img/OpenSCAD/openscad-boolean-operations.jpg&quot; alt=&quot;&amp;quot;OpenSCAD Boolean Operations&amp;quot;&quot; /&gt;&lt;/p&gt;

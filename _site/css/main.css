@@ -1,7 +1,7 @@
 @charset "UTF-8";
 body { margin: 0; font-family: "Open Sans", "Helvetica Neue", "DejaVu Sans", Arial, "PingFang SC", "Noto Sans CJK SC", "Hiragino Sans GB", "微软雅黑", Helvetica, sans-serif; font-size: 16px; line-height: 1.5; }
 
-a { text-decoration: none; color: #036; }
+a { text-decoration: none; color: #0c94a7; }
 
 a:hover, a:focus { text-decoration: underline; color: #069; }
 
@@ -82,7 +82,7 @@ body { background-color: #e0e0e3; }
 .col-box-author .avatar { width: 135px; height: 135px; border-radius: 50%; margin: 10px auto; display: block; border: 10px solid red; border-color: #607D8B; -webkit-border-radius: 50%; -moz-border-radius: 50%; }
 .col-box-author .name { font-size: 16px; }
 .col-box-author .contact { margin-top: 10px; }
-.col-box-author .contact a { background: #999; color: #eee; padding: 5px 10px; text-decoration: none; border-radius: 5px; white-space: nowrap; }
+.col-box-author .contact a { background: #607D8B; color: #eee; padding: 5px 10px; text-decoration: none; border-radius: 5px; white-space: nowrap; }
 .col-box-author .contact a:hover { transition: background 0.3s ease; background: #666; }
 
 .footer { padding: 60px 0; text-align: center; color: #666; font-size: 14px; }
@@ -103,7 +103,7 @@ body { background-color: #e0e0e3; }
 
 .home .page-heading { font-size: 40px; font-weight: normal; margin: 20px; }
 @media screen and (max-width: 600px) { .home .page-heading { margin: 10px; font-size: 34px; } }
-.home .rss-link { float: right; text-decoration: none; border: 1px solid; color: #999; background: #fff; font-size: 11.2px; padding: 1px 8px; }
+.home .rss-link { float: right; text-decoration: none; border: 1px solid; color: #0c94a7; background: #fff; font-size: 11.2px; padding: 1px 8px; }
 .home .rss-link:hover, .home .rss-link:focus { color: #666; }
 .home .post-list { margin: 0; padding: 20px 40px; list-style: none; }
 .home .post-list > li { padding-bottom: 30px; border-bottom: 1px solid #CCC; margin-bottom: 30px; }

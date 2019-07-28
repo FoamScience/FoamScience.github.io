@@ -32,7 +32,7 @@ header:
     Home: /
     About: /about/
     Contact: /contact/
-    Category: /category/
+    Category: /categories/
     Tags: /tags/
 
 permalink: /:title/

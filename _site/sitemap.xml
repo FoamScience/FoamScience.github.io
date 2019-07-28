@@ -62,6 +62,9 @@
 <loc>http://localhost:4000/contact/</loc>
 </url>
 <url>
+<loc>http://localhost:4000/me/</loc>
+</url>
+<url>
 <loc>http://localhost:4000/</loc>
 </url>
 <url>
@@ -90,9 +93,5 @@
 <url>
 <loc>http://localhost:4000/googlec8f096259cbb1566.html</loc>
 <lastmod>2019-07-26T13:31:47+01:00</lastmod>
-</url>
-<url>
-<loc>http://localhost:4000/me/</loc>
-<lastmod>2019-07-28T13:39:57+01:00</lastmod>
 </url>
 </urlset>

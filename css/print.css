@@ -1,0 +1,89 @@
+* {
+    background-color: #fff !important;
+    color: #222;
+    font-size: 11pt !important;
+    font-family: Helvetica, sans-serif !important;
+}
+
+@page {
+    margin: 0.5in;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid !important;
+}
+
+p, li, blockquote, figure, img {
+    page-break-inside: avoid !important;
+}
+
+figure {
+    margin: 1rem 0;
+}
+
+figcaption {
+    text-align: left;
+    margin: 0 auto;
+    padding: 0.6rem;
+    font-size: 0.9rem;
+}
+
+figure img {
+    display: block;
+    max-height: 35vh;
+    max-width: 90vw;
+    outline: none;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    padding: 0;
+}
+code, pre {
+    max-width: 96%;
+    border: none;
+    color: #222;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    overflow:initial;
+    page-break-inside: enabled;
+    font-family: "Courier", "Courier New", monospace !important;
+}
+
+pre {
+    border: 1pt dotted #666;
+    padding: 0.6em;
+}
+
+/* code within pre - this is to avoid double borders */
+pre code {
+    border: none;
+}
+
+code.sourceCode span    { color: black; }
+code.sourceCode span.al { color: black; }
+code.sourceCode span.at { color: black; }
+code.sourceCode span.bn { color: black; }
+code.sourceCode span.bu { color: black; }
+code.sourceCode span.cf { color: black; }
+code.sourceCode span.ch { color: black; }
+code.sourceCode span.co { color: darkgray; }
+code.sourceCode span.dt { color: black; }
+code.sourceCode span.dv { color: black; }
+code.sourceCode span.er { color: black; }
+code.sourceCode span.ex { color: darkorange; }
+code.sourceCode span.fl { color: black; }
+code.sourceCode span.fu { color: darkorange; }
+code.sourceCode span.im { color: black; }
+code.sourceCode span.kw { color: darkcyan; }
+code.sourceCode span.op { color: black; }
+code.sourceCode span.ot { color: black; }
+code.sourceCode span.pp { color: black; }
+code.sourceCode span.sc { color: black; }
+code.sourceCode span.ss { color: black; }
+code.sourceCode span.st { color: magenta; }
+code.sourceCode span.va { color: darkturquoise; }
+a::after {
+    content: " (" attr(href) ") ";
+    font-size: 90%;
+}

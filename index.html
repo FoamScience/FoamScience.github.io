@@ -19,7 +19,7 @@ layout: default
             <source type="image/webp" srcset="{{ post.image | remove: '.png' 
             | remove: '.jpg' | remove: '.jpeg' | append: '.webp' }}">
             <source type="image/jpeg" srcset="{{ post.image }}">
-            <img src="image.jpg" alt="{% if post.alt %} {{post.alt}} {% else %} {{post.title}} {% endif%}">
+            <img src="{{ post.image.jpg }}" alt="{% if post.alt %} {{post.alt}} {% else %} {{post.title}} {% endif%}">
             </picture>
         </div>
         {% endif %}

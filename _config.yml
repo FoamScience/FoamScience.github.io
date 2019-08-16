@@ -8,7 +8,6 @@ url: 'https://foamscience.github.io' # for test: remove string 'http://victorvoi
 
 # Your information
 email: elwardifadeli@gmail.com
-author: M. Elwardi Fadeli
 #avatar: "//www.gravatar.com/avatar/elwardifadeli@gmail.com_md5?d=mm&s=135"
 #avatar: "/assets/img/FoamScience/foamscience-logo-400x400-transparent.jpg"
 avatar: "/me/assets/images/profile-round.png"
@@ -71,6 +70,8 @@ twitter:
 
 author:
   twitter: FadeliElwardi
+
+authorname: "M. Elwardi Fadeli"
  
 facebbok:
   publisher: https://facebook.com/FoamScience

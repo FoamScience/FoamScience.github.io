@@ -1,7 +1,9 @@
 <div class="col-box col-box-author">
-  <img class="avatar" src="{{ site.avatar }}" alt="{{ site.author }}">
-  <div class="col-box-title name">{{ site.author }}</div>
+  <img class="avatar" src="{{ site.avatar }}" alt="{{ site.authorname }}">
+  <div class="col-box-title name">{{ site.authorname }}</div>
   <p>{{ site.profile }}</p>
+    <div style="height=20px;"> </div>
+    {% include twitter-follow.html %}
   <p class="contact">
     {% if site.github_username %}
     <a href="https://github.com/{{ site.github_username }}">GitHub</a>

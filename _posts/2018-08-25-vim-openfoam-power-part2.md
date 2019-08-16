@@ -4,10 +4,10 @@ title:  "Customize VIM to work efficiently with OpenFOAM - Part 2"
 description: "Working in the right directory and easier file navigation aren't productive enough, we need a way to run OpenFOAM commands right from inside VIM while editing files"
 date:   2018-08-28 15:33:24
 categories: 
-- vim productivity with openfoam
+  - vim productivity with openfoam
 tags: 
-- openfoam
-- productive
+  - openfoam
+  - productivity
 image: /assets/img/VIM/vim-openfoam-customize.png
 ads: true
 ---

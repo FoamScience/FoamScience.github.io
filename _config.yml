@@ -63,3 +63,29 @@ kramdown:
   input: GFM
   syntax_highlighter: rouge
   math_engine: mathjax
+
+# SEO stuff
+twitter:
+  username: elwardifadeli
+  card: summary
+
+author:
+  twitter: FadeliElwardi
+ 
+facebbok:
+  publisher: https://facebook.com/FoamScience
+
+logo: assets/img/FoamScience/foamscience-logo-400x400.jpg
+
+social:
+  name: FoamScience
+  links:
+    - https://twitter.com/FadeliElwardi
+    - https://linkedin.com/in/ElwardiFadeli
+    - https://facebook.com/FoamScience
+
+webmaster_verifications:
+  google:
+  bing: "04C5CD8B9BB62F4D6680F0C7880DDAE8"
+  alexa:
+  yandex: "98a5efed88f77637"

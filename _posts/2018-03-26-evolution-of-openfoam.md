@@ -7,7 +7,6 @@ tags:
 - openfoam
 - evolution
 permalink: /openfoam-evolution/
-image: /assets/img/evolution/openfoam-evolution.jpg
 ads: true
 ---
 
@@ -227,3 +226,5 @@ solver.
 
 > More exciting changes at:
 > [OF6 Release Info Page](https://openfoam.org/release/6/)
+
+## OPENFOAM 7.0 [Updated: 08/08/2019]

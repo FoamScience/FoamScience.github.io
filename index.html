@@ -13,6 +13,16 @@ layout: default
           <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
         </h2>
         
+        {% if post.image %}
+        <div class="post-meta">
+            <picture>
+            <source type="image/webp" srcset="{{ post.image | remove: '.png' 
+            | remove: '.jpg' | remove: '.jpeg' | append: '.webp' }}">
+            <source type="image/jpeg" srcset="{{ post.image }}">
+            <img src="image.jpg" alt="{% if post.alt %} {{post.alt}} {% else %} {{post.title}} {% endif%}">
+            </picture>
+        </div>
+        {% endif %}
         <div class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</div>
 
         <div class="post-excerpt">

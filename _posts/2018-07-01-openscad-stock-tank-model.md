@@ -57,7 +57,7 @@ you might think:
 
 1. Create **points** and **paths** 
   vectors (if necessary) using your text editor.
-2. Run `linear\_extrude` on resulting polygon.
+2. Run `linear_extrude` on resulting polygon.
 
 The first step strongly depends on used text editor; In VIM, 
 I have this awesome vim command defined in my *.vimrc* file:

@@ -8,7 +8,6 @@ tags:
 - post-processing
 - gui
 permalink: /5-killer-quora-answers-on-openfoam/
-image: /assets/img/quoraAnswers/5-killer-quora-answers-openfoam.png
 ads: true
 ---
 

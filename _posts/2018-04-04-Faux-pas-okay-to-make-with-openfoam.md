@@ -7,7 +7,7 @@ tags:
 - openfoam
 by: F.M.Elwardi
 permalink: /faux-pas-okay-to-make-in-openfoam-simulations/
-image: /assets/fauxpasOpenFoam/faux-pas-okay-openfoam-simulations.png
+image: /assets/img/fauxpasOpenFoam/faux-pas-okay-openfoam-simulations.png
 ads: true
 ---
 

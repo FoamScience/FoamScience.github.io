@@ -31,7 +31,7 @@ header:
     Home: /
     About: /about/
     Contact: /contact/
-    Category: /categories/
+    Category: /category/
     Tags: /tags/
 
 permalink: /:title/

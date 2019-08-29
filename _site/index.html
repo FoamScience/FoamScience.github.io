@@ -42,7 +42,7 @@
 <meta name="msvalidate.01" content="04C5CD8B9BB62F4D6680F0C7880DDAE8" />
 <meta name="yandex-verification" content="98a5efed88f77637" />
 <script type="application/ld+json">
-{"name":"FoamScience","description":"FOAM Science is a Computational Fluid Dynamics blog aiming to be a place for OpenFOAM users to share and gather knowledge about CFD related subjects.","@type":"WebSite","url":"http://localhost:4000/","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/FoamScience/foamscience-logo-400x400.jpg"}},"headline":"FOAM Science; Doing CFD","sameAs":["https://twitter.com/FadeliElwardi","https://linkedin.com/in/ElwardiFadeli","https://facebook.com/FoamScience"],"@context":"http://schema.org"}</script>
+{"sameAs":["https://twitter.com/FadeliElwardi","https://linkedin.com/in/ElwardiFadeli","https://facebook.com/FoamScience"],"@type":"WebSite","url":"http://localhost:4000/","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/img/FoamScience/foamscience-logo-400x400.jpg"}},"name":"FoamScience","headline":"FOAM Science; Doing CFD","description":"FOAM Science is a Computational Fluid Dynamics blog aiming to be a place for OpenFOAM users to share and gather knowledge about CFD related subjects.","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -68,7 +68,7 @@
         <a class="page-link" href="/contact/">Contact</a>
       
         
-        <a class="page-link" href="/categories/">Category</a>
+        <a class="page-link" href="/category/">Category</a>
       
         
         <a class="page-link" href="/tags/">Tags</a>
@@ -86,6 +86,36 @@
   <h1 class="page-heading">Articles</h1>
 
   <ul class="post-list">
+    
+      <li>
+        <h2>
+          <a class="post-link" href="/forall-openfoam-cpp/">The forAll Macro in OpenFOAM</a>
+        </h2>
+        
+        
+        <div class="post-meta">
+            <picture>
+            <source type="image/webp" srcset="/assets/img/forAll/forAll-openfoam-cpp.webp">
+            <source type="image/jpeg" srcset="/assets/img/forAll/forAll-openfoam-cpp.png">
+            <img src="" alt=" The forAll Macro in OpenFOAM ">
+            </picture>
+        </div>
+        
+        <div class="post-meta">Aug 28, 2019</div>
+
+        <div class="post-excerpt">
+          <p>Because of the frequent use of range-like loops in OpenFOAM (In official code base, forks, and
+any independent work for that matter), the nice developers provided a “shortcut” to loop through
+all elements of a list; any list. This post tries to take a way the popular misuse of this shortcut:
+Believe it or not, people abuse the <code class="highlighter-rouge">forAll</code> macro in every which way.</p>
+
+
+          
+          <p>
+            <a class="post-link" href="/forall-openfoam-cpp/">Read More &raquo;</a>
+          </p>
+        </div>
+      </li>
     
       <li>
         <h2>
@@ -220,36 +250,6 @@ You probably can create them already, but I want to show you the power of
         </div>
       </li>
     
-      <li>
-        <h2>
-          <a class="post-link" href="/openscad-transformations-boolean-operations/">OpenSCAD Transformations & Boolean Operations</a>
-        </h2>
-        
-        
-        <div class="post-meta">
-            <picture>
-            <source type="image/webp" srcset="/assets/img/OpenSCAD/openscad-transformations.webp">
-            <source type="image/jpeg" srcset="/assets/img/OpenSCAD/openscad-transformations.jpg">
-            <img src="" alt=" OpenSCAD Transformations & Boolean Operations ">
-            </picture>
-        </div>
-        
-        <div class="post-meta">Jun 15, 2018</div>
-
-        <div class="post-excerpt">
-          <p>In my previous post, <a href="/openscad-basics/">OpenSCAD 101: Basics of the Programmers’ CAD software</a>,
-we’ve talked about the most important commands and OpenSCAD’s language features.
-This time, we’ll discuss transformations (<code class="highlighter-rouge">translate</code>, <code class="highlighter-rouge">scale</code>, … etc) and
-introduce you to a new subject: Boolean operations on primitives.</p>
-
-
-          
-          <p>
-            <a class="post-link" href="/openscad-transformations-boolean-operations/">Read More &raquo;</a>
-          </p>
-        </div>
-      </li>
-    
   </ul>
   
   <!-- Pagination links -->
@@ -305,6 +305,8 @@ introduce you to a new subject: Boolean operations on primitives.</p>
   <div class="col-box-title">Newest Posts</div>
   <ul class="post-list">
     
+      <li><a class="post-link" href="/forall-openfoam-cpp/">The forAll Macro in OpenFOAM</a></li>
+    
       <li><a class="post-link" href="/vim-openfoam-power-part2/">Customize VIM to work efficiently with OpenFOAM - Part 2</a></li>
     
       <li><a class="post-link" href="/vim-openfoam-power-part1/">Customize VIM to work efficiently with OpenFOAM - Part 1</a></li>
@@ -312,8 +314,6 @@ introduce you to a new subject: Boolean operations on primitives.</p>
       <li><a class="post-link" href="/openscad-stock-tank-model/">Stock-Tank mesh construction using OpenSCAD</a></li>
     
       <li><a class="post-link" href="/openscad-cfd-usage-examples/">OpenSCAD CFD-oriented Usage Examples</a></li>
-    
-      <li><a class="post-link" href="/openscad-transformations-boolean-operations/">OpenSCAD Transformations & Boolean Operations</a></li>
     
   </ul>
 </div>

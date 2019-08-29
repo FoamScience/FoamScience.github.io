@@ -6,9 +6,164 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 16 Aug 2019 17:14:13 +0100</pubDate>
-    <lastBuildDate>Fri, 16 Aug 2019 17:14:13 +0100</lastBuildDate>
+    <pubDate>Thu, 29 Aug 2019 12:12:10 +0100</pubDate>
+    <lastBuildDate>Thu, 29 Aug 2019 12:12:10 +0100</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>The forAll Macro in OpenFOAM</title>
+        <description>&lt;p&gt;Because of the frequent use of range-like loops in OpenFOAM (In official code base, forks, and
+any independent work for that matter), the nice developers provided a “shortcut” to loop through
+all elements of a list; any list. This post tries to take a way the popular misuse of this shortcut:
+Believe it or not, people abuse the &lt;code class=&quot;highlighter-rouge&quot;&gt;forAll&lt;/code&gt; macro in every which way.
+&lt;!--more--&gt;&lt;/p&gt;
+
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#the-forall-macro-and-its-friends&quot; id=&quot;markdown-toc-the-forall-macro-and-its-friends&quot;&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;forAll&lt;/code&gt; macro and its “friends”&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#a-word-on-ulist-in-openfoam&quot; id=&quot;markdown-toc-a-word-on-ulist-in-openfoam&quot;&gt;A word on &lt;code class=&quot;highlighter-rouge&quot;&gt;UList&lt;/code&gt; in OpenFOAM&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#a-word-on-dictionary-in-openfoam&quot; id=&quot;markdown-toc-a-word-on-dictionary-in-openfoam&quot;&gt;A word on &lt;code class=&quot;highlighter-rouge&quot;&gt;dictionary&lt;/code&gt; in OpenFOAM&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;the-forall-macro-and-its-friends&quot;&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;forAll&lt;/code&gt; macro and its “friends”&lt;/h2&gt;
+
+&lt;p&gt;First of all, we all know that &lt;code class=&quot;highlighter-rouge&quot;&gt;forAll&lt;/code&gt; is not part of C++, so it is a user-defined macro. 
+Assuming a recent fork/version of OpenFOAM is sourced, the definition
+of this macro and similar ones can be found by running the folllwoing shell commands:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$FOAM_SRC&lt;/span&gt;/&lt;span class=&quot;nv&quot;&gt;$WM_PROJECT&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;define.*forAll&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The previous command reveals that there are at least four (4, &lt;code class=&quot;highlighter-rouge&quot;&gt;foam-extend&lt;/code&gt; has some more) 
+defined macros to loop through “collections”:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;The good old &lt;code class=&quot;highlighter-rouge&quot;&gt;forAll&lt;/code&gt; and its reversed-looping version &lt;code class=&quot;highlighter-rouge&quot;&gt;forAllReverse&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;A &lt;code class=&quot;highlighter-rouge&quot;&gt;forAllIter&lt;/code&gt; macro specialized in iterating over a Container using an “iterator” and a const-version of it.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Yep, browsing source code is extremely useful (These macros are defined in &lt;code class=&quot;highlighter-rouge&quot;&gt;UList.h&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;People need to understand that &lt;code class=&quot;highlighter-rouge&quot;&gt;forAll(list, i)&lt;/code&gt; is “just” a shortcut to &lt;code class=&quot;highlighter-rouge&quot;&gt;for (int i=0; i&amp;lt;(list).size(); i++)&lt;/code&gt;.
+Although &lt;code class=&quot;highlighter-rouge&quot;&gt;i&lt;/code&gt; is actually a &lt;code class=&quot;highlighter-rouge&quot;&gt;Foam::label&lt;/code&gt; in standard OF versions. Strictly speaking; the macro just “works”
+on any container that has a &lt;code class=&quot;highlighter-rouge&quot;&gt;size()&lt;/code&gt; member method (Think of it as a vector of a known size - at construction
+time). Such containers will probably (publicly) inherit from the &lt;code class=&quot;highlighter-rouge&quot;&gt;UList&lt;/code&gt; 
+(The most lightweight-efficient base class I know of).&lt;/p&gt;
+
+&lt;p&gt;Let’s examine a very simple example of constructing a &lt;code class=&quot;highlighter-rouge&quot;&gt;scalarList&lt;/code&gt; (a &lt;code class=&quot;highlighter-rouge&quot;&gt;List&amp;lt;scalar&amp;gt;&lt;/code&gt;, publicly
+inheriting from &lt;code class=&quot;highlighter-rouge&quot;&gt;UList&amp;lt;scalar&amp;gt;&lt;/code&gt;).&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &quot;fvCFD.H&quot;
+&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[])&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;   
+    &lt;span class=&quot;c1&quot;&gt;// Create a list of some scalars
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;scalarList&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someScalars&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// Perfectly fine use of forAll
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;forAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scalarList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;scalarList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;doSomeCalculations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;Info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;End&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;But this may be misleading; what if someone uses the macro to loop over a “different” type of containers,
+say a &lt;code class=&quot;highlighter-rouge&quot;&gt;dictionary&lt;/code&gt;? Is &lt;code class=&quot;highlighter-rouge&quot;&gt;forAll&lt;/code&gt; suitable for such tasks?&lt;/p&gt;
+
+&lt;p&gt;The answer is in the previous example actually: Common use of &lt;code class=&quot;highlighter-rouge&quot;&gt;forAll&lt;/code&gt; requires the list object to&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Have a &lt;code class=&quot;highlighter-rouge&quot;&gt;size()&lt;/code&gt; method and&lt;/li&gt;
+  &lt;li&gt;Be &lt;em&gt;efficiently&lt;/em&gt; indexable with some method/operator (&lt;code class=&quot;highlighter-rouge&quot;&gt;operator[]&lt;/code&gt; in this case), otherwise, 
+there is no benefit in looping through some collection if you can’t access its elements!!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So, if &lt;code class=&quot;highlighter-rouge&quot;&gt;dictionary&lt;/code&gt; objects verify these requirements; we’re golden.&lt;/p&gt;
+
+&lt;p&gt;In fact, The &lt;code class=&quot;highlighter-rouge&quot;&gt;DictionaryBase&lt;/code&gt; Template class publicly inherits from the (Link) List Type it is templated on.
+It’s easy to follow the inheritance diagram of the most commonly used class 
+&lt;a href=&quot;https://cpp.openfoam.org/v7/classFoam_1_1dictionary.html&quot;&gt;dictionary&lt;/a&gt; to see that there is no &lt;code class=&quot;highlighter-rouge&quot;&gt;size()&lt;/code&gt; method
+defined anywhere. Also, how would one refer to an entry as &lt;code class=&quot;highlighter-rouge&quot;&gt;dictionary[i]&lt;/code&gt; ??&lt;/p&gt;
+
+&lt;p&gt;It should be obvious now that &lt;code class=&quot;highlighter-rouge&quot;&gt;forAll&lt;/code&gt; is not the right macro to use in this case. That’s where the second family
+of macros kicks in: Instead of using a (possibly more efficient) predefined-size containers, some situations
+require the use of “more dynamic” ones which only hold “pointers” to their begin/end positions. An iterator
+is then used to go back and forth between these positions.&lt;/p&gt;
+
+&lt;p&gt;A nice usage of this macro can be found at line 175 of &lt;a href=&quot;https://cpp.openfoam.org/v7/solution_8C_source.html&quot;&gt;solution.C&lt;/a&gt;
+file so newer versions of OpenFOAM would understand older specification of &lt;code class=&quot;highlighter-rouge&quot;&gt;fvSolution.solver&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The const-iter version of &lt;code class=&quot;highlighter-rouge&quot;&gt;forAllIter&lt;/code&gt; is also used to read entries of a &lt;code class=&quot;highlighter-rouge&quot;&gt;dictionary&lt;/code&gt; into a &lt;code class=&quot;highlighter-rouge&quot;&gt;HashTable&lt;/code&gt; … you can
+find an example at line 146 of &lt;a href=&quot;https://cpp.openfoam.org/v7/HashPtrTableIO_8C_source.html&quot;&gt;HashPtrTableIO.C&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-word-on-ulist-in-openfoam&quot;&gt;A word on &lt;code class=&quot;highlighter-rouge&quot;&gt;UList&lt;/code&gt; in OpenFOAM&lt;/h2&gt;
+
+&lt;p&gt;As far as I can tell, this class is just “well written” - “well thought through”. Its purpose is 
+to provide an efficient base class for “Sub-Lists”. A quick look on 
+&lt;a href=&quot;https://cpp.openfoam.org/v7/classFoam_1_1UList.html#details&quot;&gt;the list of classes&lt;/a&gt; 
+that directly inherit from it shows how important &lt;code class=&quot;highlighter-rouge&quot;&gt;UList&lt;/code&gt; is.&lt;/p&gt;
+
+&lt;p&gt;By the way, the class also holds a random access iterator; so it can be used with &lt;code class=&quot;highlighter-rouge&quot;&gt;forAllIter&lt;/code&gt;:
+We use an object (usually called &lt;code class=&quot;highlighter-rouge&quot;&gt;iter&lt;/code&gt;) to “point” to a list item each time we iterate. The
+list item itself is accessed by dereferencing the pointer (&lt;code class=&quot;highlighter-rouge&quot;&gt;*iter&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;I’m not aware of a way to get the “index” of an element in a List; It would be inefficient!
+So I never bothered to search for one. Another thing I should point out is that &lt;code class=&quot;highlighter-rouge&quot;&gt;std::distance&lt;/code&gt;
+probably won’t work without some serious Type Casting :). It’s (was?) dangerous anyway, and I 
+don’t know if a similar function is available for OpenFOAM iterators).&lt;/p&gt;
+
+&lt;p&gt;In fact, the use of &lt;code class=&quot;highlighter-rouge&quot;&gt;std::distance&lt;/code&gt; takes away one the most important features of iterator-based
+loops: The ability to loop through a container where either &lt;code class=&quot;highlighter-rouge&quot;&gt;.begin()&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;.end()&lt;/code&gt; is not
+reachable from the other (possibly by incrementing &lt;code class=&quot;highlighter-rouge&quot;&gt;iter&lt;/code&gt;) as it results in “undefined behavior”.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;In recent OpenFOAM versions, &lt;code class=&quot;highlighter-rouge&quot;&gt;GeometricField&lt;/code&gt; (Base class for &lt;code class=&quot;highlighter-rouge&quot;&gt;volScalarField&lt;/code&gt; …) inherits
+from &lt;code class=&quot;highlighter-rouge&quot;&gt;UList&lt;/code&gt;, so, one can typically loop through their elements  with both macros; although 
+template specializations specialize the sense of “loop through their elements”: Some types 
+support looping through “internalField”; others make it so the loop hits everything.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;a-word-on-dictionary-in-openfoam&quot;&gt;A word on &lt;code class=&quot;highlighter-rouge&quot;&gt;dictionary&lt;/code&gt; in OpenFOAM&lt;/h2&gt;
+
+&lt;p&gt;This class a good example of a lot of things. “An iterator-based container” as I introduced it in 
+this post is just the tip of the iceberg. The reason I chose it for this post is that most 
+OpenFOAM &lt;em&gt;users&lt;/em&gt; consider a dictionary to be a “list” which is not entirely true. The similarity 
+of, for example, getting some IDs (0, 1, 2, 3 … ) for mesh patches from the &lt;code class=&quot;highlighter-rouge&quot;&gt;boundary&lt;/code&gt; files 
+doesn’t mean a dictionary is indexable (I’m talking about “old-fashion” indexing here).&lt;/p&gt;
+
+&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- Disp add --&gt;
+&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;6599434036&quot; data-ad-format=&quot;auto&quot; data-full-width-responsive=&quot;true&quot;&gt;&lt;/ins&gt;
+&lt;script&gt;
+(adsbygoogle = window.adsbygoogle || []).push({});
+&lt;/script&gt;&lt;/p&gt;
+
+&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;4856474507&quot;&gt;&lt;/ins&gt;
+&lt;script&gt;
+     (adsbygoogle = window.adsbygoogle || []).push({});
+&lt;/script&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 28 Aug 2019 11:13:02 +0100</pubDate>
+        <link>http://localhost:4000/forall-openfoam-cpp/</link>
+        <guid isPermaLink="true">http://localhost:4000/forall-openfoam-cpp/</guid>
+        
+        <category>cpp</category>
+        
+        <category>programming</category>
+        
+        
+        <category>Cpp</category>
+        
+      </item>
     
       <item>
         <title>Customize VIM to work efficiently with OpenFOAM - Part 2</title>
@@ -2623,285 +2778,6 @@ comments.&lt;/p&gt;
         <guid isPermaLink="true">http://localhost:4000/greatest-moments-computational-fluid-dynamics/</guid>
         
         <category>openfoam</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>The Evolution of OpenFOAM</title>
-        <description>&lt;p&gt;OpenFOAM was originally a commercial product called &lt;strong&gt;FOAM&lt;/strong&gt;, and it was
-first released as an “Open Source Software” in December 2004 (Under the &lt;a href=&quot;https://en.wikipedia.org/wiki/GNU_General_Public_License&quot;&gt;GNU
-GPL&lt;/a&gt;, renamed
-OpenFOAM since then). 
-&lt;!--more--&gt;&lt;/p&gt;
-
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#openfoam-1x&quot; id=&quot;markdown-toc-openfoam-1x&quot;&gt;OPENFOAM 1.x&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#openfoam-2x&quot; id=&quot;markdown-toc-openfoam-2x&quot;&gt;OPENFOAM 2.x&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#openfoam-3x&quot; id=&quot;markdown-toc-openfoam-3x&quot;&gt;OPENFOAM 3.x&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#openfoam-4x&quot; id=&quot;markdown-toc-openfoam-4x&quot;&gt;OPENFOAM 4.x&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#openfoam-5x--updated-17082018&quot; id=&quot;markdown-toc-openfoam-5x--updated-17082018&quot;&gt;OPENFOAM 5.x  [Updated: 17/08/2018]&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#openfoam-60--updated-17082018&quot; id=&quot;markdown-toc-openfoam-60--updated-17082018&quot;&gt;OPENFOAM 6.0  [Updated: 17/08/2018]&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#openfoam-70-updated-08082019&quot; id=&quot;markdown-toc-openfoam-70-updated-08082019&quot;&gt;OPENFOAM 7.0 [Updated: 08/08/2019]&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This act had great effects on OpenFOAM’s user base and started to build a vast
-caring community. In this post, I’m going to showcase the major improvements
-introduced to OpenFOAM (official) code from the beginning (&lt;code class=&quot;highlighter-rouge&quot;&gt;OF1.0&lt;/code&gt;) up until now 
-(&lt;code class=&quot;highlighter-rouge&quot;&gt;OF5.0&lt;/code&gt;).&lt;/p&gt;
-
-&lt;h2 id=&quot;openfoam-1x&quot;&gt;OPENFOAM 1.x&lt;/h2&gt;
-
-&lt;p&gt;At the beginning, the development focused on user interaction with the software
-(mainly compiling errors and similar stuff). After few partial versions, &lt;code class=&quot;highlighter-rouge&quot;&gt;OF1.4&lt;/code&gt;
-came with the first noticeable efficiency improvements:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;A new compressible two-phase flow (&lt;strong&gt;cavitation&lt;/strong&gt;) was added.&lt;/li&gt;
-  &lt;li&gt;Porous media models were introduced for the first time.&lt;/li&gt;
-  &lt;li&gt;Implementation of Multiple reference frames (MRF).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The next few releases have introduced new applications (meshing, case
-initialization, functionObjects and post-processing) and libraries (radiation 
-modeling, LES &amp;amp; RAS turbulence models, basic mesh motion … etc).&lt;/p&gt;
-
-&lt;p&gt;And before reaching &lt;code class=&quot;highlighter-rouge&quot;&gt;OF2.0&lt;/code&gt;, many numerical polynomial-fit higher-order
-interpolation schemes were added (linear, quadratic, cubic), and many new
-boundary conditions were added and improved in association with new library
-development (Turbulence and thermophysical modeling).&lt;/p&gt;
-
-&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
-
-&lt;!-- Disp add --&gt;
-&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;6599434036&quot; data-ad-format=&quot;auto&quot; data-full-width-responsive=&quot;true&quot;&gt;&lt;/ins&gt;
-&lt;script&gt;
-(adsbygoogle = window.adsbygoogle || []).push({});
-&lt;/script&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;openfoam-2x&quot;&gt;OPENFOAM 2.x&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;OF2.0&lt;/code&gt; was the first release that officially supported some Linux distributions
-(Binary Deb packages for Ubuntu and .RPM ones for SUSE).&lt;/p&gt;
-
-&lt;p&gt;On the technical side, it is worth mentioning that a “local-time stepping,
-Steady-state VoF (Volume of Fluid) “ method was introduced to OpenFOAM in this 
-release.&lt;/p&gt;
-
-&lt;p&gt;The next releases, up until &lt;code class=&quot;highlighter-rouge&quot;&gt;OF3.0&lt;/code&gt;, added support for  Fedora Linux while
-continuing to improve efficiency of the code and introducing new features:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Arbitrary mesh interface (AMI): Rotation of geometries and more flexibility 
-when using cyclic boundaries and coupling simulations between separate mesh 
-regions (e.g. surface film and bulk flow)&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Meshing tools got interesting features: They had new useful options.
-    &lt;ol&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;snappyHexMesh&lt;/code&gt; features and capabilities were on fire during this cycle of 
-releases.&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;checkMesh&lt;/code&gt; learned how to listen for user-specified mesh quality
-settings.&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;decomposePar&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;reconstructPar&lt;/code&gt; were improved for multi-region
- simulations handling.&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fvOptions&lt;/code&gt; used for source/sink specification in &lt;code class=&quot;highlighter-rouge&quot;&gt;OF2.2.0&lt;/code&gt; (How they were
-doing this before?).&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Migration to &lt;strong&gt;Doxygen&lt;/strong&gt; to generate code documentation.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Macro expansions and regular expressions in keyword names were first
-introduced for the first time in &lt;code class=&quot;highlighter-rouge&quot;&gt;OF2.2.2&lt;/code&gt;.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;And Hey! &lt;code class=&quot;highlighter-rouge&quot;&gt;OF2.3&lt;/code&gt; came with a new meshing tool &lt;code class=&quot;highlighter-rouge&quot;&gt;foamyHexMesh&lt;/code&gt;.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Pre-processing tools also got a boost in terms of efficiency and user
-convenience.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;In general, any complains about meshing tools originate from this era :)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;openfoam-3x&quot;&gt;OPENFOAM 3.x&lt;/h2&gt;
-
-&lt;p&gt;With the release of &lt;code class=&quot;highlighter-rouge&quot;&gt;OF3.0.0&lt;/code&gt; things got a lot more interesting (from the user
-perspective at least):&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;blockMeshDict&lt;/code&gt; moved to &lt;strong&gt;system&lt;/strong&gt; directory&lt;/li&gt;
-  &lt;li&gt;Official packages supported only Ubuntu&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;fvSchemes&lt;/strong&gt; no longer requires the dictionary &lt;code class=&quot;highlighter-rouge&quot;&gt;fluxRequired&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Many regions of the code were redesigned to improve consistency and make it
-easier to work with.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This release focused mainly on turbulence models:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;it gave &lt;strong&gt;turbulenceProperties&lt;/strong&gt; the ability to select any turbulence model
-instead of using the old &lt;strong&gt;RASProperties&lt;/strong&gt; and &lt;strong&gt;LESProperties&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Also, many of you may not know this, but &lt;code class=&quot;highlighter-rouge&quot;&gt;blockMesh&lt;/code&gt; learned how to overcome the particular
-vertex ordering when constructing block faces in this release!&lt;/p&gt;
-
-&lt;p&gt;This basically means that:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;    &lt;span class=&quot;n&quot;&gt;fixedWalls&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;   
-        &lt;span class=&quot;n&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;wall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;faces&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;   &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Is the same as&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;    &lt;span class=&quot;n&quot;&gt;fixedWalls&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;   
-        &lt;span class=&quot;n&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;wall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;faces&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;   &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;You can try this immediately on a tutorial case!!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Teaching the tool the ability to find the appropriate ordering of face vertices
-on its own helped a lot with improving its “scriptability”.&lt;/p&gt;
-
-&lt;p&gt;Many input-related improvements were performed, for example, the following
-entries are all valid starting from this release:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;n&quot;&gt;nu&lt;/span&gt;              &lt;span class=&quot;n&quot;&gt;nu&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.01&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;nu&lt;/span&gt;              &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.01&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;You can also omit the dimensions specification and write:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;n&quot;&gt;nu&lt;/span&gt;              &lt;span class=&quot;mf&quot;&gt;0.01&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;But it’s not recommended to do so.&lt;/p&gt;
-
-&lt;p&gt;After &lt;code class=&quot;highlighter-rouge&quot;&gt;OF3.0.0&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;OF3.0.1&lt;/code&gt; was released to fix some bugs and help programmers
-with the development of new applications:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foamNewBC&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;foamNewApp&lt;/code&gt; now create templates for boundary conditions and
-new applications (solvers, utilities).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;openfoam-4x&quot;&gt;OPENFOAM 4.x&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;OpenFOAM 4.0&lt;/code&gt; introduced many improvements to the user interface:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foamDictionary&lt;/code&gt; prints and modifies dictionary content.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foamListTimes -rm&lt;/code&gt; removes time directories (but not &lt;strong&gt;0&lt;/strong&gt; dir.): Use this
-instead of struggling with regular expressions.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;We used to &lt;code class=&quot;highlighter-rouge&quot;&gt;grep&lt;/code&gt; things if we want to know how a keyword is used (and I still
-do), but the new &lt;code class=&quot;highlighter-rouge&quot;&gt;foamSearch&lt;/code&gt; is a great tool for this task.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;All old post-processing (small, one-task-oriented ) tools are fused into a single one:
-&lt;code class=&quot;highlighter-rouge&quot;&gt;postProcess&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Many &lt;code class=&quot;highlighter-rouge&quot;&gt;functionObjects&lt;/code&gt; are re-factored.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;A load of new BCs are added, with &lt;strong&gt;noSlip&lt;/strong&gt; standing out!!&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;foamList&lt;/code&gt; lists models used in OpenFOAM (&lt;code class=&quot;highlighter-rouge&quot;&gt;-functionObjects&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;-scalarBCs&lt;/code&gt; …
-etc).&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual the version after this one (&lt;code class=&quot;highlighter-rouge&quot;&gt;OF4.1&lt;/code&gt;) only fixed some bugs.&lt;/p&gt;
-
-&lt;h2 id=&quot;openfoam-5x--updated-17082018&quot;&gt;OPENFOAM 5.x  [Updated: 17/08/2018]&lt;/h2&gt;
-
-&lt;script async=&quot;&quot; src=&quot;//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
-
-&lt;p&gt;&lt;ins class=&quot;adsbygoogle&quot; style=&quot;display:block; text-align:center;&quot; data-ad-layout=&quot;in-article&quot; data-ad-format=&quot;fluid&quot; data-ad-client=&quot;ca-pub-3635214305281166&quot; data-ad-slot=&quot;4856474507&quot;&gt;&lt;/ins&gt;
-&lt;script&gt;
-     (adsbygoogle = window.adsbygoogle || []).push({});
-&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;OpenFOAM can now be installed conveniently on &lt;strong&gt;Windows 10&lt;/strong&gt; machines using
-Microsoft’s &lt;strong&gt;Windows subsystem for Linux&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;The first thing I noticed when using OpenFOAM 5 for the first time is that solvers
-and utilities know about bash-TAB completion; the new &lt;code class=&quot;highlighter-rouge&quot;&gt;-list*&lt;/code&gt; options for the 
-commands are very useful (try &lt;code class=&quot;highlighter-rouge&quot;&gt;-listScalarBCs&lt;/code&gt;).&lt;/p&gt;
-
-&lt;p&gt;New Function Objects were introduced including the handy &lt;code class=&quot;highlighter-rouge&quot;&gt;flowRateFaceZone&lt;/code&gt; which 
-calculates flow rate through a face zone (wasn’t possible before without using &lt;code class=&quot;highlighter-rouge&quot;&gt;SWAK4FOAM&lt;/code&gt;
-function objects).&lt;/p&gt;
-
-&lt;p&gt;The release also improves some ramp functions and adds some, though I’m not a fan
-of those functions!!&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;For the technical details on what new things &lt;code class=&quot;highlighter-rouge&quot;&gt;OF5.0&lt;/code&gt; offers, head to 
-&lt;a href=&quot;https://openfoam.org/release/5-0/&quot;&gt;OF5 Release Info Page&lt;/a&gt;; I think you ready for
-that now!!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;openfoam-60--updated-17082018&quot;&gt;OPENFOAM 6.0  [Updated: 17/08/2018]&lt;/h2&gt;
-
-&lt;p&gt;OF6 is being tested by regular users for more than a month now, including me, and I love it.
-The focus mainly goes to making OpenFOAM a more user-friendly software:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Remember using DyM versions of solvers? Well, that’s deprecated because now, standard solvers
-are able to handle mesh motion natively instead of using specialized versions of the same
-solver.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;There is no need to copy &lt;code class=&quot;highlighter-rouge&quot;&gt;0.orig&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt;; Initial and boundary conditions are now read
-from both directories automatically.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;A new &lt;code class=&quot;highlighter-rouge&quot;&gt;atmosphericModels&lt;/code&gt; library which I missed for a while now!!&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;More exciting changes at:
-&lt;a href=&quot;https://openfoam.org/release/6/&quot;&gt;OF6 Release Info Page&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;openfoam-70-updated-08082019&quot;&gt;OPENFOAM 7.0 [Updated: 08/08/2019]&lt;/h2&gt;
-</description>
-        <pubDate>Mon, 26 Mar 2018 11:22:10 +0100</pubDate>
-        <link>http://localhost:4000/openfoam-evolution/</link>
-        <guid isPermaLink="true">http://localhost:4000/openfoam-evolution/</guid>
-        
-        <category>openfoam</category>
-        
-        <category>evolution</category>
         
         
       </item>

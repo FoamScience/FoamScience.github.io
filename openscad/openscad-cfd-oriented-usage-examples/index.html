@@ -1,0 +1,763 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OpenSCAD CFD-oriented Usage Examples - FoamScience</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="FoamScience OpenFOAM,"> 
+    <meta name="description" content="We’ve been learning the basics of OpenSCAD language:
+
+OpenSCAD 101: Basics of the OpenSCAD language,"> 
+    <meta name="author" content="Fadeli Mohamed Elwardi"> 
+    <link rel="alternative" href="atom.xml" title="FoamScience" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+    <link rel="stylesheet" href="/css/obsidian.css">
+    <link rel="stylesheet" href="/css/ball-atom.min.css">
+
+  <link rel="amphtml" href="/openscad/openscad-cfd-oriented-usage-examples/amp/index.html">
+
+     <script data-ad-client="ca-pub-3635214305281166" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
+     </script>
+</head>
+</html>
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">FoamScience</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://foamscience.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">OpenSCAD CFD-oriented Usage Examples</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="douban,diandian,tencent"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="section">
+        <div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(/assets/img/OpenSCAD/openscad-logo.jpg);">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
+                
+                <a href="/categories/openscad"><b>「
+                    </b>OPENSCAD<b> 」</b></a>
+                
+                June 17, 2018
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/openscad/openscad-cfd-oriented-usage-examples/" title="OpenSCAD CFD-oriented Usage Examples">OpenSCAD CFD-oriented Usage Examples</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
+                
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>Words count</i>
+                    16k
+                </span>
+                
+                
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>Reading time</i>
+                    14 mins.
+                </span>
+                
+                
+                <span id="/openscad/openscad-cfd-oriented-usage-examples/" class="leancloud_visitors" data-flag-title="OpenSCAD CFD-oriented Usage Examples">
+                    <b class="iconfont icon-read"></b> <i>Read count</i>
+                    <span class="leancloud-visitors-count">1000000</span>
+                </span>
+                
+                
+            </p>
+            
+            
+            <ul class="animated fadeInDown post-tags-list"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/Meshing/">Meshing</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/OpenSCAD/">OpenSCAD</a></li></ul>
+            
+        </div>
+    </div>
+</div>
+
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s">Create OpenSCAD Modules for your own purposes</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <p>We’ve been learning the basics of OpenSCAD language:</p>
+<ul>
+<li><a href="/openscad-basics/">OpenSCAD 101: Basics of the OpenSCAD language</a></li>
+<li><a href="/openscad-transformations-boolean-operations/">OpenSCAD Transformations &amp; Boolean Ops</a></li>
+</ul>
+<p>In this post, I’ll teach you how to build commonly used shapes using new tricks:<br>You probably can create them already, but I want to show you the power of 2D-shapes Extrusion in OpenSCAD.</p>
+<blockquote>
+<p>One of the most important lessons I learned while working with OpenSCAD is<br>that I absolutely have to keep my models “parametric” no matter what!</p>
+</blockquote>
+<h2 id="A-parametric-T-junction-module"><a href="#A-parametric-T-junction-module" class="headerlink" title="A parametric T-junction module."></a>A parametric T-junction module.</h2><p>First, let’s learn how to manipulate module parameters (arguments) efficiently:</p>
+<ol>
+<li>You already know that you can specify a default value for a parameter.</li>
+<li><code>cylinder(r=1,h=2)</code> and <code>cylinder(r1=1, r2=2, h=5)</code> both work fine because the cylinder module is set up in a way that if only one radius is supplied, it’s considered as “cylinder radius”; but if two are supplied, the module produces a cone like shape.</li>
+<li>At the moment, OpenSCAD doesn’t support setting a module’s parameter value as the default value of another one, i.e. the command <code>module dum(p1,p2=p1) {echo(p2);}</code>  will result in a warning: “Ignoring unknown variable p1”, and the <code>echo</code> command will say that <code>p2</code> is <code>undef</code>.</li>
+</ol>
+<p>The following example shows a way of dealing with such situations where we want to use a second radius only if the user says so.</p>
+<p>The T-Junction shape I have in mind is illustrated in the following image  (Well, this is actually the resulting one …):</p>
+<p><img src="/assets/img/OpenSCAD/openscad-tjunction.jpg" alt="OpenSCAD T-Junction Model"></p>
+<blockquote>
+<p>If you have any questions, don’t hesitate, fire at me in the comments section.</p>
+</blockquote>
+<pre><code class="clike">/*
+    Create an object module called tJunction.
+    Parameters:
+    - mr1: Main cylinder radius in mm
+    - mh:  Main cylinder height in mm
+    - ar1: Additional cylinder radius in mm
+    - ah:  Additional cylinder height in mm
+    [Optional parameters, for cone-like shapes]
+    - mr2: Second main cylinder radius in mm 
+    - ar2: Second additional cylinder radius in mm 
+
+    This module creates a T-shaped pipe (pointing up in z-direction).
+*/
+module tJunction(mr1,mh,ar1,ah, mr2,ar2) {
+
+    // First check that the main cylinder is wider
+    if (mr1&lt;ar1){ 
+       // ECHO knows HTML 
+       // Use checkMesh-like indicators (***) for auto error finding
+        echo(&quot;&lt;font color=&#39;red&#39;&gt;*** Check cylinders dimensions&lt;/font&gt;&quot;);
+    }   
+
+    // If optional parameters are not defined,
+    // Use only the main ones.
+    mr2 = (mr2 == undef) ? mr1: mr2;
+    ar2 = (ar2 == undef) ? ar1: ar2;
+
+    // Build the actual thing
+    union(){
+        rotate([0,90,0]) cylinder(r1=mr1,r2=mr2,h=mh, center=true);
+        cylinder(r1=ar1, r2=ar2, h=ah);
+    }   
+}
+
+// An example
+tJunction(10,100,5,50, $fn=60);
+/* translate(-[100,0,0]) tJunction(12,100,5,50,5,3, $fn=60); */
+</code></pre>
+<h2 id="A-parametric-U-like-pipe-For-OpenSCAD-2016"><a href="#A-parametric-U-like-pipe-For-OpenSCAD-2016" class="headerlink" title="A parametric U-like pipe [For OpenSCAD 2016+]"></a>A parametric U-like pipe [For OpenSCAD 2016+]</h2><p>There are generally two ways to create 3D shapes out of 2D ones with OpenSCAD:</p>
+<ul>
+<li><strong>Linear Extrusion:</strong> Extruding a 2D shape in a single direction (Specifically, in the z-direction), but the shape can be twisted!</li>
+<li><strong>Rotating Extrusion:</strong> Rotating a 2D shape around the Z-axis to create a symmetric shape (Rotational symmetry).</li>
+</ul>
+<p>… And there is a command for each method: <code>linear_extrude</code> and <code>rotate_extrude</code>.</p>
+<p>Let’s see what parameters we need to specify in order to build a U-shaped pipe:</p>
+<p><img src="/assets/img/OpenSCAD/openscad-ushape.jpg" alt="OpenSCAD UShaped pipe"></p>
+<pre><code class="clike">/*
+    Create an object module named Ushape.
+    Parameters:
+    - ur1: Pipe radius.
+    - ur2: 2*ur2 is the center-to-center distance between 
+           the extensions of U shape.
+    - uh: length of these extensions.
+    Requires OpenSCAD 2016.xx or newer because:
+    ** It uses the angle argument **
+
+    Makes use of standard extrusions to build
+    a U-shaped pipe.
+*/
+module Ushape(ur1, ur2 ,uh) {
+
+    // Circle resolution
+    cRes = 30;
+    // Extrusion resolution
+    eRes = 50;
+
+    union(){
+        // The rounded part
+        rotate_extrude(angle=180, convexity=10, $fn=eRes)
+               translate([ur2, 0]) circle(ur1, $fn=cRes);
+
+        // U extensions
+        rotate([90,0,0]) linear_extrude(height=uh,$fn=eRes)
+               translate([ur2, 0]) circle(ur1, $fn=cRes);
+        rotate([90,0,0]) linear_extrude(height=uh,$fn=eRes)
+               translate([-ur2, 0]) circle(ur1, $fn=cRes);
+    }
+
+}
+
+// Simple example usage:
+// Ushape(2,10,20);
+
+// Hollow U-shape
+difference(){
+Ushape(2,10,20);
+Ushape(1,10,20.01);
+}</code></pre>
+<blockquote>
+<p>It’s important that you learn more about these extrusion commands from the <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/2D_to_3D_Extrusion#Rotate_Extrude" target="_blank" rel="noopener">User Manual</a></p>
+</blockquote>
+<h2 id="A-parametric-U-like-pipe-For-older-OpenSCAD"><a href="#A-parametric-U-like-pipe-For-older-OpenSCAD" class="headerlink" title="A parametric U-like pipe [For older OpenSCAD]"></a>A parametric U-like pipe [For older OpenSCAD]</h2><pre><code class="clike">/*
+    Create an object module named Ushape.
+    Parameters:
+    - ur1: Pipe radius.
+    - ur2: 2*ur2 is the center-to-center distance between 
+           the extensions of U shape.
+    - uh: length of these extensions.
+    Works with all OpenSCAD versions:
+    Instead of using the new &quot;angle&quot; argument,
+    use an intersection to get the same effect.
+    Makes use of standard extrusions to build
+    a U-shaped pipe.
+*/
+module Ushape(ur1, ur2 ,uh) {
+
+    // Circle resolution
+    cRes = 30;
+    // Extrusion resolution
+    eRes = 50;
+
+    union(){
+    // The rounded part
+        intersection(){ // Intersect the extruded circle with a cube
+        rotate_extrude(convexity=10, $fn=eRes)
+               translate([ur2, 0]) circle(ur1, $fn=cRes);
+        # translate([0,(ur2+ur1),0])
+            cube([2*(ur2+ur1),2*(ur2+ur1),2*ur1],center=true);
+        }
+        // U extensions
+        rotate([90,0,0]) linear_extrude(height=uh,$fn=eRes)
+               translate([ur2, 0]) circle(ur1, $fn=cRes);
+        rotate([90,0,0]) linear_extrude(height=uh,$fn=eRes)
+               translate([-ur2, 0]) circle(ur1, $fn=cRes);
+    }
+
+}</code></pre>
+<blockquote>
+<p>Don’t forget to remove the highlighter (#) from the cube command.</p>
+</blockquote>
+<h2 id="An-Even-Better-Ushape-module"><a href="#An-Even-Better-Ushape-module" class="headerlink" title="An Even Better Ushape module"></a>An Even Better Ushape module</h2><p>Why limiting ourselves to circles? Indeed, there is no reason, so, we can upgrade our previous model to take in any 2D shape (hopefully) and use it when creating the U shape. </p>
+<p>The transition is simple:</p>
+<ul>
+<li>Remove instructions and variables (Resolution and Radius variables) that are related to the base circle in old module.</li>
+<li>Replace every instance of the circle with <code>children(0)</code> (The first item in the children list).</li>
+</ul>
+<pre><code class="clike">/*
+    Create an operator module named Ushape.
+    Parameters:
+    - ur: 2*ur is the center-to-center distance between 
+           the extensions of U shape.
+    - uh: length of these extensions.
+    Children:
+    - Use only one child object
+    Requires OpenSCAD 2016.xx or newer because:
+    ** It uses the angle argument **
+
+    Makes use of standard extrusions to build
+    a U-shaped pipe.
+*/
+module Ushape(ur ,uh) {
+
+    // Extrusion resolution
+    eRes = 50; 
+
+    union(){
+        // The rounded part
+        rotate_extrude(angle=180, convexity=10, $fn=eRes)
+               translate([ur, 0]) children(0); 
+
+        // U extensions
+        rotate([90,0,0]) linear_extrude(height=uh,$fn=eRes)
+               translate([ur, 0]) children(0);
+        rotate([90,0,0]) linear_extrude(height=uh,$fn=eRes)
+               translate([-ur, 0]) children(0);
+    }   
+
+}
+
+// Hollow U-shape
+difference(){
+    Ushape(10,20) {scale([1,.7]) circle(4, $fn=30);};
+    Ushape(10,20.01) {circle(2,$fn=30);};
+}
+</code></pre>
+<p>The previous example should produce something like this:</p>
+<p><img src="/assets/img/OpenSCAD/openscad-operator-ushape.jpg" alt="OpenSCAD operator module Ushape"></p>
+<blockquote>
+<blockquote>
+<p>Note: These modules produce a medium-quality STLs (in terms of Triangle Quality), but this can be easily improved if you are in dire need of quality triangles.</p>
+</blockquote>
+<blockquote>
+<p>You can check these models using OpenFOAM’s <code>surfaceCheck</code> utility after exporting them to STL files.</p>
+</blockquote>
+</blockquote>
+<h2 id="A-Bottle-of-water"><a href="#A-Bottle-of-water" class="headerlink" title="A Bottle of water"></a>A Bottle of water</h2><h3 id="A-simple-model"><a href="#A-simple-model" class="headerlink" title="A simple model"></a>A simple model</h3><p>Extrusion commands are best used with <code>polygons</code>; This example illustrate how simple it is to model a bottle of water in OpenSCAD. Of course, the approach used here is my own way of dealing with simple problems efficiently; For more complicated shapes, I’ll show you another way to make the most of <code>rotate_extrude</code>.</p>
+<p>First, we have to get a simple blueprint for a bottle of water. </p>
+<p><a href="https://us.123rf.com/450wm/maralingstad/maralingstad1509/maralingstad150901356/45434655-vector-blueprint-water-bottle-on-engineer-or-architect-background-.jpg" target="_blank" rel="noopener">This picture</a> is good enough, I think.</p>
+<p>I usually use <a href="https://automeris.io/WebPlotDigitizer" target="_blank" rel="noopener">WepPlotDigitizer</a> to extract the coordinates of the most important points in the shape:</p>
+<p>In this case, I chose the center of the main circle as an origin of coordinates system (Both axes are chosen to match the featured “diameters”).</p>
+<p>In the following picture: </p>
+<ul>
+<li><code>X1</code> and <code>Y1</code> are at the origin.</li>
+<li><code>X2= (1,0)</code></li>
+<li><code>Y2= (0,3)</code></li>
+</ul>
+<p><img src="/assets/img/OpenSCAD/openscad-bottle-coords.png" alt="OpenSCAD bottle coords"></p>
+<p>Next we mark some points on one half of the bottle (so we can rotate it later):</p>
+<ul>
+<li>The order of these points is actually not important because the <code>polygon</code> command in OpenSCAD has a <code>paths</code> option to specify the correct order of linked points, but this is extra work; Thus, make sure you create a manifold polygon while selecting these points.</li>
+</ul>
+<p><img src="/assets/img/OpenSCAD/openscad-bottle-points.png" alt="WebPlotDigitizer bottle"></p>
+<p>Point coordinates can be viewed by Pressing <code>View Data</code> under the <code>Dataset</code> tab in <code>WebPlotDigitizer</code>:</p>
+<p><img src="/assets/img/OpenSCAD/openscad-bottle-data.png" alt="WebPlotDigitizer bottle"></p>
+<p>Finally, creating the actual bottle model is as easy as executing the command:</p>
+<pre><code class="clike">// Create points vector
+pnts = [ [0.000, -3.458],
+         [1.033, -3.458],
+         [1.100, -3.395],
+         [1.100, -0.553],
+         [0.433, 2.842],
+         [0.367, 2.905],
+         [0.300, 3.000],
+         [0.000, 3.000] ];
+// Create the polygon and rotate it.
+rotate_extrude(convexity=4) polygon(pnts*10);</code></pre>
+<blockquote>
+<blockquote>
+<p>Note that we can omit point’s z-coordinate if it’s <code>0</code>.</p>
+</blockquote>
+<blockquote>
+<p>Using a decent text editor is crucial here: In VIM, you can create the <code>pnts</code> vector with only one command (applied to the text in previous figure).<br><code>:1,8 g/^/ exe &quot;norm! A],\&lt;Esc&gt;I[&quot;</code><br>Done! Now you only have to delete the last <code>,</code></p>
+<ul>
+<li><code>1</code> is the first line’s number, and <code>8</code> is the last one.</li>
+<li>If you want to know more, ask in the comments.</li>
+</ul>
+</blockquote>
+</blockquote>
+<p>This should result in the following model:</p>
+<p><img src="/assets/img/OpenSCAD/openscad-bottle-water.jpg" alt="OpenSCAD Bottle Model"></p>
+<h3 id="A-more-complicated-model"><a href="#A-more-complicated-model" class="headerlink" title="A more complicated model"></a>A more complicated model</h3><p>If you want an exact match to your sketch, you can follow the following approach:</p>
+<ol>
+<li>Create an SVG-path file using <code>GIMP</code> and <code>LibreCAD</code> for your model.</li>
+<li>Convert the SVG file to DXF using <code>inkscape</code> and <code>pstoedit</code>.</li>
+<li>Get it into OpenSCAD and use <code>rotate_extrude</code> on it.</li>
+</ol>
+<p>An example SVG file for a sample bottle of water can be found <a href="/assets/img/OpenSCAD/openscad-path-bottle.svg">here</a></p>
+<p>It looks like this:</p>
+<p><img src="/assets/img/OpenSCAD/openscad-path-bottle.png" alt="OpenSCAD SVG path"></p>
+<p>Now, let’s convert this SVG file to an OpenSCAD-compatible DXF:</p>
+<pre><code class="bash">$ inkscape -E intermediate.eps openscad-path-bottle.svg
+$ pstoedit -dt -f dxf:-polyaslines\ -mm intermediate.eps openscad-path-bottle.dxf</code></pre>
+<ul>
+<li>The first command uses <code>inkscape</code> to convert the SVG file to the EPS format.</li>
+<li>The second one uses <code>pstoedit</code> to convert the resulting EPS file to a DXF file.</li>
+</ul>
+<blockquote>
+<p>Note that the <code>-polyaslines</code> option is very important as OpenSCAD doesn’t support curved lines in DXF files. </p>
+</blockquote>
+<p>To use <code>openscad-path-bottle.dxf</code> put it in the same directory as the following script (2D shape highlighted):</p>
+<pre><code class="clike">// Easy as eveything else in OpenSCAD
+rotate_extrude(convexity=4)
+#import(&quot;openscad-path-bottle.dxf&quot;);</code></pre>
+<p>Which will result in the following shape:</p>
+<p><img src="/assets/img/OpenSCAD/openscad-bottle-svg.png" alt="OpenSCAD STL bottle"></p>
+<p>Hey, why don’t you try this for fun (Try it multiple times):</p>
+<pre><code class="clike">function polyR(l=1) =[
+    for (i=[0:20:180])
+    [rands(0,l,1)[0]*cos(90-i), rands(0,l,1)[0]*sin(90-i)]
+];
+
+v = polyR();
+rotate_extrude(convexity=10) scale(15) polygon(v);</code></pre>
+<h2 id="Exporting-models-to-STL-format"><a href="#Exporting-models-to-STL-format" class="headerlink" title="Exporting models to STL format"></a>Exporting models to STL format</h2><p>To export your geometry models to STL files, you can either:</p>
+<ul>
+<li>Use the GUI: <code>File &gt; Export &gt; Export as STL ...</code> after rendering the model (with <code>F6</code>).</li>
+<li>Or, from the command line:</li>
+</ul>
+<pre><code class="bash">$ openscad file.scad -o file.stl</code></pre>
+<p>By default, OpenSCAD exports everything as a single region (named <code>OpenSCAD_Model</code>) to an ASCII STL file. You’ll learn how to improve this behavior in the next posts.</p>
+<blockquote>
+<p>All the models described here are fairly simple and OpenFOAM’s <code>autoPatch</code> can handle separating mesh boundary patches later efficiently!</p>
+</blockquote>
+<p>That’s all for today, I hope this was a useful post; see you next time!</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+                
+                <li title='0' data-url='/statics/chengdu.mp3'></li>
+                
+                    
+            </ul>
+            
+            
+            
+            <div id="vcomments"></div>
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="/img/avatar.png" height=300 width=300></img>
+                    <p>Fadeli Mohamed Elwardi</p>
+                    <span>Learning is not compulsory ... neither is survival - W. Edwards Deming</span>
+                    <dl>
+                        <dd><a href="https://github.com/FoamScience" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="https://twitter.com/Elwardi-Fadeli" target="_blank"><span
+                                    class=" iconfont icon-twitter"></span></a></dd>
+                        <dd><a href="https://stackoverflow.com/users/7602324/elwardifadeli?tab=profile" target="_blank"><span
+                                    class=" iconfont icon-stack-overflow"></span></a></dd>
+                    </dl>
+                </div>
+                <ul>
+                    <li><a href="/">15 <p>Articles</p></a></li>
+                    <li><a href="/categories">8 <p>Categories</p></a></li>
+                    <li><a href="/tags">26 <p>Tags</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>Contents</h4>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#A-parametric-T-junction-module"><span class="toc-number">1.</span> <span class="toc-text">A parametric T-junction module.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#A-parametric-U-like-pipe-For-OpenSCAD-2016"><span class="toc-number">2.</span> <span class="toc-text">A parametric U-like pipe [For OpenSCAD 2016+]</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#A-parametric-U-like-pipe-For-older-OpenSCAD"><span class="toc-number">3.</span> <span class="toc-text">A parametric U-like pipe [For older OpenSCAD]</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#An-Even-Better-Ushape-module"><span class="toc-number">4.</span> <span class="toc-text">An Even Better Ushape module</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#A-Bottle-of-water"><span class="toc-number">5.</span> <span class="toc-text">A Bottle of water</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-simple-model"><span class="toc-number">5.1.</span> <span class="toc-text">A simple model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A-more-complicated-model"><span class="toc-number">5.2.</span> <span class="toc-text">A more complicated model</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exporting-models-to-STL-format"><span class="toc-number">6.</span> <span class="toc-text">Exporting models to STL format</span></a></li></ol>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+
+
+    <div class="my-links">
+      <a class="gradient-text" href="/terms-of-use" target="_blank" rel="noopener">Terms of Use</a>
+      <a class="gradient-text" href="/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>
+    </div>
+
+
+    <p class="copyright" id="copyright">
+        &copy; 2019 FoamScience.
+        <br>
+        The 
+        <span class="gradient-text">
+        <a href="https://www.openfoam.com/legal/trademark-policy.php" title="trade mark of the OPENFOAM" target="_blank" rel="noopener">trade mark of the OPENFOAM</a>
+        </span>
+        name is held by 
+        <span class="gradient-text">
+        <a href="https://openfoam.com/" title="ESI-OpenCFD" target="_blank" rel="noopener">ESI-OpenCFD</a>
+        </span>.
+        At the moment, 
+        this offering is not approved or endorsed by OpenCFD Limited, producer and distributor of the 
+        OpenFOAM software and owner of the OPENFOAM&reg; and OpenCFD&reg; trade marks. 
+        <!--
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        -->
+    </p>
+    <!--
+    <p class="copyright" id="copyright">
+        &copy; 2019
+        <span class="gradient-text">
+            Fadeli Mohamed Elwardi
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.4" target="_blank" rel="noopener">v1.4.4</a></small>
+    </p>
+    -->
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+  }
+</script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/vbscript/vbscript.min.js"></script>
+
+
+
+    <script src="/js/busuanzi.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-111265701-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-111265701-1');
+    </script>
+
+
+
+
+
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["Learning is not compulsory ... neither is survival - W. Edwards Deming", "All models are wrong; the practical question is how wrong do they have to be to not be useful - George P. E. Box"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
+
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
+
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+
+        var valine = new Valine();
+
+        function initValine(path) {
+            if (!path) path = window.location.pathname;
+            let language = 'en';
+            if (!language) {
+                language = 'en';
+            } else {
+                language = language.toLowerCase();
+            }
+            valine.init({
+                el: '#vcomments',
+                appId: 'HbY6oYuUVvryqvDkd4nXieAu-MdYXbMMI',
+                appKey: 'Q7mXuHBVFHG9BQELLxxgqGv9',
+                notify: 'false',
+                verify: 'false',
+                avatar: 'mp',
+                placeholder: 'Leave your throughs behind~',
+                visitor: 'true',
+                path: path,
+                lang: language
+            });
+        }
+
+        $(document).ready(function () {
+            initValine();
+        });
+    </script>
+
+
+
+</html>

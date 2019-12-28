@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FoamScience - Doing CFD with OpenFOAM</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="FoamScience OpenFOAM,"> 
+    
+    <meta name="author" content="Fadeli Mohamed Elwardi"> 
+    <link rel="alternative" href="atom.xml" title="FoamScience" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+    <link rel="stylesheet" href="/css/obsidian.css">
+    <link rel="stylesheet" href="/css/ball-atom.min.css">
+
+     <script data-ad-client="ca-pub-3635214305281166" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
+     </script>
+</head>
+</html>
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">FoamScience</span>
+    <div id="loader"></div>
+    <div id="single" class="page">
+    <div id="top">
+        <a class="iconfont icon-left image-icon" href="javascript:history.back()"></a>
+    </div>
+    <div class="clone-element"></div>
+    <div class="section dark-obsidian">
+        <div class="article animated fadeIn">
+            <div class="main animated fadeIn">
+                <div class="content animated fadeIn">
+                
+                        <h4 id="Privacy-Policy"><a href="#Privacy-Policy" class="headerlink" title="Privacy Policy"></a><strong>Privacy Policy</strong></h4><h4 id="Information-Collection"><a href="#Information-Collection" class="headerlink" title="Information Collection"></a>Information Collection</h4><p>This privacy policy has been compiled to better serve those who are concerned with how their ‘Personally Identifiable Information’ (PII) is being used online. PII, as described in US privacy law and information security, is information that can be used on its own or with other information to identify, contact, or locate a single person, or to identify an individual in context.  Please read our privacy policy carefully to get a clear understanding of how we collect, use, protect or otherwise handle your Personally Identifiable Information in accordance with our website.</p>
+<p><strong>What personal information do we collect from the people that visit our blog, website or app?</strong></p>
+<p>When ordering or registering on our site, as appropriate, you may be asked to enter your name, email address, Github username or other details to help you with your experience.</p>
+<p><strong>When do we collect information?</strong></p>
+<ul>
+<li>We collect information from you when you subscribe to a newsletter or enter information on our site.</li>
+<li>And, when you comment on a blog post.</li>
+</ul>
+<h4 id="Information-Usage"><a href="#Information-Usage" class="headerlink" title="Information Usage"></a>Information Usage</h4><p><strong>How do we use your information?</strong></p>
+<p>We may use the information we collect from you when you register, make a purchase, sign up for our newsletter, respond to a survey or marketing communication, surf the website, or use certain other site features in the following ways:</p>
+<ul>
+<li>To improve our website in order to better serve you.</li>
+<li>To administer a contest, promotion, survey or other site feature.</li>
+<li>To ask for ratings and reviews of services or products</li>
+</ul>
+<h4 id="Information-Protection"><a href="#Information-Protection" class="headerlink" title="Information Protection"></a>Information Protection</h4><p><strong>How do we protect your information?</strong></p>
+<p>We use regular Malware Scanning.</p>
+<p>We do not use an SSL certificate</p>
+<ul>
+<li>We do not need an SSL because: All information we collect is already publicly available!</li>
+</ul>
+<h4 id="Cookie-Usage"><a href="#Cookie-Usage" class="headerlink" title="Cookie Usage"></a>Cookie Usage</h4><p><strong>Do we use ‘cookies’?</strong></p>
+<p>Yes. Cookies are small files that a site or its service provider transfers to your computer’s hard drive through your Web browser (if you allow) that enables the site’s or service provider’s systems to recognize your browser and capture and remember certain information. For instance, we use cookies to help us remember and process the items in your shopping cart. They are also used to help us understand your preferences based on previous or current site activity, which enables us to provide you with improved services. We also use cookies to help us compile aggregate data about site traffic and site interaction so that we can offer better site experiences and tools in the future.</p>
+<p>We use cookies to:</p>
+<ul>
+<li>Compile aggregate data about site traffic and site interactions in order to offer better site experiences and tools in the future. We may also use trusted third-party services that track this information on our behalf.</li>
+</ul>
+<p>You can choose to have your computer warn you each time a cookie is being sent, or you can choose to turn off all cookies. You do this through your browser settings. Since browser is a little different, look at your browser’s Help Menu to learn the correct way to modify your cookies.</p>
+<p>If you turn cookies off, It won’t affect the user’s experience .</p>
+<h4 id="Third-party-disclosure"><a href="#Third-party-disclosure" class="headerlink" title="Third-party disclosure"></a>Third-party disclosure</h4><p>We do not sell, trade, or otherwise transfer to outside parties your Personally Identifiable Information.</p>
+<h4 id="Third-party-links"><a href="#Third-party-links" class="headerlink" title="Third-party links"></a>Third-party links</h4><p>Occasionally, at our discretion, we may include or offer third-party products or services on our website. These third-party sites have separate and independent privacy policies. We therefore have no responsibility or liability for the content and activities of these linked sites. Nonetheless, we seek to protect the integrity of our site and welcome any feedback about these sites.</p>
+<h4 id="Google-Adsense"><a href="#Google-Adsense" class="headerlink" title="Google Adsense"></a>Google Adsense</h4><p>Google’s advertising requirements can be summed up by Google’s Advertising Principles. They are put in place to provide a positive experience for users.</p>
+<p><a href="https://support.google.com/adwordspolicy/answer/1316548?hl=en" target="_blank" rel="noopener">Go to Google’s Adwords Policy</a> for more information.</p>
+<p>We have not enabled Google AdSense on our site but we may do so in the future.</p>
+<h4 id="California-Online-Privacy-Protection-Act"><a href="#California-Online-Privacy-Protection-Act" class="headerlink" title="California Online Privacy Protection Act"></a>California Online Privacy Protection Act</h4><p><strong>CalOPPA</strong> is the first state law in the nation to require commercial websites and online services to post a privacy policy. The law’s reach stretches well beyond California to require any person or company in the United States (and conceivably the world) that operates websites collecting Personally Identifiable Information from California consumers to post a conspicuous privacy policy on its website stating exactly the information being collected and those individuals or companies with whom it is being shared. </p>
+<p>See more at:<br><a href="http://consumercal.org/california-online-privacy-protection-act-caloppa/#sthash.0FdRbT51.dpuf" target="_blank" rel="noopener">http://consumercal.org/california-online-privacy-protection-act-caloppa/#sthash.0FdRbT51.dpuf</a></p>
+<p>According to CalOPPA, we agree to the following:</p>
+<p>Users can visit our site anonymously.</p>
+<p>Once this privacy policy is created, we will add a link to it on our home page or as a minimum, on the first significant page after entering our website.</p>
+<p>Our Privacy Policy link includes the word ‘Privacy’ and can easily be found on the page specified above.</p>
+<p>You will be notified of any Privacy Policy changes:</p>
+<ul>
+<li>On our Privacy Policy Page</li>
+</ul>
+<p>Can change your personal information:</p>
+<ul>
+<li>By emailing us</li>
+</ul>
+<p><strong>How does our site handle Do Not Track signals?</strong></p>
+<p>We don’t honor Do Not Track signals and Do Not Track, plant cookies, or use advertising when a Do Not Track (DNT) browser mechanism is in place. We don’t honor them because: knowing what pages are active is fundamental for our blog to succeed. But this feature is taken into consideration and may be implemented in the next few months.</p>
+<p>Does our site allow third-party behavioral tracking?<br>It’s also important to note that we allow third-party behavioral tracking</p>
+<h4 id="COPPA-Children-Online-Privacy-Protection-Act"><a href="#COPPA-Children-Online-Privacy-Protection-Act" class="headerlink" title="COPPA (Children Online Privacy Protection Act)"></a>COPPA (Children Online Privacy Protection Act)</h4><p>When it comes to the collection of personal information from children under the age of 13 years old, the Children’s Online Privacy Protection Act (COPPA) puts parents in control. The Federal Trade Commission, United States’ consumer protection agency, enforces the COPPA Rule, which spells out what operators of websites and online services must do to protect children’s privacy and safety<br>online.</p>
+<p>We do not specifically market to children under the age of 13 years old.</p>
+<h4 id="Fair-Information-Practices"><a href="#Fair-Information-Practices" class="headerlink" title="Fair Information Practices"></a>Fair Information Practices</h4><p>The Fair Information Practices Principles form the backbone of privacy law in the United States and the concepts they include have played a significant role in the development of data protection laws around the globe. Understanding the Fair Information Practice Principles and how they should be implemented is critical to comply with the various privacy laws that protect personal information.</p>
+<p>In order to be in line with Fair Information Practices we will take the following responsive action, should a data breach occur:</p>
+<ul>
+<li>We will notify you via email within 7 business days</li>
+<li>We will notify the users via in-site notification within 7 business days</li>
+</ul>
+<p>We also agree to the Individual Redress Principle which requires that individuals have the right to legally pursue enforceable rights against data collectors and processors who fail to adhere to the law. This principle requires not only that individuals have enforceable rights against data users, but also that individuals have recourse to courts or government agencies to investigate and/or prosecute non-compliance by data processors.</p>
+<h5 id="CAN-SPAM-Act"><a href="#CAN-SPAM-Act" class="headerlink" title="CAN SPAM Act"></a>CAN SPAM Act</h5><p>The CAN-SPAM Act is a law that sets the rules for commercial email, establishes requirements for commercial messages, gives recipients the right to have emails stopped from being sent to them, and spells out tough penalties for violations.</p>
+<p>We collect your email address in order to:</p>
+<ul>
+<li>Send information, respond to inquiries, and/or other requests or questions</li>
+<li>Market to our mailing list or continue to send emails to our clients after the original transaction has occurred.</li>
+</ul>
+<p>To be in accordance with CANSPAM, we agree to the following:</p>
+<ul>
+<li>Not use false or misleading subjects or email addresses.</li>
+<li>Identify the message as an advertisement in some reasonable way.</li>
+<li>Include the physical address of our business or site headquarters.</li>
+<li>Monitor third-party email marketing services for compliance, if one is used.</li>
+<li>Honor opt-out/unsubscribe requests quickly.</li>
+<li>Allow users to unsubscribe by using the link at the bottom of each email.</li>
+</ul>
+<p>If at any time you would like to unsubscribe from receiving future emails, you can email us at <a href="mailto:elwardifadeli@gmail.com" target="_blank" rel="noopener">elwardifadeli@gmail.com</a> and we will promptly remove you from ALL correspondence.</p>
+<h4 id="Contacting-Us"><a href="#Contacting-Us" class="headerlink" title="Contacting Us"></a>Contacting Us</h4><p>If there are any questions regarding this privacy policy, you may contact us using the information below.</p>
+<p><a href="https://foamscience.github.io">foamscience.github.io</a></p>
+<p>Ayeb-deraji School</p>
+<p>Khenchela, Khenchela 4000</p>
+<p>Algeria</p>
+<p><a href="mailto:elwardifadeli@gmail.com" target="_blank" rel="noopener">elwardifadeli@gmail.com</a></p>
+<p>Last Edited on 2018-06-17</p>
+
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+
+
+    <div class="my-links">
+      <a class="gradient-text" href="/terms-of-use" target="_blank" rel="noopener">Terms of Use</a>
+      <a class="gradient-text" href="/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>
+    </div>
+
+
+    <p class="copyright" id="copyright">
+        &copy; 2019 FoamScience.
+        <br>
+        The 
+        <span class="gradient-text">
+        <a href="https://www.openfoam.com/legal/trademark-policy.php" title="trade mark of the OPENFOAM" target="_blank" rel="noopener">trade mark of the OPENFOAM</a>
+        </span>
+        name is held by 
+        <span class="gradient-text">
+        <a href="https://openfoam.com/" title="ESI-OpenCFD" target="_blank" rel="noopener">ESI-OpenCFD</a>
+        </span>.
+        At the moment, 
+        this offering is not approved or endorsed by OpenCFD Limited, producer and distributor of the 
+        OpenFOAM software and owner of the OPENFOAM&reg; and OpenCFD&reg; trade marks. 
+        <!--
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        -->
+    </p>
+    <!--
+    <p class="copyright" id="copyright">
+        &copy; 2019
+        <span class="gradient-text">
+            Fadeli Mohamed Elwardi
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.4" target="_blank" rel="noopener">v1.4.4</a></small>
+    </p>
+    -->
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  }
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+  }
+</script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+    <script src="//cdn.bootcss.com/codemirror/5.48.4/mode/vbscript/vbscript.min.js"></script>
+
+
+
+    <script src="/js/busuanzi.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-111265701-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-111265701-1');
+    </script>
+
+
+
+
+
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["Learning is not compulsory ... neither is survival - W. Edwards Deming", "All models are wrong; the practical question is how wrong do they have to be to not be useful - George P. E. Box"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
+
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
+
+
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+
+        var valine = new Valine();
+
+        function initValine(path) {
+            if (!path) path = window.location.pathname;
+            let language = 'en';
+            if (!language) {
+                language = 'en';
+            } else {
+                language = language.toLowerCase();
+            }
+            valine.init({
+                el: '#vcomments',
+                appId: 'HbY6oYuUVvryqvDkd4nXieAu-MdYXbMMI',
+                appKey: 'Q7mXuHBVFHG9BQELLxxgqGv9',
+                notify: 'false',
+                verify: 'false',
+                avatar: 'mp',
+                placeholder: 'Leave your throughs behind~',
+                visitor: 'true',
+                path: path,
+                lang: language
+            });
+        }
+
+        $(document).ready(function () {
+            initValine();
+        });
+    </script>
+
+
+
+</html>

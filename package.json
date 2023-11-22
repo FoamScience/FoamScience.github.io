@@ -1,0 +1,26 @@
+{
+  "name": "foamscience.github.io",
+  "description": "A blog on doing CFD with OpenFOAM",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "Mohammed Elwardi Fadeli",
+  "scripts": {
+    "dev": "hugo server",
+    "build": "hugo --gc --minify --templateMetrics --templateMetricsHints --forceSyncStatic",
+    "preview": "hugo server --disableFastRender --navigateToChanged --templateMetrics --templateMetricsHints --watch --forceSyncStatic -e production --minify",
+    "format": "prettier -w ."
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^5.0.0",
+    "@tailwindcss/forms": "^0.5.6",
+    "@tailwindcss/typography": "^0.5.10",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "postcss-cli": "^10.1.0",
+    "prettier": "^3.0.3",
+    "prettier-plugin-go-template": "0.0.15",
+    "prettier-plugin-tailwindcss": "^0.5.6",
+    "tailwind-bootstrap-grid": "^5.0.1",
+    "tailwindcss": "^3.3.5"
+  }
+}
